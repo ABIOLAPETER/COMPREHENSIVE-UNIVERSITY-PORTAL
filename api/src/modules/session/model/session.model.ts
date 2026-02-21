@@ -7,7 +7,7 @@ export interface ISession extends Document {
   endYear: number;
 }
 
-const SessionSchema = new Schema(
+const SessionSchema = new mongoose.Schema<ISession>(
   {
     name: { type: String, unique: true, required: true },
     startYear: { type: Number, required: true },

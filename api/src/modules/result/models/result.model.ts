@@ -5,8 +5,8 @@ export interface IResult extends Document {
     course: mongoose.Types.ObjectId;
     department: mongoose.Types.ObjectId;
 
-    session: string;         
-    semester: Semester;
+    session: mongoose.Types.ObjectId;         
+    semester: mongoose.Types.ObjectId;
     level: number;
 
     score: number;           
@@ -20,10 +20,6 @@ export interface IResult extends Document {
     status: ResultStatus;
 }
 
-export enum Semester {
-    FIRST = "FIRST",
-    SECOND = "SECOND",
-}
 
 export enum ResultStatus {
     DRAFT = "DRAFT",
@@ -59,13 +55,14 @@ const ResultSchema = new Schema<IResult>(
     },
 
     session: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Session",
         required: true,
     },
 
     semester: {
-        type: String,
-        enum: Object.values(Semester),
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Semester",
         required: true,
     },
 
@@ -124,6 +121,10 @@ ResultSchema.index(
 );
 
 ResultSchema.index({ student: 1, semester: 1, isPassed: 1 });
+ResultSchema.index({ student: 1, course: 1, semester: 1, grade: 1, status: 1 });
+
+
+
 
 
 export const ResultModel =  mongoose.model<IResult>("Result", ResultSchema)
