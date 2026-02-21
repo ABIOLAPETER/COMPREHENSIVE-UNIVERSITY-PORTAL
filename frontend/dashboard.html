@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body onload="requireAuth()">
+
+  <h1 id="title"></h1>
+  <button onclick="logout()">Logout</button>
+
+  <div id="content"></div>
+
+  <script src="js/guard.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

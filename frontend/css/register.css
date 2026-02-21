@@ -1,0 +1,15 @@
+body {
+  font-family: Arial, sans-serif;
+  max-width: 600px;
+  margin: 40px auto;
+}
+
+.course {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 8px;
+}
+
+.error {
+  color: red;
+}
