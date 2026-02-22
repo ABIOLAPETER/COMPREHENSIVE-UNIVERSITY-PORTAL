@@ -14,7 +14,7 @@ import Student from "../../student/models/student.model";
 import { CourseModel } from "../../course/models/course.model";
 import { Grade } from "../models/result.model";
 
-import { GPAService } from "./GPAservice.services";
+import { GPAService } from "./gpaService.service";
 export class ResultService {
   static async createDraftResult(data: {
     studentId: Types.ObjectId;

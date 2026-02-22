@@ -1,5 +1,5 @@
 import { Types } from "mongoose";
-import { ResultModel, ResultStatus } from "../../result/models/result.model";
+import { ResultModel, ResultStatus } from "../models/result.model";
 import { StudentGPAModel } from "../models/GPA.model";
 import { SemesterService } from "../../semester/services/semester.services";
 import { SessionService } from "../../session/services/session.services";
