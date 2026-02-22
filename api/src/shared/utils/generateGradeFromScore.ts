@@ -1,6 +1,7 @@
+import { Types } from "mongoose";
 import { Grade } from "../../modules/result/models/result.model";
 import { BadRequestError } from "../errors/AppError";
-
+import { IResult } from "../../modules/result/models/result.model";
 
 export const generateGradeFromScore = (score: number): Grade => {
     if (score < 0 || score > 100) {
@@ -43,3 +44,21 @@ export const isPassed = (grade: Grade): boolean =>{
     }
 }
 
+
+
+export const generateGPA = (results: IResult[]): number => {
+    let totalGradeUnits = 0;
+    let totalUnits = 0;
+
+    for (const result of results) {
+        const GPU = result.gradePoint * result.creditUnits;
+        totalGradeUnits += GPU;
+        totalUnits += result.creditUnits;
+    }
+
+    if (totalUnits === 0) return 0.00;
+
+    const gpa = totalGradeUnits / totalUnits;
+
+    return Number(gpa.toFixed(2));
+};

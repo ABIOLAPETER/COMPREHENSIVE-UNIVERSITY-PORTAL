@@ -1,0 +1,66 @@
+import { Types } from "mongoose";
+import { ResultModel, ResultStatus } from "../../result/models/result.model";
+import { StudentGPAModel } from "../models/GPA.model";
+import { SemesterService } from "../../semester/services/semester.services";
+import { SessionService } from "../../session/services/session.services";
+import { NotFoundError } from "../../../shared/errors/AppError";
+
+export class GPAService {
+  static async calculateAndUpsertGPA(studentId: Types.ObjectId) {
+
+    const semester = await SemesterService.getActiveSemester();
+    if (!semester) {
+      throw new NotFoundError("No active semester");
+    }
+
+    const session = await SessionService.getActiveSession();
+    if (!session) {
+      throw new NotFoundError("No active session");
+    }
+
+    const results = await ResultModel.find({
+      student: studentId,
+      semester: semester._id,
+      session: session._id,
+      status: ResultStatus.PUBLISHED,
+    });
+
+    if (results.length === 0) {
+      return null; // no GPA yet
+    }
+
+    let totalCredits = 0;
+    let totalGradePoints = 0;
+
+    for (const result of results) {
+      totalCredits += result.creditUnits;
+      totalGradePoints += result.gradePoint * result.creditUnits;
+    }
+
+    const gpa =
+      totalCredits === 0
+        ? 0
+        : Number((totalGradePoints / totalCredits).toFixed(2));
+
+    return await StudentGPAModel.findOneAndUpdate(
+      {
+        student: studentId,
+        session: session._id,
+        semester: semester._id,
+      },
+      {
+        student: studentId,
+        session: session._id,
+        semester: semester._id,
+        totalCredits,
+        totalGradePoints,
+        gpa,
+        level: results[0].level,
+      },
+      {
+        upsert: true,
+        new: true,
+      }
+    );
+  }
+}
