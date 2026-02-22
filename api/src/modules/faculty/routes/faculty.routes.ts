@@ -4,11 +4,12 @@ import { FacultyController } from "../controllers/faculty.controllers";
 import { validateToken, adminMiddleware } from "../../../shared/middleware/auth.middleware";
 
 
-const router = Router();
+const facultyRouter = Router();
 
-router.post("/", validateToken, adminMiddleware, FacultyController.createFaculty);
-router.get("/", validateToken, FacultyController.getAllFaculties);
-router.get("/:facultyId", validateToken, FacultyController.getFacultyById);
-router.put("/:facultyId", validateToken, adminMiddleware, FacultyController.updateFaculty);
-router.delete("/:facultyId", validateToken, adminMiddleware, FacultyController.deleteFaculty);
+facultyRouter.post("/", validateToken, adminMiddleware, FacultyController.createFaculty);
+facultyRouter.get("/", validateToken, FacultyController.getAllFaculties);
+facultyRouter.get("/:facultyId", validateToken, FacultyController.getFacultyById);
+facultyRouter.put("/:facultyId", validateToken, adminMiddleware, FacultyController.updateFaculty);
+facultyRouter.delete("/:facultyId", validateToken, adminMiddleware, FacultyController.deleteFaculty);
 
+export default facultyRouter

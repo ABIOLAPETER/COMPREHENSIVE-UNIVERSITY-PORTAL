@@ -5,7 +5,6 @@ import { Types } from "mongoose";
 import { SemesterService } from "../../semester/services/semester.services";
 import { SessionService } from "../../session/services/session.services";
 import {
-    generateGPA,
   generateGradeFromScore,
   generateGradePointFromGrade,
 } from "../../../shared/utils/generateGradeFromScore";
@@ -15,6 +14,7 @@ import { CourseModel } from "../../course/models/course.model";
 import { Grade } from "../models/result.model";
 
 import { GPAService } from "./gpaService.service";
+import { CGPAService } from "./CGPAService.service";
 export class ResultService {
   static async createDraftResult(data: {
     studentId: Types.ObjectId;
@@ -62,8 +62,8 @@ export class ResultService {
       student: student._id,
       course: course._id,
       department: student.department,
-      session: activeSession.name,
-      semester: activeSemester.name,
+      session: activeSession._id,
+      semester: activeSemester._id,
       level: student.level,
       score: data.score,
       grade,
@@ -114,7 +114,7 @@ export class ResultService {
 
 
 
-static async publishResultService(resultId: Types.ObjectId) {
+static async publishResultService(resultId: string) {
 
   const result = await ResultModel.findById(resultId);
 
@@ -125,12 +125,26 @@ static async publishResultService(resultId: Types.ObjectId) {
   if (result.status === ResultStatus.PUBLISHED) {
     throw new BadRequestError("Result already published");
   }
+   const activeSession = await SessionService.getActiveSession();
+
+   if (result.session !== activeSession._id) {
+        throw new BadRequestError("Cannot publish result for an inactive session");
+    }
+
+    // Ensure result belongs to active semester
+    const activeSemester = await SemesterService.getActiveSemester();
+    if (result.semester !== activeSemester._id) {
+        throw new BadRequestError("Cannot publish result for an inactive semester");
+    }
 
   result.status = ResultStatus.PUBLISHED;
   await result.save();
 
   await GPAService.calculateAndUpsertGPA(result.student);
-
+  
   return result;
 }
+
+
 }
+

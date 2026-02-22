@@ -5,11 +5,11 @@ import { SessionController } from "../controllers/session.controller";
 import { validateToken } from "../../../shared/middleware/auth.middleware";
 
 
-const router = Router();
+const sessionRouter = Router();
 
-router.post("/", validateToken, SessionController.createSession);
-router.post("/:sessionId/activate",validateToken, SessionController.activateSession);
-router.get("/active",validateToken, SessionController.getActiveSession);
-router.get("/", validateToken, SessionController.getAllSessions);
+sessionRouter.post("/", validateToken, SessionController.createSession);
+sessionRouter.post("/:sessionId/activate",validateToken, SessionController.activateSession);
+sessionRouter.get("/active",validateToken, SessionController.getActiveSession);
+sessionRouter.get("/", validateToken, SessionController.getAllSessions);
 
-export default router;
+export default sessionRouter;

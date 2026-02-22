@@ -24,7 +24,7 @@ export class CGPAService {
         const totalCredits = gpas.reduce(
             (sum, gpa) => sum + gpa.totalCredits,
             0
-        );
+        ); 
 
         const totalGradePoints = gpas.reduce(
             (sum, gpa) => sum + gpa.totalGradePoints,
@@ -52,4 +52,10 @@ export class CGPAService {
             }
         );
     }
+
+    
+    
+
+
+
 }

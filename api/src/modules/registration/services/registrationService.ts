@@ -2,7 +2,7 @@ import { RegistrationModel, RegistrationStatus } from "../models/registration.mo
 import Student from "../../student/models/student.model";
 import { CourseModel } from "../../course/models/course.model";
 import { NotFoundError, ConflictError, BadRequestError } from "../../../shared/errors/AppError";
-import mongoose from "mongoose";
+import mongoose, { Types } from "mongoose";
 import { ResultModel } from "../../result/models/result.model"
 
 import { SemesterService } from "../../semester/services/semester.services";

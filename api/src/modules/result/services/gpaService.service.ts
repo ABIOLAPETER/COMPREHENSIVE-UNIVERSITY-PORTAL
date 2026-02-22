@@ -4,7 +4,8 @@ import { StudentGPAModel } from "../models/GPA.model";
 import { SemesterService } from "../../semester/services/semester.services";
 import { SessionService } from "../../session/services/session.services";
 import { NotFoundError } from "../../../shared/errors/AppError";
-
+import { CGPAService } from "./CGPAService.service";
+import { logger } from "../../../shared/utils/logger";
 export class GPAService {
   static async calculateAndUpsertGPA(studentId: Types.ObjectId) {
 
@@ -42,7 +43,7 @@ export class GPAService {
         ? 0
         : Number((totalGradePoints / totalCredits).toFixed(2));
 
-    return await StudentGPAModel.findOneAndUpdate(
+    const gpaDetails = await StudentGPAModel.findOneAndUpdate(
       {
         student: studentId,
         session: session._id,
@@ -62,5 +63,15 @@ export class GPAService {
         new: true,
       }
     );
+
+
+    try {
+      await CGPAService.calculateAndUpsertCGPA(studentId)
+    } catch (error) {
+      logger.error("CGPA auto-update failed", error)
+    }
+
+    return gpaDetails;
+
   }
 }

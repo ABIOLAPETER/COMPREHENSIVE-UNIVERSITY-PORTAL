@@ -4,8 +4,10 @@ import { Router } from "express";
 import { SemesterController } from "../controllers/semester.controller";
 import { validateToken, adminMiddleware } from "../../../shared/middleware/auth.middleware";
 
-const router = Router();
+const semesterRouter = Router();
 
-router.post("/", validateToken, adminMiddleware, SemesterController.createSemester);
-router.post("/:semesterId/activate", validateToken, adminMiddleware, SemesterController.activateSemester);
-export default router;
+semesterRouter.post("/", validateToken, adminMiddleware, SemesterController.createSemester);
+semesterRouter.post("/:semesterId/activate", validateToken, adminMiddleware, SemesterController.activateSemester);
+
+
+export default semesterRouter;

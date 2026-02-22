@@ -10,103 +10,103 @@ import { CounterService } from './counter.service'
 import mongoose from "mongoose";
 
 export class StudentService {
-    // Implement student-related business logic here
+  // Implement student-related business logic here
 
 
-static async createStudent(data: {
-  firstName: string;
-  lastName: string;
-  departmentId: mongoose.Types.ObjectId;
-  userId: mongoose.Types.ObjectId;
-  dateOfBirth?: Date;
-  level?: number;
-  admissionType: AdmissionType;
-  admissionYear: Date;
-}) {
-  const session = await mongoose.startSession();
-  session.startTransaction();
+  static async createStudent(data: {
+    firstName: string;
+    lastName: string;
+    departmentId: mongoose.Types.ObjectId;
+    userId: mongoose.Types.ObjectId;
+    dateOfBirth?: Date;
+    level?: number;
+    admissionType: AdmissionType;
+    admissionYear: Date;
+  }) {
+    const session = await mongoose.startSession();
+    session.startTransaction();
 
-  try {
-    
-    const validatedData = await validateStudentCreation(data);
+    try {
 
-    const user = await UserModel.findById(validatedData.userId).session(session);
-    if (!user) throw new NotFoundError("User not found");
-    if (user.role !== "STUDENT") throw new Error("User must have STUDENT role");
+      const validatedData = await validateStudentCreation(data);
 
-    const department = await DepartmentModel
-      .findById(validatedData.departmentId)
-      .select("code faculty")
-      .session(session);
+      const user = await UserModel.findById(validatedData.userId).session(session);
+      if (!user) throw new NotFoundError("User not found");
+      if (user.role !== "STUDENT") throw new Error("User must have STUDENT role");
 
-    if (!department) throw new NotFoundError("Department not found");
+      const department = await DepartmentModel
+        .findById(validatedData.departmentId)
+        .select("code faculty")
+        .session(session);
 
-    const faculty = await FacultyModel
-      .findById(department.faculty)
-      .select("code")
-      .session(session);
+      if (!department) throw new NotFoundError("Department not found");
 
-    if (!faculty) throw new NotFoundError("Faculty not found");
+      const faculty = await FacultyModel
+        .findById(department.faculty)
+        .select("code")
+        .session(session);
 
-    const sequence = await CounterService.generateSequence(
-      {
-        facultyCode: faculty.code,
-        departmentCode: department.code,
-        year: validatedData.admissionYear.getFullYear(),
-      },
-      session
-    );
+      if (!faculty) throw new NotFoundError("Faculty not found");
 
-    const matricNumber = generateMatricNumber(
-      faculty.code,
-      department.code,
-      validatedData.admissionYear.getFullYear(),
-      sequence
-    );
-
-    if (validatedData.admissionType === AdmissionType.DIRECT_ENTRY) {
-      validatedData.level = 200;
-    } else if (validatedData.admissionType === AdmissionType.TRANSFER) {
-      validatedData.level = validatedData.level ?? 100;
-    }
-
-    await Student.create(
-      [
+      const sequence = await CounterService.generateSequence(
         {
-          firstName: validatedData.firstName,
-          lastName: validatedData.lastName,
-          dateOfBirth: validatedData.dateOfBirth,
-          department: department._id,
-          faculty: faculty._id,
-          user: validatedData.userId,
-          matricNumber,
-          level: validatedData.level,
-          admissionType: validatedData.admissionType,
+          facultyCode: faculty.code,
+          departmentCode: department.code,
+          year: validatedData.admissionYear.getFullYear(),
         },
-      ],
-      { session }
-    );
-    await session.commitTransaction();
-    session.endSession();
+        session
+      );
 
-    return { matricNumber };
+      const matricNumber = generateMatricNumber(
+        faculty.code,
+        department.code,
+        validatedData.admissionYear.getFullYear(),
+        sequence
+      );
 
-  } catch (error) {
-    await session.abortTransaction();
-    session.endSession();
-    throw error;
-  }
-}
-    // Get student profile
+      if (validatedData.admissionType === AdmissionType.DIRECT_ENTRY) {
+        validatedData.level = 200;
+      } else if (validatedData.admissionType === AdmissionType.TRANSFER) {
+        validatedData.level = validatedData.level ?? 100;
+      }
 
+      await Student.create(
+        [
+          {
+            firstName: validatedData.firstName,
+            lastName: validatedData.lastName,
+            dateOfBirth: validatedData.dateOfBirth,
+            department: department._id,
+            faculty: faculty._id,
+            user: validatedData.userId,
+            matricNumber,
+            level: validatedData.level,
+            admissionType: validatedData.admissionType,
+          },
+        ],
+        { session }
+      );
+      await session.commitTransaction();
+      session.endSession();
 
-    static async getStudentProfile(studentId: string) {
-        const student = await Student.findById(studentId).populate("department").populate("user");
-        if (!student) {
-            throw new NotFoundError("Student not found");
-        }
-        return student;
+      return { matricNumber };
+
+    } catch (error) {
+      await session.abortTransaction();
+      session.endSession();
+      throw error;
     }
+  }
+  // Get student profile
+
+
+  static async getStudentProfile(studentId: string) {
+    const student = await Student.findById(studentId).populate("department").populate("user");
+    if (!student) {
+      throw new NotFoundError("Student not found");
+    }
+    return student;
+  }
 
 
 

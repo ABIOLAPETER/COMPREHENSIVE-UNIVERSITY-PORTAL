@@ -4,10 +4,10 @@ import {DepartmentController} from "../controllers/department.controllers";
 import { validateToken, adminMiddleware } from "../../../shared/middleware/auth.middleware";
 
 
-const router = Router();
+const departmentRouter = Router();
 
-router.post("/", validateToken, adminMiddleware, DepartmentController.createDepartment);
-router.get("/", validateToken, DepartmentController.getAllDepartments);
-router.get("/:departmentId", validateToken, DepartmentController.getDepartmentById);
+departmentRouter.post("/", validateToken, adminMiddleware, DepartmentController.createDepartment);
+departmentRouter.get("/", validateToken, DepartmentController.getAllDepartments);
+departmentRouter.get("/:departmentId", validateToken, DepartmentController.getDepartmentById);
 
-export default router;
+export default departmentRouter;
