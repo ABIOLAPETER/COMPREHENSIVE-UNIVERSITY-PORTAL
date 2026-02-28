@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import { Types } from "mongoose";
-import { AuthError,  ConflictError} from "../../../shared/errors/AppError";
+import { AuthError,  ConflictError, NotFoundError} from "../../../shared/errors/AppError";
 import { UserModel, Role } from "../models/identity.models";
 import {
     generateAccessToken,
@@ -8,6 +8,7 @@ import {
     hashToken,
 } from "../../../shared/utils/token";
 import { RefreshToken } from "../models/refresh-token.model";
+import Student from "../../student/models/student.model";
 
 
 export class AuthService {
@@ -67,8 +68,10 @@ export class AuthService {
     static async signup(data: {
         email: string;
         password: string;
+        lastName: string;
+        firstName: string;
     }) {
-        const { email, password } = data;
+        const { email, password, lastName, firstName } = data;
 
         const existingUser = await UserModel.findOne({ email });
         if (existingUser) {
@@ -82,12 +85,18 @@ export class AuthService {
 
         const user = await UserModel.create({
             email,
+            lastName,
+            firstName,
             passwordHash,
             isEmailVerified: false,
             role: Role.STUDENT,
         });
-
         
+        const newStudent = await Student.create({
+            lastName,
+            firstName,
+            user: user._id
+        })
 
         return this.issueTokens({
             userId: user._id,
@@ -197,5 +206,14 @@ export class AuthService {
         storedToken.revoked = true;
         await storedToken.save();
         return { message: "Logged out successfully" };
+    }
+
+    static async getUsers(){
+        const users = await UserModel.find().populate("email", "role")
+        if (users.length === 0){
+            throw new NotFoundError("Users not found")
+        }
+
+        return users
     }
 }

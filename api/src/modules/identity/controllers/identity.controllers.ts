@@ -6,14 +6,16 @@ import {  AppError } from "../../../shared/errors/AppError";
 export class IdentityController {
     static async signup(req: Request, res: Response) {
         try {
-            const { email, password } = req.body;
-            if (!email || !password) {
+            const { email, password, firstName, lastName} = req.body;
+            if (!email || !password || !firstName || !lastName) {
 
                 return res.status(400).json({ error: "Missing required fields" });
              }
             const result = await AuthService.signup({
                 email,
                 password,
+                firstName,
+                lastName
             });
             res.status(201).json({
                 message: "Signup successful",
@@ -82,6 +84,19 @@ export class IdentityController {
             logger.error("Logout error", err);
             res.status(400).json(
                 { error: err instanceof AppError ? err.message : "Logout failed" }
+            );
+        }
+    }
+    static async getUsers(req: Request, res: Response) {
+        try {
+            const users = await AuthService.getUsers();
+            res.status(200).json({ message: "Got Users" ,
+                users
+             });
+        } catch (err) {
+            logger.error("getting users error", err);
+            res.status(400).json(
+                { error: err instanceof AppError ? err.message : "couldnt get users" }
             );
         }
     }

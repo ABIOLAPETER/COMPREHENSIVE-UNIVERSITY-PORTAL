@@ -89,4 +89,17 @@ export class SemesterService {
     }
 
 
+    static async lockRegistration() {
+        const semester = await this.getActiveSemester()
+
+        if (!semester) {
+            throw new NotFoundError("no semester found")
+        }
+
+        semester.isLocked = true
+        
+        await semester.save()
+        return semester;
+    }
+
 }

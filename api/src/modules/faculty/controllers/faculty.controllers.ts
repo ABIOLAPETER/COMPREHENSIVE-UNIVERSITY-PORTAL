@@ -1,11 +1,12 @@
 
 import { Request, Response } from "express";
 import { FacultyService } from "../services/faculty.services";
+import { logger } from "../../../shared/utils/logger";
 
 
 export class FacultyController {
     // Implement faculty-related controller methods here
-    
+
     static async createFaculty(req: Request, res: Response) {
         try {
             const { name, code } = req.body;
@@ -18,6 +19,7 @@ export class FacultyController {
                 faculty,
             });
         } catch (err) {
+            logger.error(err)
             res.status(400).json({ error: err instanceof Error ? err.message : "Create faculty failed" });
         }
     }

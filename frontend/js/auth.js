@@ -38,5 +38,6 @@ console.log("Login Response Data:", data);
 
     } catch (err) {
         errorEl.textContent = err.message;
+        errorEl.style.display = block 
     }
 });

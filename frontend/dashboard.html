@@ -1,17 +1,172 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dashboard</title>
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
 </head>
-<body onload="requireAuth()">
 
-  <h1 id="title"></h1>
-  <button onclick="logout()">Logout</button>
+<body>
 
-  <div id="content"></div>
+  <!-- ================= TOPBAR ================= -->
+  <header class="topbar">
+    <h1 id="dashboardTitle">Dashboard</h1>
+    <button id="logoutBtn" class="logout-btn">Logout</button>
+  </header>
 
+  <main class="dashboard-container">
+
+    <!-- ================= ADMIN SECTION ================= -->
+<section class="admin-section hidden">
+
+  <!-- ===== ADMIN OVERVIEW ===== -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <h4>Total Faculties</h4>
+      <p id="totalFaculties">--</p>
+    </div>
+
+    <div class="stat-card">
+      <h4>Total Departments</h4>
+      <p id="totalDepartments">--</p>
+    </div>
+
+    <div class="stat-card">
+      <h4>Total Users</h4>
+      <p id="totalUsers">--</p>
+    </div>
+  </div>
+
+  <!-- ===== CREATE FACULTY ===== -->
+  <div class="card form-card">
+    <h3>Create Faculty</h3>
+
+    <input type="text" id="facultyName" placeholder="Faculty Name" />
+    <input type="text" id="facultyCode" placeholder="Faculty Code (e.g SCI)" />
+
+    <button id="createFacultyBtn">Create Faculty</button>
+    <p class="msg" id="facultyMsg"></p>
+  </div>
+
+  <!-- ===== CREATE DEPARTMENT ===== -->
+  <div class="card form-card">
+    <h3>Create Department</h3>
+
+    <input type="text" id="departmentName" placeholder="Department Name" />
+    <input type="text" id="departmentCode" placeholder="Department Code" />
+
+    <select id="facultySelect">
+      <option value="">Select Faculty</option>
+    </select>
+
+    <button id="createDepartmentBtn">Create Department</button>
+    <p class="msg" id="departmentMsg"></p>
+  </div>
+
+  <!-- ===== FACULTIES TABLE ===== -->
+  <div class="card">
+    <h3>Faculties</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Code</th>
+          <th>Created</th>
+        </tr>
+      </thead>
+      <tbody id="facultiesTable">
+        <tr><td colspan="3">Loading...</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ===== DEPARTMENTS TABLE ===== -->
+  <div class="card">
+    <h3>Departments</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Code</th>
+          <th>Faculty</th>
+        </tr>
+      </thead>
+      <tbody id="departmentsTable">
+        <tr><td colspan="3">Loading...</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ===== USERS TABLE ===== -->
+  <div class="card">
+    <h3>Users</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Role</th>
+        </tr>
+      </thead>
+      <tbody id="usersTable">
+        <tr><td colspan="3">Loading...</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</section>
+ 
+    <!-- ================= STUDENT SECTION ================= -->
+    <!-- ================= STUDENT SECTION ================= -->
+<section class="dashboard-section student-section hidden">
+
+  <!-- ALERT -->
+  <div class="alert-banner">
+    ⚠️ Complete Tuition Fees Payment — Resolve Now To Avoid Penalties
+  </div>
+
+  <!-- STUDENT HEADER INFO -->
+  <div class="student-header-card">
+    <h2 id="studentName">Loading...</h2>
+    <p>
+      Matric No: <span id="studentMatric">--</span> |
+      Level: <span id="studentLevel">--</span>
+    </p>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-grid">
+    <div class="stat-box">
+      <h4>GPA</h4>
+      <p id="gpaValue">--</p>
+    </div>
+
+    <div class="stat-box">
+      <h4>CGPA</h4>
+      <p id="cgpaValue">--</p>
+    </div>
+  </div>
+
+  <!-- TILES -->
+  <div class="tile-grid">
+    <div class="dashboard-tile">Results & Grades</div>
+    <div class="dashboard-tile">Course Registration</div>
+    <div class="dashboard-tile">Fees & Charges</div>
+    <div class="dashboard-tile">Assignments</div>
+  </div>
+
+</section>
+
+  </main>
+
+  <!-- Scripts (order matters if not modular) -->
   <script src="js/guard.js"></script>
   <script src="js/dashboard.js"></script>
+  <script src="js/adminResults.js"></script>
+  <script src="js/studentResults.js"></script>
+
 </body>
+
 </html>

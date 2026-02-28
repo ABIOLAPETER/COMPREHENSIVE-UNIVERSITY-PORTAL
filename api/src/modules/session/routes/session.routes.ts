@@ -2,14 +2,14 @@
 
 import { Router } from "express";
 import { SessionController } from "../controllers/session.controller";
-import { validateToken } from "../../../shared/middleware/auth.middleware";
+import { validateToken, adminMiddleware } from "../../../shared/middleware/auth.middleware";
 
 
 const sessionRouter = Router();
 
-sessionRouter.post("/", validateToken, SessionController.createSession);
-sessionRouter.post("/:sessionId/activate",validateToken, SessionController.activateSession);
+sessionRouter.post("/", validateToken, adminMiddleware, SessionController.createSession);
+sessionRouter.post("/:sessionId/activate",validateToken, adminMiddleware, SessionController.activateSession);
 sessionRouter.get("/active",validateToken, SessionController.getActiveSession);
-sessionRouter.get("/", validateToken, SessionController.getAllSessions);
+sessionRouter.get("/", validateToken, adminMiddleware, SessionController.getAllSessions);
 
 export default sessionRouter;

@@ -14,6 +14,7 @@ export class DepartmentService {
     // Validate input data
 
     const { name, code, facultyId } = data;
+    
     if (!name || !code || !facultyId) {
       throw new ValidationError("Missing required fields");
     }

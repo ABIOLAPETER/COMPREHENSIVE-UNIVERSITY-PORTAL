@@ -47,4 +47,17 @@ export class SemesterController {
         }
     }
 
+    static async lockSemester(req: Request, res:Response){
+        try {
+            res.status(200).json({
+                message: "Semester Locked successfully"
+            })
+        } catch (err) {
+            if (err instanceof AppError) {
+                return res.status(err.statusCode).json({ error: err.message });
+            }
+            return res.status(500).json({ error: "lock semester failed" });
+        }
+    }
+
 }

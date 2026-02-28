@@ -6,7 +6,7 @@ const redisClient = new Redis();
 
 export const gatewayRateLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 10,
+  max: 1000,
   standardHeaders: true,
   legacyHeaders: false,
   store: new RedisStore({
@@ -16,5 +16,4 @@ export const gatewayRateLimiter = rateLimit({
     },
   }),
 });
-
 

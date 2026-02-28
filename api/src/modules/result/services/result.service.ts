@@ -78,72 +78,57 @@ export class ResultService {
   }
 
 
-//   static async publishResultService(resultId: Types.ObjectId) {
-//     const result = await ResultModel.findById(resultId);
+  static async publishResultByCourseService(courseId: string) {
+    const results = await ResultModel.find({
+      course: courseId, status: ResultStatus.DRAFT
+    })
+    if (results.length === 0) {
+      throw new NotFoundError("Results not found for this course")
+    }
+    for (const r of results) {
+      r.status = ResultStatus.PUBLISHED
+      await r.save()
 
-//     if (!result) {
-//         throw new NotFoundError("Result does not exist");
-//     }
+      await GPAService.calculateAndUpsertGPA(r.student);
+    }
 
-//     if (result.status === ResultStatus.PUBLISHED) {
-//         throw new BadRequestError("Result is already published");
-//     }
-
-//     // Ensure result belongs to active session
-//     const activeSession = await SessionService.getActiveSession();
-//     if (result.session !== activeSession._id) {
-//         throw new BadRequestError("Cannot publish result for an inactive session");
-//     }
-
-//     // Ensure result belongs to active semester
-//     const activeSemester = await SemesterService.getActiveSemester();
-//     if (result.semester !== activeSemester._id) {
-//         throw new BadRequestError("Cannot publish result for an inactive semester");
-//     }
-
-//     // Enforce carry-over correctness
-//     result.isCarryOver = result.grade === "F";
-//     result.isPassed = result.grade !== "F";
-
-//     result.status = ResultStatus.PUBLISHED;
-
-//     await result.save();
-
-//     return result;
-// }
-
-
-
-static async publishResultService(resultId: string) {
-
-  const result = await ResultModel.findById(resultId);
-
-  if (!result) {
-    throw new NotFoundError("Result does not exist");
+    return {
+      PublishedCount: results.length
+    }
   }
 
-  if (result.status === ResultStatus.PUBLISHED) {
-    throw new BadRequestError("Result already published");
-  }
-   const activeSession = await SessionService.getActiveSession();
 
-   if (result.session !== activeSession._id) {
-        throw new BadRequestError("Cannot publish result for an inactive session");
+
+  static async publishResultService(resultId: string) {
+
+    const result = await ResultModel.findById(resultId);
+
+    if (!result) {
+      throw new NotFoundError("Result does not exist");
+    }
+
+    if (result.status === ResultStatus.PUBLISHED) {
+      throw new BadRequestError("Result already published");
+    }
+    const activeSession = await SessionService.getActiveSession();
+
+    if (result.session !== activeSession._id) {
+      throw new BadRequestError("Cannot publish result for an inactive session");
     }
 
     // Ensure result belongs to active semester
     const activeSemester = await SemesterService.getActiveSemester();
     if (result.semester !== activeSemester._id) {
-        throw new BadRequestError("Cannot publish result for an inactive semester");
+      throw new BadRequestError("Cannot publish result for an inactive semester");
     }
 
-  result.status = ResultStatus.PUBLISHED;
-  await result.save();
+    result.status = ResultStatus.PUBLISHED;
+    await result.save();
 
-  await GPAService.calculateAndUpsertGPA(result.student);
-  
-  return result;
-}
+    await GPAService.calculateAndUpsertGPA(result.student);
+
+    return result;
+  }
 
 
 }

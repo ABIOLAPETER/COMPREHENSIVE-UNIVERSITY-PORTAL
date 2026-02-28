@@ -35,5 +35,21 @@ static async publishResult(req: Request, res: Response){
     }
 
 }
+
+
+static async publishResultByCourse(req: Request, res: Response){
+    try {
+        const {courseId} = req.params
+
+        const publishedResult = await ResultService.publishResultService(courseId.toString())
+
+        res.status(201).json({
+            message: "Published result successfully", publishedResult
+        })
+    } catch (error) {
+        res.status(400).json({ error: error instanceof Error ? error.message : "could not PUBLISH RESULT" });
+    }
+
+}
 }
 

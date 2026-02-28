@@ -24,6 +24,10 @@ export class RegistrationService {
         if (!activeSemester) {
             throw new NotFoundError("No active semester found");
         }
+
+        if (activeSemester.isLocked){
+            throw new BadRequestError("semester is locked for registration")
+        }
         
         const activeSession = await SessionService.getActiveSession();
         if (!activeSession) {

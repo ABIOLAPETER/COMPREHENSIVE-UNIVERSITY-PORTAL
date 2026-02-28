@@ -53,7 +53,21 @@ export class CGPAService {
         );
     }
 
-    
+    static async getstudentCgpa(studentId: string){
+        if (!studentId){
+            throw new BadRequestError("provide student details")
+        }
+
+        const CGPADetails = await StudentCGPAModel.findOne({
+            student: studentId
+        })
+
+        if (!CGPADetails){
+            throw new NotFoundError("CGPA details not found")
+        }
+
+        return CGPADetails.cgpa
+    }
     
 
 

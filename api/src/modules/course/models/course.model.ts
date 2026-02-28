@@ -23,7 +23,7 @@ export enum CourseType {
 
 const CourseSchema: Schema = new Schema({
     title: { type: String, required: true, trim: true },
-    code: { type: String, required: true, uppercase: true, index: true },
+    code: { type: String, required: true, uppercase: true },
     creditUnits: { type: Number, required: true, min: 1 },
     department: { type: mongoose.Schema.Types.ObjectId, ref: "Department", required: true },
     semester: { type: String, enum: Object.values(Semester), required: true },

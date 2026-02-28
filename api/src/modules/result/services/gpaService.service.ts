@@ -6,6 +6,7 @@ import { SessionService } from "../../session/services/session.services";
 import { NotFoundError } from "../../../shared/errors/AppError";
 import { CGPAService } from "./CGPAService.service";
 import { logger } from "../../../shared/utils/logger";
+import { BadRequestError } from "../../../shared/errors/AppError";
 export class GPAService {
   static async calculateAndUpsertGPA(studentId: Types.ObjectId) {
 
@@ -74,4 +75,22 @@ export class GPAService {
     return gpaDetails;
 
   }
+
+
+  
+      static async getstudentGpa(studentId: string){
+          if (!studentId){
+              throw new BadRequestError("provide student details")
+          }
+  
+          const GPADetails = await StudentGPAModel.findOne({
+              student: studentId
+          })
+  
+          if (!GPADetails){
+              throw new NotFoundError("CGPA details not found")
+          }
+  
+          return GPADetails.gpa
+      }
 }

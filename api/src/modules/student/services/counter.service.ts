@@ -3,22 +3,17 @@ import { MatricCounterModel } from "../models/matric.model";
 
 export class CounterService {
   static async generateSequence(
-    data: {
-      facultyCode: string;
-      departmentCode: string;
-      year: number;
-    },
+    year: number,
     session: ClientSession
-  ) {
-    const { facultyCode, departmentCode, year } = data;
+  ): Promise<number> {
 
     const counter = await MatricCounterModel.findOneAndUpdate(
-      { facultyCode, departmentCode, year },
+      { year },                      // 🔥 ONLY YEAR
       { $inc: { currentSequence: 1 } },
       {
         new: true,
         upsert: true,
-        session, 
+        session,
       }
     );
 

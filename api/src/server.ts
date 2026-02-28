@@ -8,10 +8,11 @@ const startServer = app.listen(env.PORT, () => {
     logger.info(`University Portal API is running on http://localhost:${env.PORT}`);
 });
 
+
 const bootstrap = async () => {
     try {
         // Connect to the database
-        connectDB()
+        
         startServer.on("listening", () => {
             logger.info(`Server is listening on port ${env.PORT}`);
         });

@@ -8,6 +8,8 @@ export enum Role {
 
 export interface User {
   _id: Types.ObjectId;
+  firstName: string,
+  lastName: string,
   email: string;
   passwordHash: string;
   isEmailVerified: boolean;
@@ -26,6 +28,10 @@ const userSchema = new Schema<User>(
       unique: true,
       index: true,
       trim: true,
+    },
+    firstName:{
+      type: String,
+      trim: true
     },
     passwordHash: {
       type: String,

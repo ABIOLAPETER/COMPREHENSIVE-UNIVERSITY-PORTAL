@@ -1,48 +1,36 @@
 import { Request, Response } from "express";
 import { StudentService } from "../services/student.service"; 
-
-
+import { Types } from "mongoose";
 export class StudentController{
-    static async createCourse(req: Request, res: Response){
+    static async updateStudent(req: Request, res: Response){
         try {
-            const data = req.body
-
-            const course = await .createCourse(data)
-
-            return res.status(201).json({
-                message: "Course created", course
-            })
-        } catch (error) {
-             res.status(400).json({ error: error instanceof Error ? error.message : "could not create course" });
-        }
-    }
-
-    static async updateCourse(req: Request, res: Response){
-        try {
-            const {courseId} = req.params
-            const data = req.body
-
-            const course = await CourseService.updateCourse(courseId.toString(), data)
-
-            return res.status(201).json({
-                message: "Course updated", course
-            })
-        } catch (error) {
-             res.status(400).json({ error: error instanceof Error ? error.message : "could not update course" });
-        }
-    }
-
-    static async getEligibleCourses(req: Request, res: Response){
-        try {
+            const {departmentId, admissionType} = req.body
             const {studentId} = req.params
-
-            const courses = await CourseService.listEligibleCoursesForStudent(studentId.toString())
+            const student = await StudentService.updateStudent({
+                departmentId,
+                studentId: studentId.toString(),
+                admissionType
+            })
 
             return res.status(201).json({
-                message: "Eligible courses", courses
+                message: "student updated", student
             })
         } catch (error) {
-             res.status(400).json({ error: error instanceof Error ? error.message : "could not get eligible courses" });
+             res.status(400).json({ error: error instanceof Error ? error.message : "could not create student" });
+        }
+    }
+
+    static async getStudentProfile(req: Request, res: Response){
+        try {
+            const {userId} = req.params
+
+            const studentProfile = await StudentService.getStudentProfile(userId.toString())
+
+            return res.status(201).json({
+                message: "Student profile ", studentProfile
+            })
+        } catch (error) {
+             res.status(400).json({ error: error instanceof Error ? error.message : "could not get student profile" });
         }
     }
 }
