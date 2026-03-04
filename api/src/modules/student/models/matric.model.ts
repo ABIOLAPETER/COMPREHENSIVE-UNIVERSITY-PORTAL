@@ -10,7 +10,7 @@ const MatricCounterSchema = new Schema<IMatricCounter>(
     year: {
       type: Number,
       required: true,
-      index: true,
+      
     },
     currentSequence: {
       type: Number,
@@ -20,10 +20,7 @@ const MatricCounterSchema = new Schema<IMatricCounter>(
   { timestamps: true }
 );
 
-/**
- * Prevents duplicate counters
- * One counter per faculty + department + year
- */
+
 MatricCounterSchema.index(
   { year: 1 },
   { unique: true }

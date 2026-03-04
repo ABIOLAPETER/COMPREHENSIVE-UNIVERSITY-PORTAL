@@ -8,7 +8,7 @@ export class CounterService {
   ): Promise<number> {
 
     const counter = await MatricCounterModel.findOneAndUpdate(
-      { year },                      // 🔥 ONLY YEAR
+      { year },                      
       { $inc: { currentSequence: 1 } },
       {
         new: true,

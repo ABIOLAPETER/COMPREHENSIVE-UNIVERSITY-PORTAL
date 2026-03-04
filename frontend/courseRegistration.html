@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Course Registration</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap"
+    rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f7f6f2;
+      --surface: #ffffff;
+      --surface-2: #f0ede8;
+      --ink: #1a1714;
+      --ink-soft: #6b6560;
+      --accent: #2a52be;
+      --accent-hover: #1e3d96;
+      --accent-light: #eef1fb;
+      --danger: #c0392b;
+      --danger-light: #fdf0ee;
+      --success: #1a7a4a;
+      --success-light: #e8f5ee;
+      --warning: #b45309;
+      --warning-light: #fef3e2;
+      --border: #e2ddd8;
+      --shadow: 0 2px 12px rgba(26, 23, 20, 0.07);
+      --shadow-lg: 0 8px 40px rgba(26, 23, 20, 0.14);
+      --radius: 10px;
+      --radius-sm: 6px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ===== TOPBAR ===== */
+    .topbar {
+      background: var(--ink);
+      color: #fff;
+      padding: 0 36px;
+      height: 62px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.25);
+    }
+    .topbar-brand { font-family: 'DM Serif Display', serif; font-size: 1.2rem; color: #fff; }
+    .topbar-brand em { color: #8fa8e0; font-style: italic; }
+    .back-btn {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: transparent; border: 1px solid rgba(255,255,255,0.22);
+      padding: 7px 16px; color: rgba(255,255,255,0.85);
+      border-radius: var(--radius-sm); cursor: pointer;
+      font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
+      text-decoration: none; transition: all 0.2s;
+    }
+    .back-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
+
+    /* ===== LAYOUT ===== */
+    .page-container {
+      max-width: 980px; margin: 0 auto; padding: 40px 36px 80px;
+      display: grid; grid-template-columns: 1fr 300px;
+      grid-template-rows: auto auto 1fr; gap: 24px; align-items: start;
+    }
+
+    /* ===== PAGE HEADING ===== */
+    .page-heading {
+      grid-column: 1 / -1; padding-bottom: 22px;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: flex-end; justify-content: space-between;
+    }
+    .page-heading h1 { font-family: 'DM Serif Display', serif; font-size: 2.1rem; font-weight: 400; }
+    .page-heading p { color: var(--ink-soft); font-size: 14px; margin-top: 3px; }
+    .semester-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--accent-light); color: var(--accent);
+      border: 1px solid #c5d0f0; border-radius: 20px;
+      padding: 5px 14px; font-size: 12px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em; white-space: nowrap;
+    }
+
+    /* ===== STUDENT INFO CARD ===== */
+    .student-card {
+      grid-column: 1 / -1;
+      background: linear-gradient(135deg, #1a1714 0%, #233577 100%);
+      border-radius: var(--radius); padding: 24px 28px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 20px; flex-wrap: wrap;
+    }
+    .student-card-info h2 { font-family: 'DM Serif Display', serif; font-size: 1.5rem; font-weight: 400; color: #fff; }
+    .student-card-info p { color: rgba(255,255,255,0.6); font-size: 13.5px; margin-top: 4px; }
+    .student-card-info span { color: rgba(255,255,255,0.9); font-weight: 500; }
+    .student-card-level { text-align: right; flex-shrink: 0; }
+    .level-display { font-family: 'DM Serif Display', serif; font-size: 2.8rem; color: #fff; line-height: 1; }
+    .level-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.45); margin-top: 2px; }
+
+    /* ===== MAIN COURSE LIST AREA ===== */
+    .courses-area { min-width: 0; }
+
+    .error-banner {
+      display: none; background: var(--danger-light);
+      border: 1px solid #f0c4be; color: var(--danger);
+      border-radius: var(--radius-sm); padding: 12px 16px;
+      font-size: 13.5px; font-weight: 500; margin-bottom: 16px;
+    }
+    .error-banner.visible { display: block; }
+
+    .section-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-soft); margin-bottom: 12px; }
+
+    .course-group-header {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.09em; color: var(--ink-soft); padding: 8px 0 6px;
+      margin-bottom: 6px; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .group-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+    .group-dot.core { background: var(--success); }
+    .group-dot.elective { background: var(--warning); }
+
+    .course-item {
+      background: var(--surface); border: 1.5px solid var(--border);
+      border-radius: var(--radius); margin-bottom: 8px;
+      transition: all 0.15s; overflow: hidden;
+    }
+    .course-item:has(input:checked) {
+      border-color: var(--accent); background: var(--accent-light);
+      box-shadow: 0 0 0 3px rgba(42,82,190,0.07);
+    }
+    .course-label { display: flex; align-items: center; gap: 14px; padding: 14px 18px; cursor: pointer; width: 100%; }
+    .course-label input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--accent); cursor: pointer; flex-shrink: 0; }
+    .course-info { flex: 1; min-width: 0; }
+    .course-top { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .course-code { font-size: 12px; font-weight: 700; font-family: 'DM Sans', monospace; color: var(--accent); background: var(--accent-light); padding: 2px 8px; border-radius: 4px; letter-spacing: 0.04em; }
+    .course-title { font-size: 14px; font-weight: 500; color: var(--ink); }
+    .course-bottom { display: flex; gap: 8px; margin-top: 5px; flex-wrap: wrap; }
+    .course-tag { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; padding: 2px 8px; border-radius: 4px; background: var(--surface-2); color: var(--ink-soft); }
+    .course-tag.core { background: var(--success-light); color: var(--success); }
+    .course-tag.elective { background: var(--warning-light); color: var(--warning); }
+    .course-units-badge { margin-left: auto; font-size: 12px; font-weight: 700; color: var(--ink-soft); white-space: nowrap; flex-shrink: 0; align-self: center; }
+
+    .loading-state { display: flex; flex-direction: column; gap: 10px; }
+    .skeleton {
+      background: linear-gradient(90deg, var(--surface-2) 25%, var(--border) 50%, var(--surface-2) 75%);
+      background-size: 200% 100%; animation: shimmer 1.3s infinite;
+      border-radius: var(--radius); height: 60px;
+    }
+    @keyframes shimmer { to { background-position: -200% 0; } }
+
+    /* ===== SIDEBAR ===== */
+    .summary-sidebar { position: sticky; top: 86px; display: flex; flex-direction: column; gap: 16px; }
+    .summary-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+    .summary-card-header { padding: 16px 20px 14px; border-bottom: 1px solid var(--border); background: var(--surface-2); }
+    .summary-card-header h3 { font-family: 'DM Serif Display', serif; font-size: 1rem; font-weight: 400; }
+    .summary-card-body { padding: 18px 20px; }
+
+    .credit-display { text-align: center; padding: 10px 0 16px; border-bottom: 1px solid var(--border); margin-bottom: 16px; }
+    .credit-number { font-family: 'DM Serif Display', serif; font-size: 3.2rem; color: var(--ink); line-height: 1; display: block; }
+    .credit-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.09em; color: var(--ink-soft); margin-top: 4px; }
+
+    .credit-limit-bar { margin-bottom: 14px; }
+    .credit-limit-label { display: flex; justify-content: space-between; font-size: 11px; color: var(--ink-soft); margin-bottom: 6px; font-weight: 500; }
+    .progress-track { height: 6px; background: var(--surface-2); border-radius: 99px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--accent); border-radius: 99px; transition: width 0.3s ease; max-width: 100%; }
+    .progress-fill.warning { background: var(--warning); }
+    .progress-fill.danger { background: var(--danger); }
+
+    .selected-list { display: flex; flex-direction: column; gap: 6px; max-height: 220px; overflow-y: auto; }
+    .selected-list-empty { font-size: 13px; color: var(--ink-soft); font-style: italic; text-align: center; padding: 10px 0; }
+    .selected-item { display: flex; justify-content: space-between; align-items: center; font-size: 13px; padding: 6px 8px; background: var(--bg); border-radius: var(--radius-sm); gap: 8px; }
+    .selected-item-code { font-weight: 600; color: var(--accent); font-size: 12px; white-space: nowrap; }
+    .selected-item-units { font-size: 11px; color: var(--ink-soft); white-space: nowrap; }
+
+    .submit-btn {
+      width: 100%; padding: 13px; background: var(--accent); color: #fff;
+      border: none; border-radius: var(--radius-sm);
+      font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600;
+      cursor: pointer; transition: all 0.2s; letter-spacing: 0.01em;
+    }
+    .submit-btn:hover:not(:disabled) { background: var(--accent-hover); }
+    .submit-btn:disabled { opacity: 0.55; cursor: not-allowed; }
+    .submit-btn.loading::after {
+      content: ''; display: inline-block; width: 14px; height: 14px;
+      border: 2px solid rgba(255,255,255,0.4); border-top-color: #fff;
+      border-radius: 50%; animation: spin 0.7s linear infinite;
+      margin-left: 8px; vertical-align: middle;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ===== SUCCESS BANNER ===== */
+    .success-banner {
+      display: none; background: var(--success-light);
+      border: 1px solid #a8d9bc; color: var(--success);
+      border-radius: var(--radius-sm); padding: 12px 16px;
+      font-size: 13.5px; font-weight: 500; margin-bottom: 16px;
+      align-items: center; gap: 8px;
+    }
+    .success-banner.visible { display: flex; }
+
+    /* ===== SUBMITTED VIEW ===== */
+    .reg-submitted-view { display: none; }
+    .reg-submitted-view.visible { display: block; }
+
+    .submitted-hero {
+      background: linear-gradient(135deg, #1a7a4a 0%, #14532d 100%);
+      border-radius: var(--radius); padding: 24px 28px; margin-bottom: 20px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 16px; flex-wrap: wrap;
+    }
+    .submitted-hero-left h3 { font-family: 'DM Serif Display', serif; font-size: 1.4rem; font-weight: 400; color: #fff; }
+    .submitted-hero-left p { color: rgba(255,255,255,0.65); font-size: 13px; margin-top: 4px; }
+    .submitted-hero-right { text-align: right; flex-shrink: 0; }
+    .submitted-timestamp { font-size: 12px; color: rgba(255,255,255,0.6); font-weight: 500; }
+    .submitted-timestamp strong { display: block; color: #fff; font-size: 14px; margin-bottom: 2px; }
+
+    .reg-summary-table { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+    .reg-summary-table th { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-soft); padding: 10px 16px; text-align: left; background: var(--surface-2); border-bottom: 1px solid var(--border); }
+    .reg-summary-table td { padding: 12px 16px; font-size: 14px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+    .reg-summary-table tbody tr:last-child td { border-bottom: none; }
+    .reg-summary-table tbody tr:hover { background: var(--surface-2); }
+    .reg-total-row td { font-weight: 700; background: var(--surface-2) !important; border-top: 2px solid var(--border); font-size: 13px; }
+
+    .status-pill { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; padding: 3px 10px; border-radius: 20px; }
+    .status-pill.submitted { background: var(--warning-light); color: var(--warning); }
+    .status-pill.approved  { background: var(--success-light); color: var(--success); }
+    .status-pill.draft     { background: var(--surface-2);     color: var(--ink-soft); }
+    .reg-id-label { font-size: 11px; color: var(--ink-soft); font-family: monospace; background: var(--surface-2); padding: 2px 6px; border-radius: 4px; }
+
+    @media (max-width: 720px) {
+      .page-container { grid-template-columns: 1fr; padding: 24px 18px 60px; }
+      .summary-sidebar { position: static; }
+      .student-card { flex-direction: column; align-items: flex-start; }
+      .student-card-level { text-align: left; }
+      .topbar { padding: 0 18px; }
+      .page-heading { flex-direction: column; align-items: flex-start; gap: 10px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="topbar">
+    <div class="topbar-brand">UniPortal <em>Course Registration</em></div>
+    <a href="dashboard.html" class="back-btn">← Back to Dashboard</a>
+  </header>
+
+  <form id="courseForm">
+    <div class="page-container">
+
+      <!-- HEADING -->
+      <div class="page-heading">
+        <div>
+          <h1>Course Registration</h1>
+          <p>Select your courses for the current semester.</p>
+        </div>
+        <span class="semester-badge" id="semesterBadge">⏳ Loading semester...</span>
+      </div>
+
+      <!-- STUDENT INFO -->
+      <div class="student-card">
+        <div class="student-card-info">
+          <h2 id="studentName">Loading...</h2>
+          <p>Matric No: <span id="studentMatric">--</span> &nbsp;·&nbsp; Department: <span id="studentDept">--</span></p>
+        </div>
+        <div class="student-card-level">
+          <div class="level-display" id="studentLevel">--</div>
+          <div class="level-label">Level</div>
+        </div>
+      </div>
+
+      <!-- COURSE LIST -->
+      <div class="courses-area">
+        <div class="error-banner" id="error"></div>
+        <div class="success-banner" id="successBanner">✅ Registration submitted successfully!</div>
+
+        <div class="reg-submitted-view" id="regSubmittedView">
+          <div class="submitted-hero" id="submittedHero">
+            <div class="submitted-hero-left">
+              <h3>Registration Approved ✓</h3>
+              <p id="submittedSemesterLabel">—</p>
+            </div>
+            <div class="submitted-hero-right">
+              <div class="submitted-timestamp">
+                <strong id="submittedDate">—</strong>
+                <span id="submittedTime">—</span>
+              </div>
+            </div>
+          </div>
+          <div id="regSummaryTable"></div>
+        </div>
+
+        <div class="section-label" id="courseListLabel">Available Courses</div>
+
+        <div id="courseList">
+          <div class="loading-state">
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+            <div class="skeleton" style="height:48px"></div>
+            <div class="skeleton"></div>
+            <div class="skeleton" style="height:48px"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SIDEBAR -->
+      <aside class="summary-sidebar">
+        <div class="summary-card">
+          <div class="summary-card-header"><h3>Credit Summary</h3></div>
+          <div class="summary-card-body">
+            <div class="credit-display">
+              <span class="credit-number" id="totalCredits">0</span>
+              <div class="credit-label">Credits Selected</div>
+            </div>
+            <div class="credit-limit-bar">
+              <div class="credit-limit-label">
+                <span>Progress</span>
+                <span id="creditLimitText">0 / 24 max</span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill" id="creditProgressBar" style="width:0%"></div>
+              </div>
+            </div>
+            <button type="submit" class="submit-btn" id="submitBtn" disabled>
+              Submit Registration
+            </button>
+          </div>
+        </div>
+
+        <div class="summary-card">
+          <div class="summary-card-header"><h3>Selected Courses</h3></div>
+          <div class="summary-card-body" style="padding:14px 18px;">
+            <div class="selected-list" id="selectedList">
+              <div class="selected-list-empty">No courses selected yet.</div>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+    </div>
+  </form>
+
+  <script src="js/api.js"></script>
+  <script src="js/courseRegistration.js"></script>
+
+  <script>
+    // ===== SIDEBAR UI — progress bar only =====
+    // NOTE: selected list is now managed by courseRegistration.js
+    // to ensure it only updates after confirmed API responses (prevents ghost entries)
+
+    const MAX_CREDITS    = 24;
+    const _creditsEl     = document.getElementById("totalCredits");
+    const _progressBar   = document.getElementById("creditProgressBar");
+    const _limitText     = document.getElementById("creditLimitText");
+    const _submitBtn     = document.getElementById("submitBtn");
+    const _successBanner = document.getElementById("successBanner");
+    const _errorEl       = document.getElementById("error");
+
+    // Watch totalCredits for changes and update progress bar
+    new MutationObserver(() => {
+      const val = parseInt(_creditsEl.textContent, 10) || 0;
+      const pct = Math.min((val / MAX_CREDITS) * 100, 100);
+
+      _progressBar.style.width = pct + "%";
+      _progressBar.className   = "progress-fill" +
+        (pct >= 100 ? " danger" : pct >= 80 ? " warning" : "");
+
+      _limitText.textContent = `${val} / ${MAX_CREDITS} max`;
+      _submitBtn.disabled    = val === 0;
+    }).observe(_creditsEl, { childList: true, characterData: true, subtree: true });
+
+    // Watch error element visibility
+    new MutationObserver(() => {
+      _errorEl.classList.toggle("visible", !!_errorEl.textContent.trim());
+    }).observe(_errorEl, { childList: true, characterData: true, subtree: true });
+
+    // Intercept alert() to show styled success banner
+    const _originalAlert = window.alert;
+    window.alert = (msg) => {
+      if (msg.toLowerCase().includes("success")) {
+        _successBanner.classList.add("visible");
+        setTimeout(() => _successBanner.classList.remove("visible"), 5000);
+      } else {
+        _originalAlert(msg);
+      }
+    };
+  </script>
+
+</body>
+</html>

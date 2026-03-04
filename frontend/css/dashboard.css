@@ -157,3 +157,8 @@ th {
   border-radius: 4px;
   cursor: pointer;
 }
+
+.form_creation{
+  display :flex;
+  align-items: center;
+}

@@ -8,6 +8,7 @@ import { ResultModel } from "../../result/models/result.model"
 import { SemesterService } from "../../semester/services/semester.services";
 import { SessionService } from "../../session/services/session.services";
 import { SemesterNames } from "../../semester/model/semester.model";
+import { SemesterModel } from "../../semester/model/semester.model";
 
 export class RegistrationService {
 
@@ -145,31 +146,6 @@ export class RegistrationService {
     }
 
 
-    static async hasUnregisteredCarryOvers(
-        studentId: mongoose.Types.ObjectId,
-        semester: "FIRST" | "SECOND",
-        registrationCourseIds: mongoose.Types.ObjectId[]
-    ): Promise<boolean> {
-
-        const failedCourses = await ResultModel.find({
-            student: studentId,
-            semester,
-            grade: "F",
-            status: "PUBLISHED"
-        }).select("course");
-
-        const failedCourseIds = failedCourses.map(r => r.course.toString());
-
-        if (failedCourseIds.length === 0) {
-            return false;
-        }
-
-        const registeredIds = registrationCourseIds.map(id => id.toString());
-
-        return failedCourseIds.some(id => !registeredIds.includes(id));
-
-    }
-
     static async submitRegistration(registrationId: string) {
         const registration = await RegistrationModel.findById(registrationId);
 
@@ -210,21 +186,159 @@ export class RegistrationService {
         return registration;
     }
 
-    private static async hasFailedPublishedResultForCourse(
-        studentId: mongoose.Types.ObjectId,
-        courseId: mongoose.Types.ObjectId,
-        semester: SemesterNames): Promise<boolean> {
+ // ── Replace these two private/static methods in RegistrationService ──────────
 
-        
-        const carryOver = await ResultModel.findOne({
-            student: studentId,
-            semester: semester,
-            course: courseId,
-            grade: "F",
-            status: "PUBLISHED",
-        });
-        return !!carryOver;
+  private static async hasFailedPublishedResultForCourse(
+    studentId: mongoose.Types.ObjectId,
+    courseId: mongoose.Types.ObjectId,
+    semesterName: SemesterNames
+  ): Promise<boolean> {
+
+    // FIX: Result.semester is an ObjectId ref — resolve the name to an _id first
+    const semesterDoc = await SemesterModel.findOne({ name: semesterName, isActive: true });
+    if (!semesterDoc) return false;
+
+    const carryOver = await ResultModel.findOne({
+      student:  studentId,
+      semester: semesterDoc._id,   // ← ObjectId, not the string "FIRST"
+      course:   courseId,
+      grade:    "F",
+      status:   "PUBLISHED",
+    });
+
+    return !!carryOver;
+  }
+
+  static async hasUnregisteredCarryOvers(
+    studentId: mongoose.Types.ObjectId,
+    semesterName: "FIRST" | "SECOND",
+    registrationCourseIds: mongoose.Types.ObjectId[]
+  ): Promise<boolean> {
+
+    // FIX: same issue — resolve semester name to ObjectId before querying Results
+    const semesterDoc = await SemesterModel.findOne({ name: semesterName, isActive: true });
+    if (!semesterDoc) return false;
+
+    const failedCourses = await ResultModel.find({
+      student:  studentId,
+      semester: semesterDoc._id,   // ← ObjectId, not the string "FIRST"
+      grade:    "F",
+      status:   "PUBLISHED",
+    }).select("course");
+
+    if (!failedCourses.length) return false;
+
+    const failedCourseIds  = failedCourses.map(r => r.course.toString());
+    const registeredIds    = registrationCourseIds.map(id => id.toString());
+
+    return failedCourseIds.some(id => !registeredIds.includes(id));
+  }
+
+    // ── Add these two methods to your RegistrationService class ──────────────────
+
+  static async getDraftRegistration(studentId: string) {
+    const student = await Student.findById(studentId);
+    if (!student) {
+      throw new NotFoundError("Student not found");
     }
+
+    const activeSemester = await SemesterService.getActiveSemester();
+    const activeSession  = await SessionService.getActiveSession();
+
+    const registration = await RegistrationModel.findOne({
+      student:  studentId,
+      semester: activeSemester.name,
+      session:  activeSession.name,
+    }).populate("courses.course");
+
+    if (!registration) {
+      throw new NotFoundError("No registration found for this student this semester");
+    }
+
+    return registration;
+  }
+
+  static async removeCourseFromRegistration(data: {
+    registrationId: string;
+    courseId: string;
+  }) {
+    const registration = await RegistrationModel.findById(data.registrationId);
+
+    if (!registration) {
+      throw new NotFoundError("Registration not found");
+    }
+
+    if (registration.status !== RegistrationStatus.DRAFT) {
+      throw new BadRequestError("Cannot modify a submitted registration");
+    }
+
+    const courseEntry = registration.courses.find(
+      c => c.course.toString() === data.courseId
+    );
+
+   // ✅ Only subtract if the course was actually in the registration
+
+if (!courseEntry) {
+  throw new NotFoundError("Course not found in registration");
+}
+
+registration.courses.pull(courseEntry._id);
+
+// Subtract only the units of the course that was actually removed
+registration.totalCredits = Math.max(
+  0, // safety net — never go below 0
+  registration.totalCredits - (courseEntry.creditUnits ?? 0)
+);
+
+await registration.save();
+    return registration;
+  }
+
+
+  static async approveRegistration(registrationId: string){
+    const registration = await RegistrationModel.findById(registrationId)
+
+    if(!registration){
+        throw new NotFoundError("could not find registration")
+    }
+
+    if(registration.status !== RegistrationStatus.SUBMITTED){
+        throw new BadRequestError("Only submitted registrations can be approved")
+    }
+
+    registration.status = RegistrationStatus.APPROVED
+
+    await registration.save()
+
+    return registration
+  }
+
+  static async getAllRegistrations(status?: string) {
+  const query = status && status !== "ALL" ? { status } : {};
+  const registrations = await RegistrationModel.find(query)
+    .populate("student", "firstName lastName matricNumber level department")
+    .populate("department", "name")
+    .populate("courses.course", "code title type creditUnits")
+    .sort({ createdAt: -1 });
+  return registrations;
+}
+  static async rejectRegistration(registrationId: string){
+    const registration = await RegistrationModel.findById(registrationId)
+
+    if(!registration){
+        throw new NotFoundError("could not find registration")
+    }
+
+    if(registration.status !== RegistrationStatus.SUBMITTED){
+        throw new BadRequestError("Only submitted registrations can be rejected")
+    }
+
+    registration.status = RegistrationStatus.REJECTED
+
+    await registration.save()
+
+    return registration
+  }
 }
 
 

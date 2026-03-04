@@ -43,6 +43,7 @@ export class FacultyService {
         }
         return faculty;
     }
+    
 
     static async updateFaculty(facultyId: string, data: { name?: string; code?: string }) {
         const faculty = await FacultyModel.findByIdAndUpdate(facultyId, data, { new: true });
@@ -61,5 +62,4 @@ export class FacultyService {
         return faculty;
     }
 
-    
 }

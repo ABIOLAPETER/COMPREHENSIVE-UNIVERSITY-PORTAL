@@ -1,72 +1,110 @@
-
-import { Semester } from "../models/course.model";
-import { CourseType } from "../models/course.model";
-import { CourseModel, ICourse } from "../models/course.model";
 import mongoose from "mongoose";
-import { validateCourseCreation } from "../../../shared/utils/validate";
-import { ConflictError } from "../../../shared/errors/AppError";
+import { CourseModel, ICourse, CourseType, Semester } from "../models/course.model";
+import { DepartmentModel } from "../../department/models/department.model";
 import Student from "../../student/models/student.model";
-import { NotFoundError } from "../../../shared/errors/AppError";
 import { SessionService } from "../../session/services/session.services";
 import { SemesterService } from "../../semester/services/semester.services";
+import { validateCourseCreation } from "../../../shared/utils/validate";
+import { ConflictError, NotFoundError } from "../../../shared/errors/AppError";
+import { getLevelAndSemester } from "../../../shared/utils/getLevelAndsemesterFromCode";
+
 export class CourseService {
-    static async createCourse(data: {
-        title: string;
-        code: string;
-        creditUnits: number;
-        department: mongoose.Types.ObjectId;
-        semester: Semester;
-        level: number;
-        type: CourseType;
-    }) {
-        const validatedData = validateCourseCreation(data);
-        if (!validatedData) {
-            throw new Error("Invalid course data");
-        }
-        if (await CourseModel.findOne({ department: validatedData.department, code: validatedData.code })) {
-            throw new ConflictError("Course code must be unique within the department");
-        }
-        const course = new CourseModel(validatedData);
-        await course.save();
-        return course;
+
+  // ── Create ──────────────────────────────────────────────────────────────────
+
+ static async createCourse(data: {
+  title: string;
+  code: string;
+  creditUnits: number;
+  department: mongoose.Types.ObjectId | string;
+  type: CourseType;
+}) {
+  const { level, semester } = getLevelAndSemester(data.code);
+const courseData = { ...data, level, semester };
+const validatedData = validateCourseCreation(courseData);
+
+  if (!validatedData) {
+    throw new Error("Invalid course data");
+  }
+
+  const existing = await CourseModel.findOne({
+    department: validatedData.department,
+    code: validatedData.code,
+  });
+
+  if (existing) {
+    throw new ConflictError("Course code must be unique within the department");
+  }
+
+  const course = new CourseModel(validatedData);
+  await course.save();
+  return course;
+}
+
+  // ── Read by department ───────────────────────────────────────────────────────
+
+  static async getCoursesByDepartment(departmentId: string) {
+    const department = await DepartmentModel.findById(departmentId);
+
+    if (!department) {
+      throw new NotFoundError("Department not found");
     }
 
-    static async updateCourse(courseId: string, data: Partial<Pick<ICourse, "title" | "creditUnits" | "type" | "isActive">>) {
-        const course = await CourseModel.findById(courseId);
-        if (!course) {
-            throw new Error("Course not found");
-        }
-        if (data.title !== undefined) course.title = data.title;
-        if (data.creditUnits !== undefined) course.creditUnits = data.creditUnits;
-        if (data.type !== undefined) course.type = data.type;
-        if (data.isActive !== undefined) course.isActive = data.isActive;
+    // FIX 1: was `{ department._id: departmentId }` — invalid syntax, correct key is "department"
+    // FIX 2: was `.populate("title")` — title is a plain string, not a ref. populate("department") instead
+    const courses = await CourseModel.find({ department: departmentId })
+      .populate("department", "name code")
+      .sort({ title: 1 });
 
-        await course.save();
-        return course;
+    // FIX 3: was returning a string on empty — always return an array so the caller can safely do .length / .map
+    return courses;
+  }
+
+  // ── Update ───────────────────────────────────────────────────────────────────
+
+  static async updateCourse(
+    courseId: string,
+    data: Partial<Pick<ICourse, "title" | "creditUnits" | "type" | "isActive">>
+  ) {
+    // FIX 4: was using findById + manual field assignment + save() — findByIdAndUpdate is cleaner
+    // `new: true` returns the updated document, `runValidators` respects schema rules
+    const course = await CourseModel.findByIdAndUpdate(
+      courseId,
+      { $set: data },
+      { new: true, runValidators: true }
+    );
+
+    if (!course) {
+      throw new NotFoundError("Course not found"); // FIX 5: was generic Error, should be NotFoundError
     }
 
+    return course;
+  }
 
-    static async listEligibleCoursesForStudent(studentId: string) {
+  // ── Eligible courses for a student ──────────────────────────────────────────
 
-        const student = await Student.findById(studentId).select("department level");
+  static async listEligibleCoursesForStudent(studentId: string) {
+    const student = await Student.findById(studentId).select("department level");
 
-        if (!student) {
-            throw new NotFoundError("Student not found");
-        }        
-
-        const activeSemester = await SemesterService.getActiveSemester();
-            if (!activeSemester) {
-                throw new NotFoundError("No active semester found");
-            }
-        
-        const eligibleCourses = await CourseModel.find({
-            department: student.department,
-            level: student.level,
-            semester: activeSemester.name,
-            isActive: true,
-        }).populate("department", "name code").sort({ title: 1 });
-        return eligibleCourses;
+    if (!student) {
+      throw new NotFoundError("Student not found");
     }
- 
 
+    const activeSemester = await SemesterService.getActiveSemester();
+
+    if (!activeSemester) {
+      throw new NotFoundError("No active semester found");
+    }
+
+    const courses = await CourseModel.find({
+      department: student.department,
+      level: student.level,
+      semester: activeSemester.name,
+      isActive: true,
+    })
+      .populate("department", "name code")
+      .sort({ title: 1 });
+
+    return courses;
+  }
 }

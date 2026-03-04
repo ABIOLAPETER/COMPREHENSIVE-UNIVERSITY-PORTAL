@@ -2,13 +2,18 @@ import { Router } from "express";
 import { CourseController } from "../controllers/course.controller";
 import { validateToken, adminMiddleware } from "../../../shared/middleware/auth.middleware";
 
-
 const courseRouter = Router();
 
-courseRouter.post('/create-course', validateToken, adminMiddleware, CourseController.createCourse)
+// POST /courses — department comes from body, not params
+courseRouter.post("/", validateToken, adminMiddleware, CourseController.createCourse);
 
-courseRouter.put('/update-course/:courseId', validateToken, adminMiddleware, CourseController.updateCourse)
+// GET /courses?department=:departmentId — query param filter
+courseRouter.get("/", validateToken, CourseController.getCoursesByDepartment);
 
-courseRouter.get('/:studentId', validateToken, adminMiddleware, CourseController.getEligibleCourses)
+// PATCH /courses/:courseId — changed from PUT to PATCH (partial update, not full replace)
+courseRouter.patch("/:courseId", validateToken, adminMiddleware, CourseController.updateCourse);
 
-export default courseRouter
+// GET /courses/eligible/:studentId — student fetches their own eligible courses, no adminMiddleware
+courseRouter.get("/eligible/:studentId", validateToken, CourseController.getEligibleCourses);
+
+export default courseRouter;

@@ -9,6 +9,7 @@ export interface AuthPayload {
   userId: string;
   role: string;
 }
+
 export const validateToken = (
   req: Request,
   res: Response,
@@ -34,31 +35,31 @@ export const validateToken = (
   }
 
   try {
-    const decoded = jwt.verify(token, env.JWT_SECRET) as AuthPayload;
+    // jwt.verify returns the raw decoded payload — { sub, role, iat, exp, iss }
+    // The token is signed with `sub: payload.userId` so userId lives at decoded.sub
+    const decoded = jwt.verify(token, env.JWT_SECRET) as jwt.JwtPayload;
+
+    const userId = decoded.sub as string; // sub === userId
+    const role   = decoded.role as string;
 
     // Request-scoped context
     const context = getContext();
+    context.userId = userId;
 
-    context.userId = decoded.userId;
+    // Normalise onto req.user so all controllers use req.user.userId consistently
+    req.user = { userId, role };
 
-    req.user = {
-      userId: decoded.userId,
-      role: decoded.role,
-    };
-
-     // Attach identity
-    req.headers["x-user-id"] = decoded.userId;
-    req.headers["x-role"] = decoded.role;
+    req.headers["x-user-id"] = userId;
+    req.headers["x-role"]    = role;
 
     logger.info("Token verified", {
       requestId: context.requestId,
-      userId: decoded.userId,
-      role: decoded.role,
+      role,
     });
 
     next();
   } catch (error) {
-    const context = requestContext.getStore();
+    const context   = requestContext.getStore();
     const requestId = context?.requestId ?? "unknown";
 
     logger.error("Invalid or expired token", { error, requestId });
@@ -70,7 +71,6 @@ export const validateToken = (
     });
   }
 };
-
 
 // export function authenticate(req: Request, res: Response, next: NextFunction) {
 //   const authHeader = req.headers.authorization;

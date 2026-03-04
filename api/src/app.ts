@@ -20,7 +20,11 @@ import { connectDB } from "./config/Database";
 
 const app = express();
 // Middlewares
-app.use(cors());
+app.use(cors({
+  origin: ['http://127.0.0.1:5500', 'http://localhost:5500'],
+  credentials: true
+}));
+
 app.use(express.json());
 app.use(helmet());
 
@@ -35,12 +39,12 @@ app.use(log)
 
 app.use('/v1/api/auth', authRoutes);
 app.use('/v1/api/session', sessionRouter);
-app.use('/v1/api/semester', semesterRouter);
+app.use('/v1/api/semesters', semesterRouter);
 app.use('/v1/api/departments', departmentRouter);
 app.use('/v1/api/faculties', facultyRouter);
-app.use('/v1/api/register', registrationRouter);
-app.use('/v1/api/course', courseRouter);
-app.use('/v1/api/result', resultRouter);
+app.use('/v1/api/registrations', registrationRouter);
+app.use('/v1/api/courses', courseRouter);
+app.use('/v1/api/results', resultRouter);
 app.use('/v1/api/students', studentRouter);
 app.use('v1/api/cgpa', cgpaRouter)
 app.use('v1/api/gpa', gpaRouter)
