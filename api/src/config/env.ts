@@ -15,5 +15,4 @@ export const env = {
   REDIS_URL: process.env.REDIS_URL ?? "redis://localhost:6379",
   MONGO_URI: required("MONGO_URI"),
   JWT_SECRET: required("JWT_SECRET"),
-  JWT_REFRESH_SECRET: required("JWT_REFRESH_SECRET"),
 };
