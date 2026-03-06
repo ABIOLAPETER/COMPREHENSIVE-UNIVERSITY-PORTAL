@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
-import authRoutes from "../src/modules/identity/routes/identity.routes";
+import identityRouter from "./modules/identity/routes/identity.routes";
 import { requestContextMiddleware } from "./shared/middleware/globalContextmidlleware";
 import { gatewayRateLimiter } from "./shared/middleware/rate-limiter.midlleware";
 import { attachRedis } from "./shared/middleware/redis.middleware";
@@ -37,7 +37,7 @@ app.use(gatewayRateLimiter);
 app.use(attachRedis)
 app.use(log)
 
-app.use('/v1/api/auth', authRoutes);
+app.use('/v1/api/auth', identityRouter);
 app.use('/v1/api/session', sessionRouter);
 app.use('/v1/api/semesters', semesterRouter);
 app.use('/v1/api/departments', departmentRouter);
