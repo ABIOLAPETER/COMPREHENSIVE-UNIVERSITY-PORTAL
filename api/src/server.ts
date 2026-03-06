@@ -11,8 +11,7 @@ const startServer = app.listen(env.PORT, () => {
 
 const bootstrap = async () => {
     try {
-        // Connect to the database
-        
+               
         startServer.on("listening", () => {
             logger.info(`Server is listening on port ${env.PORT}`);
         });
