@@ -1,8 +1,6 @@
 import rateLimit from "express-rate-limit";
 import RedisStore from "rate-limit-redis";
-import { Redis } from "ioredis";
-
-const redisClient = new Redis();
+import { redisClient } from "../shared/utils/redis"; // import your existing client
 
 export const gatewayRateLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -12,8 +10,7 @@ export const gatewayRateLimiter = rateLimit({
   store: new RedisStore({
     sendCommand: async (...args: string[]) => {
       const result = await redisClient.call(...(args as [string, ...string[]]));
-      return result as any; // Type assertion to satisfy RedisStore
+      return result as any;
     },
   }),
 });
-
