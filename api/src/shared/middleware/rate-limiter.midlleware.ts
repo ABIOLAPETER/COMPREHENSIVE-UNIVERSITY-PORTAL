@@ -1,6 +1,6 @@
 import rateLimit from "express-rate-limit";
 import RedisStore from "rate-limit-redis";
-import { redisClient } from "../shared/utils/redis"; // import your existing client
+import { redisClient } from "../utils/redis"; // import your existing client
 
 export const gatewayRateLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
