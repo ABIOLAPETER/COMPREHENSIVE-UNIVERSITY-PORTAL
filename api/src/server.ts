@@ -4,7 +4,6 @@ console.log("REDIS_URL being used:", process.env.REDIS_URL);
 import app from "./app";
 import { env } from "./config/env";
 import { InternalServerError } from "./shared/errors/AppError";
-import { connectDB } from "./config/Database";
 import { logger } from "./shared/utils/logger";
 
 const startServer = app.listen(env.PORT, () => {
