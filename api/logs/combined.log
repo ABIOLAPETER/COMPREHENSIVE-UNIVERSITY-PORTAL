@@ -3261,3 +3261,48 @@
 {"level":"info","message":"Received GET /v1/api/auth/users","timestamp":"2026-03-04T00:18:11.097Z"}
 {"level":"info","message":"Request Body: undefined","timestamp":"2026-03-04T00:18:11.098Z"}
 {"level":"info","message":"Token verified","requestId":"fc56461d-8b49-4c9d-84e6-9e792b6768dd","role":"ADMIN","timestamp":"2026-03-04T00:18:11.102Z"}
+{"level":"info","message":"University Portal API is running on http://localhost:2003","timestamp":"2026-03-06T19:10:31.575Z"}
+{"level":"info","message":"Server is listening on port 2003","timestamp":"2026-03-06T19:10:31.581Z"}
+{"level":"info","message":"Database connected successfully","timestamp":"2026-03-06T19:10:35.653Z"}
+{"level":"info","message":"University Portal API is running on http://localhost:2003","timestamp":"2026-03-06T20:20:25.793Z"}
+{"level":"info","message":"Server is listening on port 2003","timestamp":"2026-03-06T20:20:25.802Z"}
+{"level":"info","message":"Database connected successfully","timestamp":"2026-03-06T20:20:35.063Z"}
+{"level":"info","message":"University Portal API is running on http://localhost:2003","timestamp":"2026-03-07T09:06:12.342Z"}
+{"level":"info","message":"Server is listening on port 2003","timestamp":"2026-03-07T09:06:12.351Z"}
+{"level":"info","message":"University Portal API is running on http://localhost:2003","timestamp":"2026-03-07T09:07:12.438Z"}
+{"level":"info","message":"Server is listening on port 2003","timestamp":"2026-03-07T09:07:12.458Z"}
+{"level":"info","message":"University Portal API is running on http://localhost:2003","timestamp":"2026-03-07T09:07:18.090Z"}
+{"level":"info","message":"Server is listening on port 2003","timestamp":"2026-03-07T09:07:18.099Z"}
+{"level":"info","message":"University Portal API is running on http://localhost:2003","timestamp":"2026-03-07T09:07:50.623Z"}
+{"level":"info","message":"Server is listening on port 2003","timestamp":"2026-03-07T09:07:50.633Z"}
+{"level":"info","message":"University Portal API is running on http://localhost:2003","timestamp":"2026-03-07T09:08:09.574Z"}
+{"level":"info","message":"Server is listening on port 2003","timestamp":"2026-03-07T09:08:09.582Z"}
+{"level":"info","message":"Database connected successfully","timestamp":"2026-03-07T09:08:21.833Z"}
+{"level":"info","message":"University Portal API is running on http://localhost:2003","timestamp":"2026-03-07T09:08:39.053Z"}
+{"level":"info","message":"Server is listening on port 2003","timestamp":"2026-03-07T09:08:39.070Z"}
+{"level":"info","message":"University Portal API is running on http://localhost:2003","timestamp":"2026-03-07T09:08:45.422Z"}
+{"level":"info","message":"Server is listening on port 2003","timestamp":"2026-03-07T09:08:45.431Z"}
+{"level":"info","message":"University Portal API is running on http://localhost:2003","timestamp":"2026-03-07T09:08:51.369Z"}
+{"level":"info","message":"Server is listening on port 2003","timestamp":"2026-03-07T09:08:51.376Z"}
+{"level":"info","message":"Database connected successfully","timestamp":"2026-03-07T09:08:57.544Z"}
+{"level":"info","message":"University Portal API is running on http://localhost:2003","timestamp":"2026-03-07T09:09:13.936Z"}
+{"level":"info","message":"Server is listening on port 2003","timestamp":"2026-03-07T09:09:13.944Z"}
+{"level":"info","message":"University Portal API is running on http://localhost:2003","timestamp":"2026-03-07T09:09:26.789Z"}
+{"level":"info","message":"Server is listening on port 2003","timestamp":"2026-03-07T09:09:26.801Z"}
+{"level":"info","message":"University Portal API is running on http://localhost:2003","timestamp":"2026-03-07T09:09:38.114Z"}
+{"level":"info","message":"Server is listening on port 2003","timestamp":"2026-03-07T09:09:38.124Z"}
+{"level":"info","message":"University Portal API is running on http://localhost:2003","timestamp":"2026-03-07T09:09:42.728Z"}
+{"level":"info","message":"Server is listening on port 2003","timestamp":"2026-03-07T09:09:42.736Z"}
+{"level":"info","message":"University Portal API is running on http://localhost:2003","timestamp":"2026-03-07T09:10:01.903Z"}
+{"level":"info","message":"Server is listening on port 2003","timestamp":"2026-03-07T09:10:01.913Z"}
+{"level":"info","message":"University Portal API is running on http://localhost:2003","timestamp":"2026-03-07T09:10:13.264Z"}
+{"level":"info","message":"Server is listening on port 2003","timestamp":"2026-03-07T09:10:13.273Z"}
+{"level":"info","message":"University Portal API is running on http://localhost:2003","timestamp":"2026-03-07T09:10:19.781Z"}
+{"level":"info","message":"Server is listening on port 2003","timestamp":"2026-03-07T09:10:19.789Z"}
+{"level":"info","message":"University Portal API is running on http://localhost:2003","timestamp":"2026-03-07T09:11:41.685Z"}
+{"level":"info","message":"Server is listening on port 2003","timestamp":"2026-03-07T09:11:41.692Z"}
+{"level":"info","message":"Database connected successfully","timestamp":"2026-03-07T09:11:55.110Z"}
+{"level":"info","message":"University Portal API is running on http://localhost:2003","timestamp":"2026-03-07T09:12:03.268Z"}
+{"level":"info","message":"Server is listening on port 2003","timestamp":"2026-03-07T09:12:03.283Z"}
+{"level":"info","message":"University Portal API is running on http://localhost:2003","timestamp":"2026-03-07T09:12:12.247Z"}
+{"level":"info","message":"Server is listening on port 2003","timestamp":"2026-03-07T09:12:12.265Z"}

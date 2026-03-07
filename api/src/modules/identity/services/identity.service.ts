@@ -49,6 +49,14 @@ export class AuthService {
     });
   }
 
+
+  // HEALTH CHECK
+
+  static async healthCheck(){
+    const displayedText = "The comprehensive university portal is working"
+
+    return displayedText
+  }
   // ── SIGNUP ────────────────────────────────────────────────────────────────
   static async signup(data: {
     email: string;

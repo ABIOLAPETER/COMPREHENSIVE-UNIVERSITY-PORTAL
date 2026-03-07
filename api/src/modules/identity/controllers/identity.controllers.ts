@@ -14,6 +14,24 @@ const COOKIE_OPTIONS = {
 
 export class IdentityController {
 
+  static async healthCheck(req: Request, res: Response){
+    try {
+      const display = AuthService.healthCheck()
+
+    return res.status(200).json({
+      message: "check successful",
+      display
+    })
+    } catch (err) {
+      logger.error("check error", err);
+      if (err instanceof AppError) {
+        return res.status(err.statusCode).json({ error: err.message });
+      }
+      return res.status(500).json({ error: "Signup failed" });
+    }
+}
+  
+
   // POST /auth/signup
   static async signup(req: Request, res: Response) {
     try {

@@ -49,4 +49,6 @@ app.use('/v1/api/students', studentRouter);
 app.use('v1/api/cgpa', cgpaRouter)
 app.use('v1/api/gpa', gpaRouter)
 
+
+
 export default app;
