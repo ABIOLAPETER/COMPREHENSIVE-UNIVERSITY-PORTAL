@@ -1,3 +1,6 @@
+console.log("REDIS_URL being used:", process.env.REDIS_URL);
+
+// rest of imports...
 import app from "./app";
 import { env } from "./config/env";
 import { InternalServerError } from "./shared/errors/AppError";
