@@ -46,9 +46,9 @@ app.use('/v1/api/registrations', registrationRouter);
 app.use('/v1/api/courses', courseRouter);
 app.use('/v1/api/results', resultRouter);
 app.use('/v1/api/students', studentRouter);
-app.use('v1/api/cgpa', cgpaRouter)
-app.use('v1/api/gpa', gpaRouter)
-app.use('health', healthCheck)
+app.use('/v1/api/cgpa', cgpaRouter)
+app.use('/v1/api/gpa', gpaRouter)
+app.use('/health', healthCheck)
 
 
 export default app;
