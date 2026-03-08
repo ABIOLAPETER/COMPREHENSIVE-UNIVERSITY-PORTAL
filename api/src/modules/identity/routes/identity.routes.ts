@@ -4,7 +4,7 @@ import { validateToken, adminMiddleware } from "../../../shared/middleware/auth.
 
 export const identityRouter = Router();
 
-identityRouter.get("/",        IdentityController.healthCheck);
+
 identityRouter.post("/signup",        IdentityController.signup);
 identityRouter.post("/login",         IdentityController.login);
 

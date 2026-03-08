@@ -17,7 +17,7 @@ import studentRouter from "./modules/student/routes/student.routes";
 import gpaRouter from "./modules/result/routes/gpa.routes";
 import cgpaRouter from "./modules/result/routes/cgpa.routes";
 import { connectDB } from "./config/Database";
-
+import healthCheck from "./modules/identity/routes/health.routes";
 const app = express();
 // Middlewares
 app.use(cors({
@@ -48,7 +48,7 @@ app.use('/v1/api/results', resultRouter);
 app.use('/v1/api/students', studentRouter);
 app.use('v1/api/cgpa', cgpaRouter)
 app.use('v1/api/gpa', gpaRouter)
-
+app.use('health', healthCheck)
 
 
 export default app;
