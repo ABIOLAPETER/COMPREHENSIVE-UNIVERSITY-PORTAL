@@ -1,100 +1,87 @@
 import mongoose from "mongoose";
-import { CourseModel, ICourse, CourseType, Semester } from "../models/course.model";
+import { CourseModel, ICourse, CourseType } from "../models/course.model";
 import { DepartmentModel } from "../../department/models/department.model";
 import Student from "../../student/models/student.model";
-import { SessionService } from "../../session/services/session.services";
 import { SemesterService } from "../../semester/services/semester.services";
 import { validateCourseCreation } from "../../../shared/utils/validate";
 import { ConflictError, NotFoundError } from "../../../shared/errors/AppError";
 import { getLevelAndSemester } from "../../../shared/utils/getLevelAndsemesterFromCode";
+import { redisClient } from "../../../shared/utils/redis";
+import { CreateCourseDto, UpdateCourseDto } from "../dtos/course.dtos";
 
 export class CourseService {
 
-  // ── Create ──────────────────────────────────────────────────────────────────
+  static async createCourse(data: CreateCourseDto): Promise<ICourse> {
+    const { level, semester } = getLevelAndSemester(data.code);
+    const courseData = { ...data, level, semester };
+    const validatedData = validateCourseCreation(courseData);
 
- static async createCourse(data: {
-  title: string;
-  code: string;
-  creditUnits: number;
-  department: mongoose.Types.ObjectId | string;
-  type: CourseType;
-}) {
-  const { level, semester } = getLevelAndSemester(data.code);
-const courseData = { ...data, level, semester };
-const validatedData = validateCourseCreation(courseData);
-
-  if (!validatedData) {
-    throw new Error("Invalid course data");
-  }
-
-  const existing = await CourseModel.findOne({
-    department: validatedData.department,
-    code: validatedData.code,
-  });
-
-  if (existing) {
-    throw new ConflictError("Course code must be unique within the department");
-  }
-
-  const course = new CourseModel(validatedData);
-  await course.save();
-  return course;
-}
-
-  // ── Read by department ───────────────────────────────────────────────────────
-
-  static async getCoursesByDepartment(departmentId: string) {
-    const department = await DepartmentModel.findById(departmentId);
-
-    if (!department) {
-      throw new NotFoundError("Department not found");
+    if (!validatedData) {
+      throw new Error("Invalid course data");
     }
 
-    // FIX 1: was `{ department._id: departmentId }` — invalid syntax, correct key is "department"
-    // FIX 2: was `.populate("title")` — title is a plain string, not a ref. populate("department") instead
+    const existing = await CourseModel.findOne({
+      department: validatedData.department,
+      code: validatedData.code,
+    });
+
+    if (existing) {
+      throw new ConflictError("Course code must be unique within the department");
+    }
+
+    const course = new CourseModel(validatedData);
+    await course.save();
+    await redisClient.del(`courses:${validatedData.department}`);
+    return course;
+  }
+
+  static async getCoursesByDepartment(departmentId: string): Promise<ICourse[]> {
+    const cacheKey = `courses:${departmentId}`;
+    const cached = await redisClient.get(cacheKey);
+    if (cached) return JSON.parse(cached);
+
+    const department = await DepartmentModel.findById(departmentId);
+    if (!department) throw new NotFoundError("Department not found");
+
     const courses = await CourseModel.find({ department: departmentId })
       .populate("department", "name code")
       .sort({ title: 1 });
 
-    // FIX 3: was returning a string on empty — always return an array so the caller can safely do .length / .map
+    await redisClient.setex(cacheKey, 21600, JSON.stringify(courses));
     return courses;
   }
 
-  // ── Update ───────────────────────────────────────────────────────────────────
-
-  static async updateCourse(
-    courseId: string,
-    data: Partial<Pick<ICourse, "title" | "creditUnits" | "type" | "isActive">>
-  ) {
-    // FIX 4: was using findById + manual field assignment + save() — findByIdAndUpdate is cleaner
-    // `new: true` returns the updated document, `runValidators` respects schema rules
+  static async updateCourse(courseId: string, data: UpdateCourseDto): Promise<ICourse> {
     const course = await CourseModel.findByIdAndUpdate(
       courseId,
       { $set: data },
       { new: true, runValidators: true }
     );
 
-    if (!course) {
-      throw new NotFoundError("Course not found"); // FIX 5: was generic Error, should be NotFoundError
+    if (!course) throw new NotFoundError("Course not found");
+
+
+    await redisClient.del(`courses:${course.department}`);
+
+    // Safe eligible cache invalidation
+    const keys = await redisClient.keys(`courses:eligible:*`);
+    if (keys.length > 0) {
+      await Promise.all(keys.map(key => redisClient.del(key)));
     }
 
     return course;
   }
 
-  // ── Eligible courses for a student ──────────────────────────────────────────
-
-  static async listEligibleCoursesForStudent(studentId: string) {
-    const student = await Student.findById(studentId).select("department level");
-
-    if (!student) {
-      throw new NotFoundError("Student not found");
-    }
-
+  static async listEligibleCoursesForStudent(studentId: string): Promise<ICourse[]> {
     const activeSemester = await SemesterService.getActiveSemester();
+    if (!activeSemester) throw new NotFoundError("No active semester found");
 
-    if (!activeSemester) {
-      throw new NotFoundError("No active semester found");
-    }
+    const cacheKey = `courses:eligible:${studentId}:${activeSemester._id}`;
+    const cached = await redisClient.get(cacheKey);
+    if (cached) return JSON.parse(cached);
+
+    const student = await Student.findById(studentId).select("department level");
+    if (!student) throw new NotFoundError("Student not found");
 
     const courses = await CourseModel.find({
       department: student.department,
@@ -105,6 +92,7 @@ const validatedData = validateCourseCreation(courseData);
       .populate("department", "name code")
       .sort({ title: 1 });
 
+    await redisClient.setex(cacheKey, 21600, JSON.stringify(courses));
     return courses;
   }
 }

@@ -1,117 +1,112 @@
-
-
-
-import { Request, Response } from "express";
-import { DepartmentService } from "../services/department.services";
-import { logger } from "../../../shared/utils/logger";
-import { AppError } from "../../../shared/errors/AppError";
+import { NextFunction, Request, Response } from "express";
+import { DepartmentService } from "../services/department.service";
+import { CreateDepartmentDto, UpdateDepartmentDto } from "../dtos/department.dtos";
 
 
 export class DepartmentController {
-    static async createDepartment(req: Request, res: Response) {
+    static async createDepartment(
+        req: Request<{}, {}, CreateDepartmentDto>,
+        res: Response,
+        next: NextFunction
+    ) {
         try {
-            const { name, code, facultyId } = req.body;
-            const department = await DepartmentService.createDepartment({
-                name,
-                code,
-                facultyId,
-            });
-            logger.info(`Department ${name} created successfully`);
+            const department = await DepartmentService.createDepartment(req.body);
             res.status(201).json({
+                success: true,
                 message: "Department created successfully",
-                department,
+                data: department
             });
         } catch (error) {
-            logger.error("Create department error", error);
-            res.status(400).json(
-                { error: error instanceof AppError ? error.message : "Create department failed" }
-            );
+            next(error)
         }
     }
-    static async getAllDepartments(req: Request, res: Response) {
+    static async getAllDepartments(
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ) {
         try {
             const departments = await DepartmentService.getAllDepartments();
             res.status(200).json({
+                success: true,
                 message: "Departments retrieved successfully",
-                departments,
+                data: departments,
             });
         } catch (error) {
-            logger.error("Get all departments error", error);
-            res.status(500).json({ error: "Internal server error" });
+            next(error)
         }
 
     }
 
-    static async getDepartmentById(req: Request, res: Response) {
+    static async getDepartmentById(
+        req: Request<{ departmentId: string }>,
+        res: Response,
+        next: NextFunction) {
         try {
             const { departmentId } = req.params;
-            const department = await DepartmentService.getDepartmentById(departmentId.toString());
+            const department = await DepartmentService.getDepartmentById(departmentId);
             res.status(200).json({
+                success: true,
                 message: "Department retrieved successfully",
-                department,
+                data: department,
             });
         }
         catch (error) {
-            logger.error("Get department by ID error", error);
-            res.status(404).json(
-                { error: error instanceof AppError ? error.message : "Department not found" }
-            );
+            next(error)
         }
     }
 
-    static async updateDepartment(req: Request, res: Response) {
+    static async updateDepartment(
+        req: Request<{ departmentId: string }, {}, UpdateDepartmentDto>,
+        res: Response,
+        next: NextFunction) {
         try {
             const { departmentId } = req.params;
-            const { name, code } = req.body;
-            const department = await DepartmentService.updateDepartment(departmentId.toString(), {
-                name,
-                code,
-            });
-            logger.info(`Department ${departmentId} updated successfully`);
+            const department = await DepartmentService.updateDepartment(departmentId, req.body);
             res.status(200).json({
+                success: true,
                 message: "Department updated successfully",
-                department,
+                data: department,
             });
         } catch (error) {
-            logger.error("Update department error", error);
-            res.status(400).json(
-                { error: error instanceof AppError ? error.message : "Update department failed" }
-            );
+            next(error)
+
         }
     }
 
-    static async deleteDepartment(req: Request, res: Response) {
+    static async deleteDepartment(
+        req: Request<{ departmentId: string }>,
+        res: Response, 
+        next: NextFunction) {
         try {
             const { departmentId } = req.params;
-            await DepartmentService.deleteDepartment(departmentId.toString());
-            logger.info(`Department ${departmentId} deleted successfully`);
+            await DepartmentService.deleteDepartment(departmentId);
             res.status(200).json({
+                success: true,
                 message: "Department deleted successfully",
             });
         } catch (error) {
-            logger.error("Delete department error", error);
-            res.status(400).json(
-                { error: error instanceof AppError ? error.message : "Delete department failed" }
-            );
+            next(error)
         }
     }
 
-    static async getDepartmentsByFaculty(req: Request, res: Response) {
+    static async getDepartmentsByFaculty(
+        req: Request<{ facultyId: string }>,
+        res: Response, 
+        next: NextFunction
+    ) {
         try {
             const { facultyId } = req.params;
-            const departments = await DepartmentService.getDepartmentsByFaculty(facultyId.toString());
+            const departments = await DepartmentService.getDepartmentsByFaculty(facultyId);
             res.status(200).json({
+                success: true,
                 message: "Departments retrieved successfully",
-                departments,
+                data: departments,
             });
         }
         catch (error) {
-            logger.error("Get departments by faculty error", error);
-            res.status(400).json(
-                { error: error instanceof AppError ? error.message : "Get departments by faculty failed" }
-            );
+            next(error)
         }
     }
-
 }
 

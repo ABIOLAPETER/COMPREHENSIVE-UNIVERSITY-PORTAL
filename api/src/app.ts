@@ -18,6 +18,7 @@ import gpaRouter from "./modules/result/routes/gpa.routes";
 import cgpaRouter from "./modules/result/routes/cgpa.routes";
 import { connectDB } from "./config/Database";
 import healthCheck from "./modules/identity/routes/health.routes";
+import { errorHandler } from "./shared/middleware/error.middleware";
 const app = express();
 // Middlewares
 app.use(cors({
@@ -50,5 +51,5 @@ app.use('/v1/api/cgpa', cgpaRouter)
 app.use('/v1/api/gpa', gpaRouter)
 app.use('/health', healthCheck)
 
-
+app.use(errorHandler)
 export default app;

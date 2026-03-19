@@ -35,11 +35,10 @@ const CourseSchema: Schema = new Schema({
 }); 
 
 
-CourseSchema.index({ code: 1 });
+
+CourseSchema.index({ department: 1 });
 CourseSchema.index({ department: 1, level: 1, semester: 1 });
-CourseSchema.index({ department: 1, code: 1 }, { unique: true });
-CourseSchema.index(
-  { department: 1, level: 1, semester: 1, code: 1 },
-  { unique: true }
-);
+CourseSchema.index({ code: 1, department: 1 }, { unique: true });
+CourseSchema.index({ isActive: 1 });
+
 export const CourseModel = mongoose.model<ICourse>("Course", CourseSchema);

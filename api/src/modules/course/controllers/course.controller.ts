@@ -1,88 +1,85 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import { CourseService } from "../services/course.service";
-import { logger } from "../../../shared/utils/logger";
+import { CreateCourseDto, UpdateCourseDto } from "../dtos/course.dtos";
 
 export class CourseController {
 
-  // POST /courses
-  // department is part of the body because Course owns the relationship — not Department
-  static async createCourse(req: Request, res: Response) {
+  static async createCourse(
+    req: Request<{}, {}, CreateCourseDto>,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
-      const { title, code, creditUnits, department, type } = req.body;
-      // level & semester are derived from `code` inside CourseService via getLevelAndSemester()
-
-      const course = await CourseService.createCourse({
-        title,
-        code,
-        creditUnits,
-        department,
-        type,
+      const course = await CourseService.createCourse(req.body);
+      return res.status(201).json({
+        success: true,
+        message: "Course created",
+        data: course,
       });
-
-      return res.status(201).json({ message: "Course created", course });
-
     } catch (error) {
-      logger.error(error);
-      return res.status(400).json({
-        error: error instanceof Error ? error.message : "Could not create course",
-      });
+      next(error);
     }
   }
 
-  // GET /courses?department=:departmentId
-  // filter courses by department using a query param — not a nested route
-  static async getCoursesByDepartment(req: Request, res: Response) {
+  static async getCoursesByDepartment(
+    req: Request<{}, {}, {}, { department: string }>,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
       const { department } = req.query;
 
       if (!department || typeof department !== "string") {
-        return res.status(400).json({ error: "department query param is required" });
+        return res.status(400).json({
+          success: false,
+          message: "department query param is required",
+        });
       }
 
       const courses = await CourseService.getCoursesByDepartment(department);
-
-      return res.status(200).json({ message: "Courses fetched", courses });
-
-    } catch (error) {
-      logger.error(error);
-      return res.status(400).json({
-        error: error instanceof Error ? error.message : "Could not fetch courses",
+      return res.status(200).json({
+        success: true,
+        message: "Courses fetched",
+        data: courses,
       });
+    } catch (error) {
+      next(error);
     }
   }
 
-  // PATCH /courses/:courseId
-  static async updateCourse(req: Request, res: Response) {
+  static async updateCourse(
+    req: Request<{ courseId: string }, {}, UpdateCourseDto>,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
       const { courseId } = req.params;
-      const data = req.body;
-
-      const course = await CourseService.updateCourse(courseId.toString(), data);
-
-      return res.status(200).json({ message: "Course updated", course });
-
-    } catch (error) {
-      logger.error(error);
-      return res.status(400).json({
-        error: error instanceof Error ? error.message : "Could not update course",
+      const course = await CourseService.updateCourse(courseId, req.body);
+      return res.status(200).json({
+        success: true,
+        message: "Course updated",
+        data: course,
       });
+    } catch (error) {
+      next(error);
     }
   }
 
-  // GET /courses/eligible/:studentId
-  static async getEligibleCourses(req: Request, res: Response) {
+  static async getEligibleCourses(
+    req: Request<{ studentId: string }>,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
       const { studentId } = req.params;
-
-      const courses = await CourseService.listEligibleCoursesForStudent(studentId.toString());
-
-      return res.status(200).json({ message: "Eligible courses fetched", courses });
-
-    } catch (error) {
-      logger.error(error);
-      return res.status(400).json({
-        error: error instanceof Error ? error.message : "Could not get eligible courses",
+      const courses = await CourseService.listEligibleCoursesForStudent(studentId);
+      return res.status(200).json({
+        success: true,
+        message: "Eligible courses fetched",
+        data: courses,
       });
+    } catch (error) {
+      next(error);
     }
   }
 }

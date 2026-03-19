@@ -1,85 +1,99 @@
 
-import { Request, Response } from "express";
-import { FacultyService } from "../services/faculty.services";
-import { logger } from "../../../shared/utils/logger";
+import { NextFunction, Request, Response } from "express";
+import { FacultyService } from "../services/faculty.service";
+import { CreateFacultyDto, UpdateFacultyDto } from "../dtos/faculty.dtos";
 
 
 export class FacultyController {
-    // Implement faculty-related controller methods here
-
-    static async createFaculty(req: Request, res: Response) {
+    static async createFaculty(
+        req: Request<{}, {}, CreateFacultyDto>,
+        res: Response,
+        next: NextFunction
+    ) {
         try {
-            const { name, code } = req.body;
-            const faculty = await FacultyService.createFaculty({
-                name,
-                code,
-            });
+            const faculty = await FacultyService.createFaculty(req.body);
             res.status(201).json({
+                success: true,
                 message: "Faculty created successfully",
-                faculty,
+                data: faculty,
             });
         } catch (err) {
-            logger.error(err)
-            res.status(400).json({ error: err instanceof Error ? err.message : "Create faculty failed" });
+            next(err)
         }
     }
 
-    static async getAllFaculties(req: Request, res: Response) {
+    static async getAllFaculties(
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ) {
         try {
             const faculties = await FacultyService.getAllFaculties();
-            res.status(200).json({  
+            res.status(200).json({
+                success: true,
                 message: "Faculties retrieved successfully",
-                faculties,
+                data: faculties,
             });
-        }   
+        }
         catch (err) {
-            res.status(500).json({ error: "Internal server error" });
-        }   
+            next(err)
+        }
     }
 
-    static async getFacultyById(req: Request, res: Response) {
+    static async getFacultyById(
+        req: Request<{ facultyId: string }>,
+        res: Response,
+        next: NextFunction
+    ) {
         try {
             const { facultyId } = req.params;
-            const faculty = await FacultyService.getFacultyById(facultyId.toString());
+            const faculty = await FacultyService.getFacultyById(facultyId);
             res.status(200).json({
+                success: true,
                 message: "Faculty retrieved successfully",
-                faculty,
+                data: faculty,
             });
         }
         catch (err) {
-            res.status(404).json({ error: err instanceof Error ? err.message : "Faculty not found" });
+            next(err)
         }
 
     }
 
-    static async updateFaculty(req: Request, res: Response) {
+    static async updateFaculty(
+        req: Request<{ facultyId: string }, {}, UpdateFacultyDto>,
+        res: Response,
+        next: NextFunction
+    ) {
         try {
             const { facultyId } = req.params;
-            const { name, code } = req.body;
-            const faculty = await FacultyService.updateFaculty(facultyId.toString(),
-                { name, code }
-            );
+            const faculty = await FacultyService.updateFaculty(facultyId, req.body);
             res.status(200).json({
+                success: true,
                 message: "Faculty updated successfully",
-                faculty,
+                data: faculty,
             });
         }
         catch (err) {
-            res.status(404).json({ error: err instanceof Error ? err.message : "Faculty not found" });
+            next(err)
         }
     }
 
-    static async deleteFaculty(req: Request, res: Response) {
+    static async deleteFaculty(
+        req: Request<{ facultyId: string }>,
+        res: Response,
+        next: NextFunction
+    ) {
         try {
             const { facultyId } = req.params;
-            await FacultyService.deleteFaculty(facultyId.toString());
+            await FacultyService.deleteFaculty(facultyId);
             res.status(200).json({
+                success: true,
                 message: "Faculty deleted successfully",
             });
         }
         catch (err) {
-            res.status(404).json({ error: err instanceof Error ? err.message : "Faculty not found" });
+            next(err)
         }
-    }   
-
+    }
 }
