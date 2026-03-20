@@ -2,7 +2,7 @@ import { IRegistration, RegistrationModel, RegistrationStatus } from "../models/
 import Student from "../../student/models/student.model";
 import { CourseModel } from "../../course/models/course.model";
 import { NotFoundError, ConflictError, BadRequestError } from "../../../shared/errors/AppError";
-import mongoose, { Types } from "mongoose";
+import mongoose from "mongoose";
 import { ResultModel } from "../../result/models/result.model"
 import { CreateDraftRegistrationDto, AddCourseDto, RemoveCourseDto } from "../dtos/registration.dtos";
 import { SemesterService } from "../../semester/services/semester.services";
@@ -83,7 +83,7 @@ export class RegistrationService {
             throw new BadRequestError("Cannot register for courses above your current level");
         }
 
-        const semester = await SemesterModel.findById(registration.semester)
+        const semester = await SemesterModel.findOne({ name: registration.semester })        
         if (!semester) {
             throw new NotFoundError("semester does not exist")
         }
@@ -189,6 +189,10 @@ export class RegistrationService {
 
         registration.status = RegistrationStatus.SUBMITTED;
         await registration.save();
+        const key1 = await redisClient.keys(`registrations:all:*`);
+        const key2 = await redisClient.keys(`registrations:draft:*`);
+        if (key1.length > 0) await Promise.all(key1.map(key => redisClient.del(key)));
+        if (key2.length > 0) await Promise.all(key2.map(key => redisClient.del(key)));
 
         return registration;
     }
@@ -250,12 +254,12 @@ export class RegistrationService {
         // getDraftRegistration
         const cacheKey = `registrations:draft:${studentId}:${activeSemester._id}`;
         const cached = await redisClient.get(cacheKey)
-        if (cached) return JSON.parse(cached)        
-            const student = await Student.findById(studentId);
+        if (cached) return JSON.parse(cached)
+        const student = await Student.findById(studentId);
         if (!student) {
             throw new NotFoundError("Student not found");
         }
-        
+
         const activeSession = await SessionService.getActiveSession();
         if (!activeSession) throw new NotFoundError("No active session found");
 
@@ -268,14 +272,11 @@ export class RegistrationService {
         if (!registration) {
             throw new NotFoundError("No registration found for this student this semester");
         }
-        await redisClient.setex(cacheKey, 21600, JSON.stringify(registration) )
+        await redisClient.setex(cacheKey, 21600, JSON.stringify(registration))
         return registration;
     }
 
-    static async removeCourseFromRegistration(data: {
-        registrationId: string;
-        courseId: string;
-    }) {
+    static async removeCourseFromRegistration(data: RemoveCourseDto): Promise<IRegistration> {
         const registration = await RegistrationModel.findById(data.registrationId);
 
         if (!registration) {
@@ -300,7 +301,7 @@ export class RegistrationService {
             c => c.course.toString() !== data.courseId
         );
 
-        registration.totalCredits = Math.max(
+        registration.totalCredits = Math.max(0,
             registration.totalCredits - (courseEntry.creditUnits ?? 0)
         );
 
@@ -337,9 +338,13 @@ export class RegistrationService {
 
             await ResultModel.insertMany(resultDocs, { session });
 
-            await registration.save()
-
+            await registration.save({ session })
             await session.commitTransaction()
+            const key1 = await redisClient.keys(`registrations:all:*`);
+            const key2 = await redisClient.keys(`registrations:draft:*`);
+            if (key1.length > 0) await Promise.all(key1.map(key => redisClient.del(key)));
+            if (key2.length > 0) await Promise.all(key2.map(key => redisClient.del(key)));
+
             return registration
         } catch (error) {
             await session.abortTransaction()
@@ -352,12 +357,16 @@ export class RegistrationService {
     }
 
     static async getAllRegistrations(status?: RegistrationStatus | "ALL"): Promise<IRegistration[]> {
+        const cacheKey = `registrations:all:${status || "ALL"}`;
+        const cached = await redisClient.get(cacheKey)
+        if (cached) return JSON.parse(cached)
         const filter = status && status !== "ALL" ? { status } : {};
         const registrations = await RegistrationModel.find(filter)
             .populate("student", "firstName lastName matricNumber level department")
             .populate("department", "name")
             .populate("courses.course", "code title type creditUnits")
             .sort({ createdAt: -1 });
+        await redisClient.setex(cacheKey, 21600, JSON.stringify(registrations))
         return registrations;
     }
 
@@ -375,6 +384,10 @@ export class RegistrationService {
         registration.status = RegistrationStatus.REJECTED
 
         await registration.save()
+        const key1 = await redisClient.keys(`registrations:all:*`);
+        const key2 = await redisClient.keys(`registrations:draft:*`);
+        if (key1.length > 0) await Promise.all(key1.map(key => redisClient.del(key)));
+        if (key2.length > 0) await Promise.all(key2.map(key => redisClient.del(key)));
 
         return registration
     }
