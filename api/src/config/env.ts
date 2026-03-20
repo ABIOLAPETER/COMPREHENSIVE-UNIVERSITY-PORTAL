@@ -15,4 +15,6 @@ export const env = {
   REDIS_URL: process.env.REDIS_URL ?? "redis://localhost:6379",
   MONGO_URI: required("MONGO_URI"),
   JWT_SECRET: required("JWT_SECRET"),
+REFRESH_TOKEN_TTL: Number(process.env.REFRESH_TOKEN_TTL) || 7 * 24 * 60 * 60 * 1000,
+
 };

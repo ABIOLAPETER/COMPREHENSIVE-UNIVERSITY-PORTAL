@@ -1,34 +1,40 @@
 import bcrypt from "bcryptjs";
 import { Types } from "mongoose";
-import { AuthError, BadRequestError, ConflictError, NotFoundError } from "../../../shared/errors/AppError";
+import { AuthError, BadRequestError, ConflictError } from "../../../shared/errors/AppError";
+import { env } from "../../../config/env";
+import mongoose from "mongoose";
 import { UserModel, Role } from "../models/identity.models";
 import {
   generateAccessToken,
   generateRefreshToken,
   hashToken,
 } from "../../../shared/utils/token";
+import { User } from "../models/identity.models";
 import { RefreshToken } from "../models/refresh-token.model";
 import Student from "../../student/models/student.model";
+import { AuthResponse, LoginDto, RefreshTokenDto, SignupDto } from "../dtos/identity.dto";
 
 export class AuthService {
   private static readonly SALT_ROUNDS = 12;
-  private static readonly REFRESH_TOKEN_TTL = 7 * 24 * 60 * 60 * 1000; // 7 days
+  private static readonly REFRESH_TOKEN_TTL = env.REFRESH_TOKEN_TTL;
 
-  // ── PRIVATE: issue both tokens and store hashed refresh token in DB ────────
   private static async issueTokens(params: {
     userId: Types.ObjectId;
     role: Role;
-  }) {
-    const { userId, role } = params;
+    deviceInfo?: { ip?: string; userAgent?: string };
 
-    const accessToken        = generateAccessToken({ userId: userId.toString(), role });
-    const refreshToken       = generateRefreshToken();
+  }) {
+    const { userId, role, deviceInfo } = params;
+
+    const accessToken = generateAccessToken({ userId: userId.toString(), role });
+    const refreshToken = generateRefreshToken();
     const hashedRefreshToken = hashToken(refreshToken);
 
     await RefreshToken.create({
       userId,
-      token:     hashedRefreshToken,
+      token: hashedRefreshToken,
       expiresAt: new Date(Date.now() + this.REFRESH_TOKEN_TTL),
+      deviceInfo
     });
 
     return { accessToken, refreshToken };
@@ -52,18 +58,11 @@ export class AuthService {
 
   // HEALTH CHECK
 
-  static async healthCheck(){
-    const displayedText = "The comprehensive university portal is working"
-
-    return displayedText
+  static healthCheck(): string {
+    return "The comprehensive university portal is working"
   }
-  // ── SIGNUP ────────────────────────────────────────────────────────────────
-  static async signup(data: {
-    email: string;
-    password: string;
-    lastName: string;
-    firstName: string;
-  }) {
+
+  static async signup(data: SignupDto): Promise<AuthResponse> {
     const { email, password, lastName, firstName } = data;
 
     const existingUser = await UserModel.findOne({ email });
@@ -72,41 +71,44 @@ export class AuthService {
     }
 
     const passwordHash = await bcrypt.hash(password, this.SALT_ROUNDS);
+    const session = await mongoose.startSession()
+    session.startTransaction()
+    try {
+      const [user] = await UserModel.create([{
+        email,
+        lastName,
+        firstName,
+        passwordHash,
+        isEmailVerified: false,
+        role: Role.STUDENT,
+      }], { session });
 
-    const user = await UserModel.create({
-      email,
-      lastName,
-      firstName,
-      passwordHash,
-      isEmailVerified: false,
-      role: Role.STUDENT,
-    });
+      const [newStudent] = await Student.create([{
+        lastName,
+        firstName,
+        user: user._id,
+      }], { session });
 
-    const newStudent = await Student.create({
-      lastName,
-      firstName,
-      user: user._id,
-    });
-
-    if (!newStudent) {
-      throw new BadRequestError("Could not create student");
-    }
-
-    const tokens = await this.issueTokens({ userId: user._id, role: user.role });
-
-    // FIX: now matches the same shape as login — { user: { ...fields, tokens } }
-    return {
-      user: {
-        id:    user._id,
+      if (!newStudent) {
+        throw new BadRequestError("Could not create student");
+      }
+      await session.commitTransaction()
+      const tokens = await this.issueTokens({ userId: user._id, role: user.role });
+      return {
+        id: user._id,
         email: user.email,
-        role:  user.role,
+        role: user.role,
         tokens,
-      },
-    };
+      };
+    } catch (error) {
+      await session.abortTransaction()
+      throw error;
+    } finally {
+      session.endSession();
+    }
   }
 
-  // ── LOGIN ─────────────────────────────────────────────────────────────────
-  static async login(data: { email: string; password: string }) {
+  static async login(data: LoginDto): Promise<AuthResponse> {
     const { email, password } = data;
 
     const user = await UserModel.findOne({ email }).select("+passwordHash");
@@ -123,7 +125,6 @@ export class AuthService {
       throw new AuthError("Invalid email or password");
     }
 
-    // Revoke all existing refresh tokens on new login
     await RefreshToken.updateMany(
       { userId: user._id, revoked: false },
       { $set: { revoked: true } }
@@ -134,23 +135,20 @@ export class AuthService {
     const tokens = await this.issueTokens({ userId: user._id, role: user.role });
 
     return {
-      user: {
-        id:    user._id,
-        email: user.email,
-        role:  user.role,
-        tokens,
-      },
-    };
+      id: user._id,
+      email: user.email,
+      role: user.role,
+      tokens,
+    }
   }
 
-  // ── REFRESH ───────────────────────────────────────────────────────────────
-  static async refreshTokens(data: { refreshToken: string }) {
+  static async refreshTokens(data: RefreshTokenDto) {
     const { refreshToken } = data;
 
     const hashedToken = hashToken(refreshToken);
 
     const storedToken = await RefreshToken.findOne({
-      token:   hashedToken,
+      token: hashedToken,
       revoked: false,
     });
 
@@ -171,20 +169,23 @@ export class AuthService {
       throw new AuthError("User has no assigned role");
     }
 
-    // Revoke the used token
+    const newtokens = await this.issueTokens({ userId: user._id, role: user.role });
+    const newHashedToken = await hashToken(newtokens.refreshToken)
     await RefreshToken.updateOne(
       { _id: storedToken._id },
-      { $set: { revoked: true } }
+      {
+        $set: {
+          revoked: true,
+          replacedByToken: newHashedToken // hash of the new token
+        }
+      }
     );
-
-    // FIX: clean up old revoked tokens after rotation, same as login
     await this.cleanupRevokedTokens(user._id);
 
-    return this.issueTokens({ userId: user._id, role: user.role });
+    return newtokens
   }
 
-  // ── LOGOUT ────────────────────────────────────────────────────────────────
-  static async logout(refreshToken: string) {
+  static async logout(refreshToken: string): Promise<{ message: string }> {
     const hashedToken = hashToken(refreshToken);
 
     if (!hashedToken || hashedToken.length === 0) {
@@ -192,7 +193,7 @@ export class AuthService {
     }
 
     const storedToken = await RefreshToken.findOne({
-      token:   hashedToken,
+      token: hashedToken,
       revoked: false,
     });
 
@@ -206,16 +207,8 @@ export class AuthService {
     return { message: "Logged out successfully" };
   }
 
-  // ── GET USERS ─────────────────────────────────────────────────────────────
-  static async getUsers() {
-    // FIX: .populate() is for referenced fields on other models
-    // use .select() to pick fields on the same model
+  static async getUsers(): Promise<User[]> {
     const users = await UserModel.find().select("email role firstName lastName");
-
-    if (!users.length) {
-      throw new NotFoundError("No users found");
-    }
-
     return users;
   }
 }

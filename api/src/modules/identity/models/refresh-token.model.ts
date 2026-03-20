@@ -2,9 +2,9 @@ import mongoose, { Schema, Types, Document } from "mongoose";
 
 export interface RefreshTokenDocument extends Document {
   userId: Types.ObjectId;
-  token: string; // hashed refresh token
+  token: string; 
   expiresAt: Date;
-  revoked: boolean;
+  revoked: boolean; 
   replacedByToken?: string;
   deviceInfo?: {
     ip?: string;
