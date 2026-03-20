@@ -1,76 +1,78 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { SemesterService } from "../services/semester.services";
-import { AppError } from "../../../shared/errors/AppError";
-import { logger } from "../../../shared/utils/logger";
+import { CreateSemesterDto } from "../dtos/semester.dtos";
 
 export class SemesterController {
 
   // POST /semesters
-  static async createSemester(req: Request, res: Response) {
+  static async createSemester(
+    req: Request<{}, {}, CreateSemesterDto>,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
-      const { name, sessionId } = req.body;
-
-      const semester = await SemesterService.createSemester({ name, sessionId });
-
-      return res.status(201).json({ message: "Semester created successfully", semester });
-
+      const semester = await SemesterService.createSemester(req.body);
+      return res.status(201).json({
+        success: true,
+        message: "Semester created successfully",
+        data: semester,
+      });
     } catch (err) {
-      logger.error(err);
-      if (err instanceof AppError) {
-        return res.status(err.statusCode).json({ error: err.message });
-      }
-      return res.status(500).json({ error: "Internal server error" });
+      next(err);
     }
   }
 
   // PATCH /semesters/:semesterId/activate
-  static async activateSemester(req: Request, res: Response) {
+  static async activateSemester(
+    req: Request<{ semesterId: string }>,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
-      const { semesterId } = req.params;
-
-      const semester = await SemesterService.activateSemester(semesterId.toString());
-
-      return res.status(200).json({ message: "Semester activated successfully", semester });
-
+      const semester = await SemesterService.activateSemester(req.params.semesterId);
+      return res.status(200).json({
+        success: true,
+        message: "Semester activated successfully",
+        data: semester,
+      });
     } catch (err) {
-      logger.error(err);
-      if (err instanceof AppError) {
-        return res.status(err.statusCode).json({ error: err.message });
-      }
-      return res.status(500).json({ error: "Internal server error" });
+      next(err);
     }
   }
 
   // PATCH /semesters/lock
-  static async lockSemester(req: Request, res: Response) {
+  static async lockSemester(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
-      // FIX: was returning 200 without ever calling the service
       const semester = await SemesterService.lockRegistration();
-
-      return res.status(200).json({ message: "Semester locked successfully", semester });
-
+      return res.status(200).json({
+        success: true,
+        message: "Semester locked successfully",
+        data: semester,
+      });
     } catch (err) {
-      logger.error(err);
-      if (err instanceof AppError) {
-        return res.status(err.statusCode).json({ error: err.message });
-      }
-      return res.status(500).json({ error: "Internal server error" });
+      next(err);
     }
   }
 
-  // GET /semesters/active  — called by courseRegistration.js
-  static async getActiveSemester(req: Request, res: Response) {
+  // GET /semesters/active
+  static async getActiveSemester(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
       const semester = await SemesterService.getActiveSemester();
-
-      return res.status(200).json({ message: "Active semester fetched", semester });
-
+      return res.status(200).json({
+        success: true,
+        message: "Active semester fetched",
+        data: semester,
+      });
     } catch (err) {
-      logger.error(err);
-      if (err instanceof AppError) {
-        return res.status(err.statusCode).json({ error: err.message });
-      }
-      return res.status(500).json({ error: "Internal server error" });
+      next(err);
     }
   }
 }

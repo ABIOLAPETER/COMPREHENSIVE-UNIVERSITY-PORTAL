@@ -3341,3 +3341,857 @@
 {"level":"info","message":"University Portal API is running on http://localhost:2003","timestamp":"2026-03-08T17:39:29.912Z"}
 {"level":"info","message":"Server is listening on port 2003","timestamp":"2026-03-08T17:39:29.964Z"}
 {"level":"info","message":"Database connected successfully","timestamp":"2026-03-08T17:39:34.799Z"}
+{"level":"info","message":"University Portal API is running on http://localhost:2003","timestamp":"2026-03-20T11:18:29.316Z"}
+{"level":"info","message":"Server is listening on port 2003","timestamp":"2026-03-20T11:18:29.335Z"}
+{"level":"info","message":"Database connected successfully","timestamp":"2026-03-20T11:18:37.890Z"}
+{"level":"info","message":"Received POST /v1/api/auth/login","timestamp":"2026-03-20T11:18:41.429Z"}
+{"level":"info","message":"Request Body: {\"email\":\"peterboluwatife@gmail.com\",\"password\":\"123456\"}","timestamp":"2026-03-20T11:18:41.433Z"}
+{"level":"info","message":"Received POST /v1/api/auth/login","timestamp":"2026-03-20T11:18:56.990Z"}
+{"level":"info","message":"Request Body: {\"email\":\"peterboluwatife@gmail.com\",\"password\":\"123456\"}","timestamp":"2026-03-20T11:18:56.991Z"}
+{"level":"info","message":"Received POST /v1/api/auth/login","timestamp":"2026-03-20T11:19:12.601Z"}
+{"level":"info","message":"Request Body: {\"email\":\"peterboluwatife@gmail.com\",\"password\":\"123456\"}","timestamp":"2026-03-20T11:19:12.606Z"}
+{"level":"info","message":"Received POST /v1/api/auth/login","timestamp":"2026-03-20T11:28:43.723Z"}
+{"level":"info","message":"Request Body: {\"email\":\"peterboluwatife@gmail.com\",\"password\":\"123456\"}","timestamp":"2026-03-20T11:28:43.726Z"}
+{"level":"info","message":"Received GET /v1/api/faculties","timestamp":"2026-03-20T11:28:48.001Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:28:48.006Z"}
+{"level":"info","message":"Token verified","requestId":"7e65971e-d22b-4069-becf-c57df1a2b5bd","role":"ADMIN","timestamp":"2026-03-20T11:28:48.069Z"}
+{"level":"info","message":"Received GET /v1/api/departments","timestamp":"2026-03-20T11:28:48.072Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:28:48.076Z"}
+{"level":"info","message":"Token verified","requestId":"c8e1b2db-e92c-4e2f-b8c6-c1b44f288a34","role":"ADMIN","timestamp":"2026-03-20T11:28:48.084Z"}
+{"level":"info","message":"Received GET /v1/api/auth/users","timestamp":"2026-03-20T11:28:48.138Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:28:48.143Z"}
+{"level":"info","message":"Token verified","requestId":"c157bafb-88d7-42c7-a948-d92720f2e3b8","role":"ADMIN","timestamp":"2026-03-20T11:28:48.154Z"}
+{"level":"info","message":"Received GET /v1/api/registrations?status=SUBMITTED","timestamp":"2026-03-20T11:28:48.770Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:28:48.772Z"}
+{"level":"info","message":"Token verified","requestId":"22c48e6f-7e59-4313-9b5f-d604def3ba6c","role":"ADMIN","timestamp":"2026-03-20T11:28:48.778Z"}
+{"level":"info","message":"Received GET /v1/api/faculties","timestamp":"2026-03-20T11:36:05.515Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:36:05.516Z"}
+{"level":"info","message":"Token verified","requestId":"313f7956-51b9-4538-b13c-e46013aa349b","role":"ADMIN","timestamp":"2026-03-20T11:36:05.522Z"}
+{"level":"info","message":"Received GET /v1/api/departments","timestamp":"2026-03-20T11:36:05.527Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:36:05.532Z"}
+{"level":"info","message":"Token verified","requestId":"9affcff8-bcbe-49bc-a7b5-c827185a15ec","role":"ADMIN","timestamp":"2026-03-20T11:36:05.537Z"}
+{"level":"info","message":"Received GET /v1/api/auth/users","timestamp":"2026-03-20T11:36:05.543Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:36:05.544Z"}
+{"level":"info","message":"Token verified","requestId":"4c05064a-ef31-44de-92c3-3f0299813300","role":"ADMIN","timestamp":"2026-03-20T11:36:05.557Z"}
+{"level":"info","message":"Received GET /v1/api/registrations?status=SUBMITTED","timestamp":"2026-03-20T11:36:06.267Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:36:06.268Z"}
+{"level":"info","message":"Token verified","requestId":"9ca6787f-a2fb-4f5b-9e7c-0dad3159a8ba","role":"ADMIN","timestamp":"2026-03-20T11:36:06.272Z"}
+{"level":"info","message":"Received GET /v1/api/faculties","timestamp":"2026-03-20T11:39:51.193Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:39:51.194Z"}
+{"level":"info","message":"Token verified","requestId":"f36115f4-73d5-4f1f-b9a9-0d0a3058c014","role":"ADMIN","timestamp":"2026-03-20T11:39:51.199Z"}
+{"level":"info","message":"Received GET /v1/api/departments","timestamp":"2026-03-20T11:39:51.200Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:39:51.201Z"}
+{"level":"info","message":"Token verified","requestId":"53177908-febb-4bef-957c-42cb90242175","role":"ADMIN","timestamp":"2026-03-20T11:39:51.226Z"}
+{"level":"info","message":"Received GET /v1/api/auth/users","timestamp":"2026-03-20T11:39:51.231Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:39:51.233Z"}
+{"level":"info","message":"Token verified","requestId":"065e9ce2-47b1-4d69-93d4-baed1a20c409","role":"ADMIN","timestamp":"2026-03-20T11:39:51.241Z"}
+{"level":"info","message":"Received GET /v1/api/registrations?status=SUBMITTED","timestamp":"2026-03-20T11:39:52.067Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:39:52.078Z"}
+{"level":"info","message":"Token verified","requestId":"5df26913-886e-453f-b683-a28ffb7cc064","role":"ADMIN","timestamp":"2026-03-20T11:39:52.087Z"}
+{"level":"info","message":"Received GET /v1/api/courses?department=699dfad92178bc0e20b9f595","timestamp":"2026-03-20T11:40:47.169Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:40:47.170Z"}
+{"level":"info","message":"Token verified","requestId":"0d01a4cb-0134-4e27-9edf-1f4aea3fe0b5","role":"ADMIN","timestamp":"2026-03-20T11:40:47.175Z"}
+{"level":"info","message":"Received POST /v1/api/courses","timestamp":"2026-03-20T11:41:32.301Z"}
+{"level":"info","message":"Request Body: {\"title\":\"modelling 3\",\"code\":\"mth 371\",\"creditUnits\":2,\"department\":\"699dfad92178bc0e20b9f595\",\"type\":\"CORE\"}","timestamp":"2026-03-20T11:41:32.302Z"}
+{"level":"info","message":"Token verified","requestId":"d318e3a3-e147-4473-9677-ef9c8d6c95fc","role":"ADMIN","timestamp":"2026-03-20T11:41:32.304Z"}
+{"level":"info","message":"Received GET /v1/api/courses?department=699dfad92178bc0e20b9f595","timestamp":"2026-03-20T11:41:33.011Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:41:33.013Z"}
+{"level":"info","message":"Token verified","requestId":"d6a12075-b540-4643-9e94-f4ac5e4055ec","role":"ADMIN","timestamp":"2026-03-20T11:41:33.019Z"}
+{"level":"info","message":"Received POST /v1/api/auth/logout","timestamp":"2026-03-20T11:41:51.016Z"}
+{"level":"info","message":"Request Body: {}","timestamp":"2026-03-20T11:41:51.017Z"}
+{"level":"info","message":"Received POST /v1/api/auth/refresh","timestamp":"2026-03-20T11:41:51.026Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:41:51.027Z"}
+{"level":"info","message":"Received POST /v1/api/auth/login","timestamp":"2026-03-20T11:41:56.822Z"}
+{"level":"info","message":"Request Body: {\"email\":\"estherabiola@gmail.com\",\"password\":\"password\"}","timestamp":"2026-03-20T11:41:56.822Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abe2e465dcee318c8761","timestamp":"2026-03-20T11:41:59.841Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:41:59.843Z"}
+{"level":"info","message":"Token verified","requestId":"b16a210b-eb4c-4f88-97f6-22aafb4b3175","role":"STUDENT","timestamp":"2026-03-20T11:41:59.848Z"}
+{"level":"info","message":"Received POST /v1/api/auth/logout","timestamp":"2026-03-20T11:42:19.610Z"}
+{"level":"info","message":"Request Body: {}","timestamp":"2026-03-20T11:42:19.611Z"}
+{"level":"info","message":"Received POST /v1/api/auth/refresh","timestamp":"2026-03-20T11:42:19.619Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:42:19.620Z"}
+{"level":"info","message":"Received POST /v1/api/auth/login","timestamp":"2026-03-20T11:42:23.418Z"}
+{"level":"info","message":"Request Body: {\"email\":\"esther@gmail.com\",\"password\":\"password\"}","timestamp":"2026-03-20T11:42:23.420Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:42:25.964Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:42:26.037Z"}
+{"level":"info","message":"Token verified","requestId":"df5a950d-6b4d-4702-877e-82ee2f6ba05a","role":"STUDENT","timestamp":"2026-03-20T11:42:26.055Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:44:19.875Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:44:19.876Z"}
+{"level":"info","message":"Token verified","requestId":"8093355c-c8dc-4fd3-ac77-d7dd4d534479","role":"STUDENT","timestamp":"2026-03-20T11:44:19.881Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:44:38.503Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:44:38.504Z"}
+{"level":"info","message":"Token verified","requestId":"19ea5970-7a68-4211-8baf-0a1681d7d7d5","role":"STUDENT","timestamp":"2026-03-20T11:44:38.510Z"}
+{"level":"info","message":"University Portal API is running on http://localhost:2003","timestamp":"2026-03-20T11:49:55.158Z"}
+{"level":"info","message":"Server is listening on port 2003","timestamp":"2026-03-20T11:49:55.165Z"}
+{"level":"info","message":"Database connected successfully","timestamp":"2026-03-20T11:49:57.844Z"}
+{"level":"info","message":"University Portal API is running on http://localhost:2003","timestamp":"2026-03-20T11:50:38.012Z"}
+{"level":"info","message":"Server is listening on port 2003","timestamp":"2026-03-20T11:50:38.020Z"}
+{"level":"info","message":"Database connected successfully","timestamp":"2026-03-20T11:50:41.126Z"}
+{"level":"info","message":"University Portal API is running on http://localhost:2003","timestamp":"2026-03-20T11:51:58.706Z"}
+{"level":"info","message":"Server is listening on port 2003","timestamp":"2026-03-20T11:51:58.719Z"}
+{"level":"info","message":"Database connected successfully","timestamp":"2026-03-20T11:52:01.343Z"}
+{"level":"info","message":"University Portal API is running on http://localhost:2003","timestamp":"2026-03-20T11:52:55.978Z"}
+{"level":"info","message":"Server is listening on port 2003","timestamp":"2026-03-20T11:52:55.990Z"}
+{"level":"info","message":"Database connected successfully","timestamp":"2026-03-20T11:52:58.015Z"}
+{"level":"info","message":"University Portal API is running on http://localhost:2003","timestamp":"2026-03-20T11:53:05.529Z"}
+{"level":"info","message":"Server is listening on port 2003","timestamp":"2026-03-20T11:53:05.538Z"}
+{"level":"info","message":"Database connected successfully","timestamp":"2026-03-20T11:53:07.953Z"}
+{"level":"info","message":"University Portal API is running on http://localhost:2003","timestamp":"2026-03-20T11:53:21.782Z"}
+{"level":"info","message":"Server is listening on port 2003","timestamp":"2026-03-20T11:53:21.790Z"}
+{"level":"info","message":"Database connected successfully","timestamp":"2026-03-20T11:53:24.061Z"}
+{"level":"info","message":"University Portal API is running on http://localhost:2003","timestamp":"2026-03-20T11:53:30.393Z"}
+{"level":"info","message":"Server is listening on port 2003","timestamp":"2026-03-20T11:53:30.433Z"}
+{"level":"info","message":"Database connected successfully","timestamp":"2026-03-20T11:53:32.835Z"}
+{"level":"info","message":"University Portal API is running on http://localhost:2003","timestamp":"2026-03-20T11:53:41.223Z"}
+{"level":"info","message":"Server is listening on port 2003","timestamp":"2026-03-20T11:53:41.234Z"}
+{"level":"info","message":"Database connected successfully","timestamp":"2026-03-20T11:53:43.378Z"}
+{"level":"info","message":"University Portal API is running on http://localhost:2003","timestamp":"2026-03-20T11:54:23.227Z"}
+{"level":"info","message":"Server is listening on port 2003","timestamp":"2026-03-20T11:54:23.244Z"}
+{"level":"info","message":"Database connected successfully","timestamp":"2026-03-20T11:54:26.257Z"}
+{"level":"info","message":"University Portal API is running on http://localhost:2003","timestamp":"2026-03-20T11:54:41.473Z"}
+{"level":"info","message":"Server is listening on port 2003","timestamp":"2026-03-20T11:54:41.480Z"}
+{"level":"info","message":"Database connected successfully","timestamp":"2026-03-20T11:54:43.940Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:54:53.988Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:54:54.162Z"}
+{"level":"info","message":"Token verified","requestId":"6c691caf-4bb8-4e3d-a131-0358b12242e7","role":"STUDENT","timestamp":"2026-03-20T11:54:54.269Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:55:03.148Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:03.150Z"}
+{"level":"info","message":"Token verified","requestId":"24717947-8b49-4986-9e1d-7b6ec8bc3952","role":"STUDENT","timestamp":"2026-03-20T11:55:03.154Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:55:03.333Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:03.338Z"}
+{"level":"info","message":"Token verified","requestId":"1bdfc8ff-fb29-45b9-98e9-68ef60703570","role":"STUDENT","timestamp":"2026-03-20T11:55:03.343Z"}
+{"level":"info","message":"Received GET /v1/api/registrations/current","timestamp":"2026-03-20T11:55:04.071Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:04.074Z"}
+{"level":"info","message":"Token verified","requestId":"bb9eff38-2fcf-4def-b41d-d92f5e8544a2","role":"STUDENT","timestamp":"2026-03-20T11:55:04.084Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:55:14.603Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:14.603Z"}
+{"level":"info","message":"Token verified","requestId":"5922cb26-e611-47d7-84e5-fcb615ad085b","role":"STUDENT","timestamp":"2026-03-20T11:55:14.607Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:55:14.648Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:14.651Z"}
+{"level":"info","message":"Token verified","requestId":"e7660684-57b1-4a94-bf94-c342ce81a67f","role":"STUDENT","timestamp":"2026-03-20T11:55:14.655Z"}
+{"level":"info","message":"Received GET /v1/api/registrations/current","timestamp":"2026-03-20T11:55:15.236Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:15.240Z"}
+{"level":"info","message":"Token verified","requestId":"6830fb0f-849b-4b15-afc5-e795472b7ff1","role":"STUDENT","timestamp":"2026-03-20T11:55:15.249Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:55:38.151Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:38.152Z"}
+{"level":"info","message":"Token verified","requestId":"18701ad3-0d0e-46c5-ae51-2f950e4c9579","role":"STUDENT","timestamp":"2026-03-20T11:55:38.157Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:55:38.207Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:38.210Z"}
+{"level":"info","message":"Token verified","requestId":"10768a69-031d-4031-9714-b599bcf1177b","role":"STUDENT","timestamp":"2026-03-20T11:55:38.216Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:55:38.482Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:38.484Z"}
+{"level":"info","message":"Token verified","requestId":"ba53e224-3143-4910-be01-1a29a48709a2","role":"STUDENT","timestamp":"2026-03-20T11:55:38.488Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:55:38.565Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:38.566Z"}
+{"level":"info","message":"Token verified","requestId":"a7bba3a5-0799-4b4a-8471-a9c6a01584fc","role":"STUDENT","timestamp":"2026-03-20T11:55:38.573Z"}
+{"level":"info","message":"Received GET /v1/api/registrations/current","timestamp":"2026-03-20T11:55:38.774Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:38.779Z"}
+{"level":"info","message":"Token verified","requestId":"7eb639ae-7f11-4a78-ba49-26844ecbc81e","role":"STUDENT","timestamp":"2026-03-20T11:55:38.784Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:55:38.912Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:38.915Z"}
+{"level":"info","message":"Token verified","requestId":"47eaa49f-dabb-4f3d-929f-d54938dd922a","role":"STUDENT","timestamp":"2026-03-20T11:55:38.920Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:55:38.968Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:38.978Z"}
+{"level":"info","message":"Token verified","requestId":"478aa6b8-792a-4785-9835-af758e767554","role":"STUDENT","timestamp":"2026-03-20T11:55:38.982Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:55:39.262Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:39.265Z"}
+{"level":"info","message":"Token verified","requestId":"9bbf9b2a-f2c6-455f-8925-e4b939ff25f0","role":"STUDENT","timestamp":"2026-03-20T11:55:39.269Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:55:39.314Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:39.315Z"}
+{"level":"info","message":"Token verified","requestId":"4b4f319b-d7e7-4afa-afdd-320620c45352","role":"STUDENT","timestamp":"2026-03-20T11:55:39.319Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:55:39.661Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:39.662Z"}
+{"level":"info","message":"Token verified","requestId":"b3b2f38f-84d1-4eca-a04c-6ace8ab662ed","role":"STUDENT","timestamp":"2026-03-20T11:55:39.665Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:55:39.678Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:39.679Z"}
+{"level":"info","message":"Token verified","requestId":"87f9470a-307f-4115-9f12-0b230529bc0d","role":"STUDENT","timestamp":"2026-03-20T11:55:39.683Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:55:40.116Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:40.118Z"}
+{"level":"info","message":"Token verified","requestId":"cafa0142-87ac-4d5f-8041-a47649b91d23","role":"STUDENT","timestamp":"2026-03-20T11:55:40.122Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:55:40.154Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:40.155Z"}
+{"level":"info","message":"Token verified","requestId":"8053eea7-d151-405c-90f8-36790a610fb3","role":"STUDENT","timestamp":"2026-03-20T11:55:40.159Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:55:40.513Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:40.516Z"}
+{"level":"info","message":"Token verified","requestId":"888e191c-b694-40c1-a188-c9bb490e3009","role":"STUDENT","timestamp":"2026-03-20T11:55:40.520Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:55:40.541Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:40.544Z"}
+{"level":"info","message":"Token verified","requestId":"14f9f794-776b-4900-b1fd-16c8c1c053bf","role":"STUDENT","timestamp":"2026-03-20T11:55:40.548Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:55:41.004Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:41.005Z"}
+{"level":"info","message":"Token verified","requestId":"504271df-e6a1-4056-b7a1-43479fb23aad","role":"STUDENT","timestamp":"2026-03-20T11:55:41.008Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:55:41.054Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:41.055Z"}
+{"level":"info","message":"Token verified","requestId":"037880d4-eb8e-4a93-b5b5-97b8e77b9def","role":"STUDENT","timestamp":"2026-03-20T11:55:41.057Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:55:41.383Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:41.385Z"}
+{"level":"info","message":"Token verified","requestId":"d7c631a4-8c8e-484c-b5f7-b757c615aed4","role":"STUDENT","timestamp":"2026-03-20T11:55:41.388Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:55:41.404Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:41.407Z"}
+{"level":"info","message":"Token verified","requestId":"9568e6a3-3ee3-4392-93ea-8ed00533c614","role":"STUDENT","timestamp":"2026-03-20T11:55:41.411Z"}
+{"level":"info","message":"Received GET /v1/api/registrations/current","timestamp":"2026-03-20T11:55:41.673Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:41.680Z"}
+{"level":"info","message":"Token verified","requestId":"3bc26306-16b2-415d-83d9-a2e141001cfc","role":"STUDENT","timestamp":"2026-03-20T11:55:41.685Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:55:41.777Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:41.778Z"}
+{"level":"info","message":"Token verified","requestId":"50f75c56-1e51-4090-ae1e-6ab6f3e92b2a","role":"STUDENT","timestamp":"2026-03-20T11:55:41.781Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:55:41.820Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:41.821Z"}
+{"level":"info","message":"Token verified","requestId":"c26519ba-aff5-4ecc-abf0-b83aa9f70d35","role":"STUDENT","timestamp":"2026-03-20T11:55:41.825Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:55:42.345Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:42.348Z"}
+{"level":"info","message":"Token verified","requestId":"c2555d25-0e96-4f67-8d37-f82b265a139a","role":"STUDENT","timestamp":"2026-03-20T11:55:42.352Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:55:42.381Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:42.385Z"}
+{"level":"info","message":"Token verified","requestId":"cb800acc-68cc-4df1-b7b6-2360bc484b6c","role":"STUDENT","timestamp":"2026-03-20T11:55:42.388Z"}
+{"level":"info","message":"Received GET /v1/api/registrations/current","timestamp":"2026-03-20T11:55:42.496Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:42.499Z"}
+{"level":"info","message":"Token verified","requestId":"12150df4-7ca7-4796-8d3d-0df989ac403a","role":"STUDENT","timestamp":"2026-03-20T11:55:42.506Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:55:42.608Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:42.609Z"}
+{"level":"info","message":"Token verified","requestId":"aca63d29-dd97-44ab-8782-4de7d9df688b","role":"STUDENT","timestamp":"2026-03-20T11:55:42.611Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:55:42.638Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:42.639Z"}
+{"level":"info","message":"Token verified","requestId":"62077050-c663-4963-8982-062e4196bb5e","role":"STUDENT","timestamp":"2026-03-20T11:55:42.642Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:55:43.010Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:43.011Z"}
+{"level":"info","message":"Token verified","requestId":"01b32c21-a4ba-4c78-bb53-b64565c8cbfe","role":"STUDENT","timestamp":"2026-03-20T11:55:43.015Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:55:43.028Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:43.029Z"}
+{"level":"info","message":"Token verified","requestId":"a44deef3-72f3-4281-8744-05a861680a6a","role":"STUDENT","timestamp":"2026-03-20T11:55:43.034Z"}
+{"level":"info","message":"Received GET /v1/api/registrations/current","timestamp":"2026-03-20T11:55:43.329Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:43.334Z"}
+{"level":"info","message":"Token verified","requestId":"50231d60-52cd-4564-8e7e-97c0a7c15db5","role":"STUDENT","timestamp":"2026-03-20T11:55:43.341Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:55:43.439Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:43.440Z"}
+{"level":"info","message":"Token verified","requestId":"e49b6686-1b70-4435-b50f-747901138470","role":"STUDENT","timestamp":"2026-03-20T11:55:43.443Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:55:43.473Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:43.474Z"}
+{"level":"info","message":"Token verified","requestId":"f189d7ad-71de-49f0-806c-3193492ff413","role":"STUDENT","timestamp":"2026-03-20T11:55:43.478Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:55:43.817Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:43.818Z"}
+{"level":"info","message":"Token verified","requestId":"c5a20038-717c-416a-8dac-118833e9e4c5","role":"STUDENT","timestamp":"2026-03-20T11:55:43.822Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:55:43.841Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:43.842Z"}
+{"level":"info","message":"Token verified","requestId":"5809b2be-b731-4669-b506-1a12214cb4ae","role":"STUDENT","timestamp":"2026-03-20T11:55:43.845Z"}
+{"level":"info","message":"Received GET /v1/api/registrations/current","timestamp":"2026-03-20T11:55:44.146Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:44.155Z"}
+{"level":"info","message":"Token verified","requestId":"40cf6e42-1069-46c5-a9d5-3858c1b82fa8","role":"STUDENT","timestamp":"2026-03-20T11:55:44.160Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:55:44.288Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:44.289Z"}
+{"level":"info","message":"Token verified","requestId":"f88e6eb0-4698-47b3-a592-a2dbe01e6f34","role":"STUDENT","timestamp":"2026-03-20T11:55:44.293Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:55:44.372Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:44.372Z"}
+{"level":"info","message":"Token verified","requestId":"5ae952be-5bc3-477a-a81c-143a525176b4","role":"STUDENT","timestamp":"2026-03-20T11:55:44.376Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:55:44.568Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:44.569Z"}
+{"level":"info","message":"Token verified","requestId":"472dd69d-9ae7-4542-8f69-0684fcf9ac6b","role":"STUDENT","timestamp":"2026-03-20T11:55:44.572Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:55:44.589Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:44.590Z"}
+{"level":"info","message":"Token verified","requestId":"960d99c1-2fa6-43b2-b96d-dca337b1b342","role":"STUDENT","timestamp":"2026-03-20T11:55:44.593Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:55:45.020Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:45.021Z"}
+{"level":"info","message":"Token verified","requestId":"f113799a-26b9-4ce1-8c02-c70d54cc30dc","role":"STUDENT","timestamp":"2026-03-20T11:55:45.023Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:55:45.073Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:45.077Z"}
+{"level":"info","message":"Token verified","requestId":"fa616cfa-9356-4fe6-8027-a24a859ab192","role":"STUDENT","timestamp":"2026-03-20T11:55:45.082Z"}
+{"level":"info","message":"Received GET /v1/api/registrations/current","timestamp":"2026-03-20T11:55:45.422Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:45.470Z"}
+{"level":"info","message":"Token verified","requestId":"161d415d-6abb-41f9-bd12-505549944d2f","role":"STUDENT","timestamp":"2026-03-20T11:55:45.486Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:55:45.580Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:45.582Z"}
+{"level":"info","message":"Token verified","requestId":"80c516fb-c2a9-490c-a4cb-6b8e56bd0478","role":"STUDENT","timestamp":"2026-03-20T11:55:45.586Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:55:45.630Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:45.638Z"}
+{"level":"info","message":"Token verified","requestId":"ebb0ba5e-fe38-40a5-a919-c023795aabaf","role":"STUDENT","timestamp":"2026-03-20T11:55:45.643Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:55:45.921Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:45.922Z"}
+{"level":"info","message":"Token verified","requestId":"32fbcce6-b00c-452e-ab3e-833981e26260","role":"STUDENT","timestamp":"2026-03-20T11:55:45.926Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:55:46.057Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:46.063Z"}
+{"level":"info","message":"Token verified","requestId":"4f510ca2-8362-48b2-8bb2-87aa056f0a19","role":"STUDENT","timestamp":"2026-03-20T11:55:46.067Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:55:46.301Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:46.302Z"}
+{"level":"info","message":"Token verified","requestId":"fe00a7d2-e6c2-4ae2-bd6d-e92263fbc512","role":"STUDENT","timestamp":"2026-03-20T11:55:46.305Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:55:46.335Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:46.339Z"}
+{"level":"info","message":"Token verified","requestId":"5ae6200e-43c0-4794-94e2-0475d19f5e1d","role":"STUDENT","timestamp":"2026-03-20T11:55:46.349Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:55:46.793Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:46.794Z"}
+{"level":"info","message":"Token verified","requestId":"ba61ee3d-cebf-4c59-a530-a1ccc144fdb1","role":"STUDENT","timestamp":"2026-03-20T11:55:46.796Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:55:46.819Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:46.821Z"}
+{"level":"info","message":"Token verified","requestId":"e016c8a9-54d2-4354-959a-867e0b19ee5c","role":"STUDENT","timestamp":"2026-03-20T11:55:46.826Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:55:47.179Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:47.180Z"}
+{"level":"info","message":"Token verified","requestId":"3d04d9ab-10e7-4e01-a046-47c426e830bd","role":"STUDENT","timestamp":"2026-03-20T11:55:47.183Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:55:47.238Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:47.240Z"}
+{"level":"info","message":"Token verified","requestId":"4672c948-d0ba-4222-9752-9f662e6dca4d","role":"STUDENT","timestamp":"2026-03-20T11:55:47.244Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:55:47.677Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:47.678Z"}
+{"level":"info","message":"Token verified","requestId":"5b14aaaa-c2a1-4205-a139-e4ad5bcc4bad","role":"STUDENT","timestamp":"2026-03-20T11:55:47.680Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:55:47.702Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:47.711Z"}
+{"level":"info","message":"Token verified","requestId":"7a8bd428-56ed-4855-a18d-2d69cb819cfc","role":"STUDENT","timestamp":"2026-03-20T11:55:47.717Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:55:48.152Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:48.152Z"}
+{"level":"info","message":"Token verified","requestId":"3f87935b-248f-4704-9580-b5d48ee450fd","role":"STUDENT","timestamp":"2026-03-20T11:55:48.156Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:55:48.192Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:48.197Z"}
+{"level":"info","message":"Token verified","requestId":"55d22329-aa08-4a5c-8ae8-50e37cc7f6db","role":"STUDENT","timestamp":"2026-03-20T11:55:48.203Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:55:48.564Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:48.565Z"}
+{"level":"info","message":"Token verified","requestId":"72623a4e-8ffb-4190-9e97-9e33c5a53ed7","role":"STUDENT","timestamp":"2026-03-20T11:55:48.568Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:55:48.598Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:48.599Z"}
+{"level":"info","message":"Token verified","requestId":"36e6d42a-5689-4948-b1b7-0087700d2b3f","role":"STUDENT","timestamp":"2026-03-20T11:55:48.604Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:55:49.125Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:49.126Z"}
+{"level":"info","message":"Token verified","requestId":"e4e9baef-8c80-436c-af49-1fcddf069ebc","role":"STUDENT","timestamp":"2026-03-20T11:55:49.130Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:55:49.196Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:49.198Z"}
+{"level":"info","message":"Token verified","requestId":"81cd32a4-b1f1-48e4-9c24-443083d0c039","role":"STUDENT","timestamp":"2026-03-20T11:55:49.216Z"}
+{"level":"info","message":"Received GET /v1/api/registrations/current","timestamp":"2026-03-20T11:55:49.610Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:49.612Z"}
+{"level":"info","message":"Token verified","requestId":"68093dca-10df-4759-902f-6720643aa4ae","role":"STUDENT","timestamp":"2026-03-20T11:55:49.617Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:55:50.105Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:50.108Z"}
+{"level":"info","message":"Token verified","requestId":"0f512b23-988f-415c-88b9-8c230ef394ea","role":"STUDENT","timestamp":"2026-03-20T11:55:50.112Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:55:50.178Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:50.179Z"}
+{"level":"info","message":"Token verified","requestId":"7f650935-3c83-4327-8735-fd6a079eeff7","role":"STUDENT","timestamp":"2026-03-20T11:55:50.182Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:55:50.426Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:50.427Z"}
+{"level":"info","message":"Token verified","requestId":"c446d8c4-60d6-4ed3-a31f-64ffbd915017","role":"STUDENT","timestamp":"2026-03-20T11:55:50.431Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:55:50.475Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:50.476Z"}
+{"level":"info","message":"Token verified","requestId":"135a06ef-4cc6-4ce0-8278-da2eb41d807a","role":"STUDENT","timestamp":"2026-03-20T11:55:50.480Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:55:50.877Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:50.878Z"}
+{"level":"info","message":"Token verified","requestId":"93ec0956-dd33-4d2a-a215-939a36bd185c","role":"STUDENT","timestamp":"2026-03-20T11:55:50.881Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:55:50.914Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:50.915Z"}
+{"level":"info","message":"Token verified","requestId":"2db46f25-6e73-4d2a-85f7-c908ba582c64","role":"STUDENT","timestamp":"2026-03-20T11:55:50.921Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:55:51.293Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:51.294Z"}
+{"level":"info","message":"Token verified","requestId":"15efa270-c27d-4875-8c4a-0fb57706a051","role":"STUDENT","timestamp":"2026-03-20T11:55:51.297Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:55:51.342Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:51.343Z"}
+{"level":"info","message":"Token verified","requestId":"59d2f555-b67b-4cf1-9e28-201e7de45590","role":"STUDENT","timestamp":"2026-03-20T11:55:51.346Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:55:51.695Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:51.696Z"}
+{"level":"info","message":"Token verified","requestId":"f0b66621-90a3-4105-925a-cdb204ba25a3","role":"STUDENT","timestamp":"2026-03-20T11:55:51.698Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:55:51.748Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:51.749Z"}
+{"level":"info","message":"Token verified","requestId":"b161cdb7-3210-4fe2-9eb8-f7eade94f248","role":"STUDENT","timestamp":"2026-03-20T11:55:51.757Z"}
+{"level":"info","message":"Received GET /v1/api/registrations/current","timestamp":"2026-03-20T11:55:52.018Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:52.025Z"}
+{"level":"info","message":"Token verified","requestId":"100a0fdc-58c5-480b-9153-55c6fd90d0f4","role":"STUDENT","timestamp":"2026-03-20T11:55:52.062Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:55:52.154Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:52.156Z"}
+{"level":"info","message":"Token verified","requestId":"b61ebf9c-3477-4663-81e6-11d9ef0790bc","role":"STUDENT","timestamp":"2026-03-20T11:55:52.159Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:55:52.198Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:52.199Z"}
+{"level":"info","message":"Token verified","requestId":"fc3b3852-b733-49c9-86bf-8a93cf4cf323","role":"STUDENT","timestamp":"2026-03-20T11:55:52.204Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:55:52.558Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:52.559Z"}
+{"level":"info","message":"Token verified","requestId":"ece23f80-e9f3-4140-af32-e779fd241ce0","role":"STUDENT","timestamp":"2026-03-20T11:55:52.563Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:55:52.613Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:52.614Z"}
+{"level":"info","message":"Token verified","requestId":"7d8a9f85-6072-4320-b9c6-f659d012e4fd","role":"STUDENT","timestamp":"2026-03-20T11:55:52.618Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:55:53.089Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:53.133Z"}
+{"level":"info","message":"Token verified","requestId":"2b52e990-afb2-4e90-8f58-4cbe39317ea3","role":"STUDENT","timestamp":"2026-03-20T11:55:53.266Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:55:53.498Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:53.511Z"}
+{"level":"info","message":"Token verified","requestId":"f86dba43-8c23-4709-8b80-db676beb2833","role":"STUDENT","timestamp":"2026-03-20T11:55:53.536Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:55:53.712Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:53.714Z"}
+{"level":"info","message":"Token verified","requestId":"353873ec-fa4c-4513-adac-34da58b4e26f","role":"STUDENT","timestamp":"2026-03-20T11:55:53.719Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:55:53.792Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:53.795Z"}
+{"level":"info","message":"Token verified","requestId":"22479097-d6d5-4fa9-ac2c-eb487958c6b7","role":"STUDENT","timestamp":"2026-03-20T11:55:53.800Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:55:54.019Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:54.020Z"}
+{"level":"info","message":"Token verified","requestId":"7eb53188-4470-4dc7-873f-e6afe0d04881","role":"STUDENT","timestamp":"2026-03-20T11:55:54.024Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:55:54.088Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:54.088Z"}
+{"level":"info","message":"Token verified","requestId":"6246e79c-7f6b-48be-94cc-23a607fd86a7","role":"STUDENT","timestamp":"2026-03-20T11:55:54.091Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:55:54.452Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:54.453Z"}
+{"level":"info","message":"Token verified","requestId":"902471e1-3791-4d25-8414-f4167d9efc02","role":"STUDENT","timestamp":"2026-03-20T11:55:54.456Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:55:54.527Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:54.528Z"}
+{"level":"info","message":"Token verified","requestId":"7e71e25e-5595-4870-8ab9-10f23d908645","role":"STUDENT","timestamp":"2026-03-20T11:55:54.532Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:55:54.867Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:54.868Z"}
+{"level":"info","message":"Token verified","requestId":"e2cc04b6-0b43-4ad0-a90d-63e3904ade41","role":"STUDENT","timestamp":"2026-03-20T11:55:54.872Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:55:54.937Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:54.938Z"}
+{"level":"info","message":"Token verified","requestId":"e1a8abc7-4899-4bb1-8b26-64b2774293d1","role":"STUDENT","timestamp":"2026-03-20T11:55:54.941Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:55:55.280Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:55.282Z"}
+{"level":"info","message":"Token verified","requestId":"6332365d-6551-42f2-8a06-1c33143633ff","role":"STUDENT","timestamp":"2026-03-20T11:55:55.285Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:55:55.322Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:55.323Z"}
+{"level":"info","message":"Token verified","requestId":"0e834c1b-8522-44b2-99f7-fc3442a204ea","role":"STUDENT","timestamp":"2026-03-20T11:55:55.326Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:55:55.755Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:55.756Z"}
+{"level":"info","message":"Token verified","requestId":"5f8af2f2-ea8e-40eb-b789-da2b247e28da","role":"STUDENT","timestamp":"2026-03-20T11:55:55.759Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:55:55.791Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:55.791Z"}
+{"level":"info","message":"Token verified","requestId":"540e4e5f-5692-4245-b16a-43dfaa89a840","role":"STUDENT","timestamp":"2026-03-20T11:55:55.794Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:55:56.196Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:56.197Z"}
+{"level":"info","message":"Token verified","requestId":"bf8c084e-0231-4848-a502-0cf003abafe4","role":"STUDENT","timestamp":"2026-03-20T11:55:56.199Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:55:56.224Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:56.225Z"}
+{"level":"info","message":"Token verified","requestId":"a4437490-66ea-40b2-9791-f2276dffb063","role":"STUDENT","timestamp":"2026-03-20T11:55:56.228Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:55:56.613Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:56.614Z"}
+{"level":"info","message":"Token verified","requestId":"62e3df4a-d211-4eb1-8b61-04e902296939","role":"STUDENT","timestamp":"2026-03-20T11:55:56.617Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:55:56.643Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:56.644Z"}
+{"level":"info","message":"Token verified","requestId":"c3ff8885-e45e-497c-8dc0-fadb2c41c2a3","role":"STUDENT","timestamp":"2026-03-20T11:55:56.648Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:55:57.011Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:57.013Z"}
+{"level":"info","message":"Token verified","requestId":"cba955e1-fd4b-4c0e-9d25-0f9a662d1619","role":"STUDENT","timestamp":"2026-03-20T11:55:57.018Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:55:57.053Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:57.054Z"}
+{"level":"info","message":"Token verified","requestId":"49f9caa9-66ce-4c91-863f-4bca6e6b5f45","role":"STUDENT","timestamp":"2026-03-20T11:55:57.057Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:55:57.494Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:57.496Z"}
+{"level":"info","message":"Token verified","requestId":"87993c04-15f7-41a6-8286-a4b74df813e1","role":"STUDENT","timestamp":"2026-03-20T11:55:57.498Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:55:57.530Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:57.531Z"}
+{"level":"info","message":"Token verified","requestId":"bafc19b6-a7fa-4fdf-9f47-7ce181c79a49","role":"STUDENT","timestamp":"2026-03-20T11:55:57.533Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:55:57.861Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:57.861Z"}
+{"level":"info","message":"Token verified","requestId":"63e29e48-e30d-464d-b681-4e1aebd63428","role":"STUDENT","timestamp":"2026-03-20T11:55:57.864Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:55:57.895Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:57.895Z"}
+{"level":"info","message":"Token verified","requestId":"d856c001-8e27-4b72-8c4e-77a69261a104","role":"STUDENT","timestamp":"2026-03-20T11:55:57.899Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:55:58.221Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:58.222Z"}
+{"level":"info","message":"Token verified","requestId":"e0125248-7a71-4731-a6d2-77c054aec9b7","role":"STUDENT","timestamp":"2026-03-20T11:55:58.225Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:55:58.254Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:58.256Z"}
+{"level":"info","message":"Token verified","requestId":"dd5a0ca0-925c-4173-975f-94130dc921b9","role":"STUDENT","timestamp":"2026-03-20T11:55:58.260Z"}
+{"level":"info","message":"Received GET /v1/api/registrations/current","timestamp":"2026-03-20T11:55:58.576Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:58.606Z"}
+{"level":"info","message":"Token verified","requestId":"1df03d61-dc85-4710-8f6b-f39ba7e8e548","role":"STUDENT","timestamp":"2026-03-20T11:55:58.618Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:55:58.731Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:58.732Z"}
+{"level":"info","message":"Token verified","requestId":"18a91fc8-873f-4b42-bb64-073799ee6e6c","role":"STUDENT","timestamp":"2026-03-20T11:55:58.734Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:55:58.761Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:58.761Z"}
+{"level":"info","message":"Token verified","requestId":"e1a1218b-6b56-4107-9a8a-aa7f3b770981","role":"STUDENT","timestamp":"2026-03-20T11:55:58.764Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:55:59.087Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:59.088Z"}
+{"level":"info","message":"Token verified","requestId":"d04691d2-3050-45fd-8ee0-d71cee591a01","role":"STUDENT","timestamp":"2026-03-20T11:55:59.092Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:55:59.137Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:59.137Z"}
+{"level":"info","message":"Token verified","requestId":"4249d458-f523-4584-9bf0-669929a471c2","role":"STUDENT","timestamp":"2026-03-20T11:55:59.141Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:55:59.486Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:59.487Z"}
+{"level":"info","message":"Token verified","requestId":"2f4c14cf-beb4-422f-ba83-679682a8809f","role":"STUDENT","timestamp":"2026-03-20T11:55:59.491Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:55:59.548Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:59.550Z"}
+{"level":"info","message":"Token verified","requestId":"f953a47d-b3bb-49d8-9127-1a0d65e40354","role":"STUDENT","timestamp":"2026-03-20T11:55:59.552Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:55:59.879Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:59.880Z"}
+{"level":"info","message":"Token verified","requestId":"75ee2f2f-8071-47ce-8f0a-c6af553ba6be","role":"STUDENT","timestamp":"2026-03-20T11:55:59.884Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:55:59.934Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:55:59.935Z"}
+{"level":"info","message":"Token verified","requestId":"0d5478bd-1639-4ac6-a5cd-170877f34ede","role":"STUDENT","timestamp":"2026-03-20T11:55:59.937Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:00.303Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:00.304Z"}
+{"level":"info","message":"Token verified","requestId":"42ecf29e-9939-4e7d-bf44-89c7fce86f68","role":"STUDENT","timestamp":"2026-03-20T11:56:00.309Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:00.362Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:00.363Z"}
+{"level":"info","message":"Token verified","requestId":"465dca83-15ee-40ca-8111-8fec58c17131","role":"STUDENT","timestamp":"2026-03-20T11:56:00.365Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:00.800Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:00.801Z"}
+{"level":"info","message":"Token verified","requestId":"9e292a84-a643-4b51-923c-37d726fddb7b","role":"STUDENT","timestamp":"2026-03-20T11:56:00.805Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:00.853Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:00.853Z"}
+{"level":"info","message":"Token verified","requestId":"b14043ab-38f8-4ae3-916b-f8c14d57486d","role":"STUDENT","timestamp":"2026-03-20T11:56:00.856Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:01.184Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:01.186Z"}
+{"level":"info","message":"Token verified","requestId":"ae35b567-eb31-4e87-ae91-6670a086dbbf","role":"STUDENT","timestamp":"2026-03-20T11:56:01.207Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:01.267Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:01.268Z"}
+{"level":"info","message":"Token verified","requestId":"99b2245e-5f27-4df7-ba2a-253f6cab1f90","role":"STUDENT","timestamp":"2026-03-20T11:56:01.274Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:01.597Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:01.599Z"}
+{"level":"info","message":"Token verified","requestId":"97d0701a-9629-4145-871c-72544e6b70f5","role":"STUDENT","timestamp":"2026-03-20T11:56:01.601Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:01.649Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:01.649Z"}
+{"level":"info","message":"Token verified","requestId":"a9c6ec08-bc05-4864-90d3-e4bba2b7540d","role":"STUDENT","timestamp":"2026-03-20T11:56:01.652Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:02.079Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:02.080Z"}
+{"level":"info","message":"Token verified","requestId":"cef8ac82-9272-4cd7-8026-aeb740b4a005","role":"STUDENT","timestamp":"2026-03-20T11:56:02.083Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:02.122Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:02.123Z"}
+{"level":"info","message":"Token verified","requestId":"9c7d8bd2-96eb-485f-9b4e-eae001e1e328","role":"STUDENT","timestamp":"2026-03-20T11:56:02.127Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:02.333Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:02.334Z"}
+{"level":"info","message":"Token verified","requestId":"940d7352-f54c-4414-809a-123aeb24941d","role":"STUDENT","timestamp":"2026-03-20T11:56:02.338Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:02.374Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:02.421Z"}
+{"level":"info","message":"Token verified","requestId":"3b3a4739-0ce8-4fb3-97fc-3a804c4d47c0","role":"STUDENT","timestamp":"2026-03-20T11:56:02.511Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:02.798Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:02.798Z"}
+{"level":"info","message":"Token verified","requestId":"2e6e20c2-3b76-45fb-96a3-7b457e695afc","role":"STUDENT","timestamp":"2026-03-20T11:56:02.802Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:02.841Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:02.842Z"}
+{"level":"info","message":"Token verified","requestId":"50f3e2be-5ef9-4254-a351-d8b9eecfcd71","role":"STUDENT","timestamp":"2026-03-20T11:56:02.845Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:03.249Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:03.250Z"}
+{"level":"info","message":"Token verified","requestId":"a55dac32-879d-40b9-aa30-09505e762108","role":"STUDENT","timestamp":"2026-03-20T11:56:03.254Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:03.292Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:03.297Z"}
+{"level":"info","message":"Token verified","requestId":"5322197d-59c9-4aeb-b349-5b75b352657d","role":"STUDENT","timestamp":"2026-03-20T11:56:03.300Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:03.681Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:03.682Z"}
+{"level":"info","message":"Token verified","requestId":"c0462467-0877-4009-be68-044096245372","role":"STUDENT","timestamp":"2026-03-20T11:56:03.686Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:03.730Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:03.731Z"}
+{"level":"info","message":"Token verified","requestId":"e8cc95ad-6a37-44e5-833c-6f29bb416339","role":"STUDENT","timestamp":"2026-03-20T11:56:03.733Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:04.133Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:04.136Z"}
+{"level":"info","message":"Token verified","requestId":"c49a4f4d-49ff-4eb3-b87f-c382978645f8","role":"STUDENT","timestamp":"2026-03-20T11:56:04.141Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:04.166Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:04.171Z"}
+{"level":"info","message":"Token verified","requestId":"0eb76ef7-012c-4833-8daf-10a219ba3907","role":"STUDENT","timestamp":"2026-03-20T11:56:04.175Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:04.530Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:04.531Z"}
+{"level":"info","message":"Token verified","requestId":"8cca6fa3-86f5-467f-b2ab-eda699df63ce","role":"STUDENT","timestamp":"2026-03-20T11:56:04.535Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:04.564Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:04.565Z"}
+{"level":"info","message":"Token verified","requestId":"76575312-9202-4860-9773-5939a3a4af2d","role":"STUDENT","timestamp":"2026-03-20T11:56:04.570Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:04.944Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:04.944Z"}
+{"level":"info","message":"Token verified","requestId":"a05ab911-ffc1-4179-9971-27741f31d2bc","role":"STUDENT","timestamp":"2026-03-20T11:56:04.947Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:04.982Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:04.984Z"}
+{"level":"info","message":"Token verified","requestId":"dc513993-7203-4b9d-8da1-99ae0b4e993d","role":"STUDENT","timestamp":"2026-03-20T11:56:04.987Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:05.410Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:05.411Z"}
+{"level":"info","message":"Token verified","requestId":"3171c34c-b9f4-408d-b203-bcf91a798d1b","role":"STUDENT","timestamp":"2026-03-20T11:56:05.414Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:05.444Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:05.446Z"}
+{"level":"info","message":"Token verified","requestId":"28928901-3faf-4382-9558-f00ab95db952","role":"STUDENT","timestamp":"2026-03-20T11:56:05.450Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:05.793Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:05.794Z"}
+{"level":"info","message":"Token verified","requestId":"b28c51ad-f14a-44f3-8c89-985c0b196928","role":"STUDENT","timestamp":"2026-03-20T11:56:05.797Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:05.830Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:05.832Z"}
+{"level":"info","message":"Token verified","requestId":"1e6ca5d3-4011-42b3-8d1a-aa02be80a5d8","role":"STUDENT","timestamp":"2026-03-20T11:56:05.838Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:06.161Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:06.162Z"}
+{"level":"info","message":"Token verified","requestId":"f58fa3b5-b4bd-4531-a68a-39a3153d4c76","role":"STUDENT","timestamp":"2026-03-20T11:56:06.166Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:06.203Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:06.206Z"}
+{"level":"info","message":"Token verified","requestId":"86e47676-e7ce-45fe-aafd-a665f3adfd51","role":"STUDENT","timestamp":"2026-03-20T11:56:06.209Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:06.577Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:06.578Z"}
+{"level":"info","message":"Token verified","requestId":"144dfc56-1777-4017-887f-1a157c6abdda","role":"STUDENT","timestamp":"2026-03-20T11:56:06.582Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:06.618Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:06.620Z"}
+{"level":"info","message":"Token verified","requestId":"dc742245-f963-4c7c-b6aa-aa1fb03a78ab","role":"STUDENT","timestamp":"2026-03-20T11:56:06.623Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:07.028Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:07.029Z"}
+{"level":"info","message":"Token verified","requestId":"e4a54e4f-029c-4b8a-a538-d90c62f7979e","role":"STUDENT","timestamp":"2026-03-20T11:56:07.033Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:07.067Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:07.069Z"}
+{"level":"info","message":"Token verified","requestId":"ba1e2999-6fff-4491-bd4c-fb4a739851f0","role":"STUDENT","timestamp":"2026-03-20T11:56:07.073Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:07.472Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:07.473Z"}
+{"level":"info","message":"Token verified","requestId":"78ec2286-9143-47a8-82ec-a3672cf87a98","role":"STUDENT","timestamp":"2026-03-20T11:56:07.476Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:07.503Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:07.504Z"}
+{"level":"info","message":"Token verified","requestId":"fe7c2d3a-5cc5-426f-9e11-5575c5410ba4","role":"STUDENT","timestamp":"2026-03-20T11:56:07.507Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:07.850Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:07.851Z"}
+{"level":"info","message":"Token verified","requestId":"54d19d75-365d-4bad-b182-f8d70f674f12","role":"STUDENT","timestamp":"2026-03-20T11:56:07.854Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:07.878Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:07.880Z"}
+{"level":"info","message":"Token verified","requestId":"a2ec90f7-7ba1-42f9-b227-44dd70d18f23","role":"STUDENT","timestamp":"2026-03-20T11:56:07.883Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:08.270Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:08.270Z"}
+{"level":"info","message":"Token verified","requestId":"3b43b86a-8863-46c4-b553-732a83223e01","role":"STUDENT","timestamp":"2026-03-20T11:56:08.274Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:08.296Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:08.303Z"}
+{"level":"info","message":"Token verified","requestId":"d46bffe7-7ec1-46ce-8f1a-3aad2c3e318f","role":"STUDENT","timestamp":"2026-03-20T11:56:08.306Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:08.671Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:08.671Z"}
+{"level":"info","message":"Token verified","requestId":"e36498fb-2771-486f-9481-d2fa242d6c4b","role":"STUDENT","timestamp":"2026-03-20T11:56:08.675Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:08.705Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:08.706Z"}
+{"level":"info","message":"Token verified","requestId":"c2fe5010-071f-4843-aa2c-b893cbd93438","role":"STUDENT","timestamp":"2026-03-20T11:56:08.708Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:09.091Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:09.091Z"}
+{"level":"info","message":"Token verified","requestId":"b1ab09ec-e22f-4ff0-8c66-494a0f2d7198","role":"STUDENT","timestamp":"2026-03-20T11:56:09.095Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:09.125Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:09.126Z"}
+{"level":"info","message":"Token verified","requestId":"2934586e-2f54-4b2f-afae-d07fbfad0721","role":"STUDENT","timestamp":"2026-03-20T11:56:09.131Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:09.455Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:09.456Z"}
+{"level":"info","message":"Token verified","requestId":"0b917298-f03f-402a-8fa4-4ef80031618f","role":"STUDENT","timestamp":"2026-03-20T11:56:09.458Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:09.489Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:09.490Z"}
+{"level":"info","message":"Token verified","requestId":"20db9cd8-a8c5-4b32-9ab7-3aaccc518ae3","role":"STUDENT","timestamp":"2026-03-20T11:56:09.495Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:09.879Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:09.880Z"}
+{"level":"info","message":"Token verified","requestId":"274c7be4-3b6d-4b67-8829-d353e959a5dc","role":"STUDENT","timestamp":"2026-03-20T11:56:09.883Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:09.911Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:09.914Z"}
+{"level":"info","message":"Token verified","requestId":"6e5c7d55-600c-419f-ad51-acbab1d90d36","role":"STUDENT","timestamp":"2026-03-20T11:56:09.918Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:10.247Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:10.248Z"}
+{"level":"info","message":"Token verified","requestId":"1a3c03b7-7e46-442b-a311-666a0dd05772","role":"STUDENT","timestamp":"2026-03-20T11:56:10.251Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:10.304Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:10.305Z"}
+{"level":"info","message":"Token verified","requestId":"bdf910e3-a679-4688-b447-362f4e382ca2","role":"STUDENT","timestamp":"2026-03-20T11:56:10.307Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:10.782Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:10.783Z"}
+{"level":"info","message":"Token verified","requestId":"5201c6ac-2bb9-4120-afca-de2179099647","role":"STUDENT","timestamp":"2026-03-20T11:56:10.786Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:10.839Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:10.840Z"}
+{"level":"info","message":"Token verified","requestId":"3e260f84-baf9-4b1a-a516-9700d79ea084","role":"STUDENT","timestamp":"2026-03-20T11:56:10.844Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:11.116Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:11.117Z"}
+{"level":"info","message":"Token verified","requestId":"3b3ae037-b6e4-4e76-a63f-7ad2eb0d3f87","role":"STUDENT","timestamp":"2026-03-20T11:56:11.120Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:11.155Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:11.155Z"}
+{"level":"info","message":"Token verified","requestId":"a4cc7355-89c0-40f2-ac3e-5596a64a4639","role":"STUDENT","timestamp":"2026-03-20T11:56:11.158Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:11.540Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:11.541Z"}
+{"level":"info","message":"Token verified","requestId":"3251a2cc-9c3a-471c-a983-7aa9a07c9b2d","role":"STUDENT","timestamp":"2026-03-20T11:56:11.545Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:11.573Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:11.573Z"}
+{"level":"info","message":"Token verified","requestId":"24138e84-f58e-4c2a-a943-881d0b2c61cc","role":"STUDENT","timestamp":"2026-03-20T11:56:11.580Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:11.922Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:11.923Z"}
+{"level":"info","message":"Token verified","requestId":"cc551cc7-dd6f-48be-babe-1eb4dcd825e4","role":"STUDENT","timestamp":"2026-03-20T11:56:11.927Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:11.958Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:11.959Z"}
+{"level":"info","message":"Token verified","requestId":"49be87c1-1a60-44ce-b3da-1dbecc0ae2cb","role":"STUDENT","timestamp":"2026-03-20T11:56:11.963Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:12.314Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:12.315Z"}
+{"level":"info","message":"Token verified","requestId":"4cbc3867-167f-410b-8ab4-b214b0bc969d","role":"STUDENT","timestamp":"2026-03-20T11:56:12.317Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:12.340Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:12.342Z"}
+{"level":"info","message":"Token verified","requestId":"ec8a5dc4-6333-47d0-a10b-28386e3421cf","role":"STUDENT","timestamp":"2026-03-20T11:56:12.345Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:12.736Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:12.737Z"}
+{"level":"info","message":"Token verified","requestId":"449358b8-0d76-4fae-bdbb-a7179287b4ac","role":"STUDENT","timestamp":"2026-03-20T11:56:12.741Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:12.784Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:12.785Z"}
+{"level":"info","message":"Token verified","requestId":"9531bd5b-3c4c-40dc-a598-67050adeb418","role":"STUDENT","timestamp":"2026-03-20T11:56:12.787Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:13.130Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:13.131Z"}
+{"level":"info","message":"Token verified","requestId":"1ad57b26-b99d-49df-8692-30d2df5906f5","role":"STUDENT","timestamp":"2026-03-20T11:56:13.134Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:13.191Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:13.194Z"}
+{"level":"info","message":"Token verified","requestId":"bb1ade9d-9e8d-42dc-b1d1-2c7f06ca67db","role":"STUDENT","timestamp":"2026-03-20T11:56:13.198Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:13.514Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:13.515Z"}
+{"level":"info","message":"Token verified","requestId":"6a1b8c66-3dd7-4913-9d83-bbe72b71aa71","role":"STUDENT","timestamp":"2026-03-20T11:56:13.519Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:13.549Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:13.550Z"}
+{"level":"info","message":"Token verified","requestId":"2912b835-25a9-4fdf-b96b-7955fc0b142c","role":"STUDENT","timestamp":"2026-03-20T11:56:13.552Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:13.989Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:13.991Z"}
+{"level":"info","message":"Token verified","requestId":"909e1d06-7b34-4ff6-b479-da7fde6fbb90","role":"STUDENT","timestamp":"2026-03-20T11:56:13.993Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:14.011Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:14.012Z"}
+{"level":"info","message":"Token verified","requestId":"d51b8775-2755-4537-96be-4e287f49dcab","role":"STUDENT","timestamp":"2026-03-20T11:56:14.017Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:14.360Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:14.361Z"}
+{"level":"info","message":"Token verified","requestId":"e24fd099-abb6-45c4-9209-45d6fa55a4c2","role":"STUDENT","timestamp":"2026-03-20T11:56:14.364Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:14.383Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:14.384Z"}
+{"level":"info","message":"Token verified","requestId":"eca85c3c-a304-46bc-b0ed-5d66c40c7e43","role":"STUDENT","timestamp":"2026-03-20T11:56:14.386Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:14.799Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:14.800Z"}
+{"level":"info","message":"Token verified","requestId":"dfd938ee-42f9-411c-a0b1-0cb7a18ca6d7","role":"STUDENT","timestamp":"2026-03-20T11:56:14.804Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:14.851Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:14.852Z"}
+{"level":"info","message":"Token verified","requestId":"dca129c8-5ace-474d-acc9-69f9836e7f42","role":"STUDENT","timestamp":"2026-03-20T11:56:14.862Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:15.245Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:15.245Z"}
+{"level":"info","message":"Token verified","requestId":"2ca94af2-e1de-4867-85bf-f8f01d16131b","role":"STUDENT","timestamp":"2026-03-20T11:56:15.248Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:15.279Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:15.280Z"}
+{"level":"info","message":"Token verified","requestId":"d110df91-57d1-48e8-9ece-d7e5338dbcd7","role":"STUDENT","timestamp":"2026-03-20T11:56:15.282Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:15.713Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:15.721Z"}
+{"level":"info","message":"Token verified","requestId":"0d6ae00a-4f84-4492-a31b-fc230969c1b8","role":"STUDENT","timestamp":"2026-03-20T11:56:15.726Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:15.776Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:15.776Z"}
+{"level":"info","message":"Token verified","requestId":"c00a0249-a164-4410-9cca-7fe835e040e8","role":"STUDENT","timestamp":"2026-03-20T11:56:15.779Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:16.172Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:16.173Z"}
+{"level":"info","message":"Token verified","requestId":"e62fb1df-2878-4db9-bd3c-ecd1630685be","role":"STUDENT","timestamp":"2026-03-20T11:56:16.176Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:16.206Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:16.206Z"}
+{"level":"info","message":"Token verified","requestId":"9eb90c7a-b774-4f06-9d6b-e4f1da210efb","role":"STUDENT","timestamp":"2026-03-20T11:56:16.209Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:16.637Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:16.638Z"}
+{"level":"info","message":"Token verified","requestId":"8f897b11-1008-480f-b1b1-b1ff124640ea","role":"STUDENT","timestamp":"2026-03-20T11:56:16.641Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:16.663Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:16.663Z"}
+{"level":"info","message":"Token verified","requestId":"8f9405d9-62e4-48cd-99e0-5e6b6f9caf6a","role":"STUDENT","timestamp":"2026-03-20T11:56:16.667Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:17.037Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:17.038Z"}
+{"level":"info","message":"Token verified","requestId":"1a6bc534-054b-42c9-9ae3-0416c85d337b","role":"STUDENT","timestamp":"2026-03-20T11:56:17.041Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:17.066Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:17.069Z"}
+{"level":"info","message":"Token verified","requestId":"2446f0fd-41ac-45a7-8f41-0d338e77e233","role":"STUDENT","timestamp":"2026-03-20T11:56:17.072Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:17.442Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:17.443Z"}
+{"level":"info","message":"Token verified","requestId":"0d1ad235-3a41-45cf-a36a-96a918b7bfdf","role":"STUDENT","timestamp":"2026-03-20T11:56:17.445Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:17.476Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:17.477Z"}
+{"level":"info","message":"Token verified","requestId":"e499601a-e42b-44df-b4fa-9a7ebd9cf1f9","role":"STUDENT","timestamp":"2026-03-20T11:56:17.480Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:17.841Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:17.842Z"}
+{"level":"info","message":"Token verified","requestId":"0e12ba5c-e71b-4ff3-aa7e-a00c3562fb20","role":"STUDENT","timestamp":"2026-03-20T11:56:17.845Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:17.873Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:17.873Z"}
+{"level":"info","message":"Token verified","requestId":"d5ec48ea-b4a0-4c60-87a2-683c30b65400","role":"STUDENT","timestamp":"2026-03-20T11:56:17.876Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:18.240Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:18.241Z"}
+{"level":"info","message":"Token verified","requestId":"7b9650f0-c8de-461e-a05f-f1190c793bc8","role":"STUDENT","timestamp":"2026-03-20T11:56:18.244Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:18.276Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:18.277Z"}
+{"level":"info","message":"Token verified","requestId":"0d37fbc4-d510-4ec0-82bd-25b1bc64adbc","role":"STUDENT","timestamp":"2026-03-20T11:56:18.280Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:18.687Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:18.688Z"}
+{"level":"info","message":"Token verified","requestId":"f66a04df-740a-4e32-8cb5-478123ccee78","role":"STUDENT","timestamp":"2026-03-20T11:56:18.692Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:18.741Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:18.742Z"}
+{"level":"info","message":"Token verified","requestId":"142f934d-4a74-4eca-ab1d-ad765009b5bc","role":"STUDENT","timestamp":"2026-03-20T11:56:18.744Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:19.134Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:19.135Z"}
+{"level":"info","message":"Token verified","requestId":"06631bd1-83f3-4487-94ea-1747b9abb823","role":"STUDENT","timestamp":"2026-03-20T11:56:19.138Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:19.176Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:19.177Z"}
+{"level":"info","message":"Token verified","requestId":"0e176716-4351-473a-a353-0de8117ab58e","role":"STUDENT","timestamp":"2026-03-20T11:56:19.181Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:19.514Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:19.519Z"}
+{"level":"info","message":"Token verified","requestId":"9d0544f5-b7cd-40cb-b5b6-6fb5cf6dda2c","role":"STUDENT","timestamp":"2026-03-20T11:56:19.522Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:19.585Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:19.586Z"}
+{"level":"info","message":"Token verified","requestId":"cdc9c8d6-d315-4bc8-bb48-8ed7b17f4ffb","role":"STUDENT","timestamp":"2026-03-20T11:56:19.589Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:20.030Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:20.031Z"}
+{"level":"info","message":"Token verified","requestId":"faaba93f-1877-4847-af8d-888b99ff1296","role":"STUDENT","timestamp":"2026-03-20T11:56:20.034Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:20.103Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:20.104Z"}
+{"level":"info","message":"Token verified","requestId":"2dfd0240-e54b-40c6-bf60-6fd948f6e1aa","role":"STUDENT","timestamp":"2026-03-20T11:56:20.107Z"}
+{"level":"info","message":"Received GET /v1/api/registrations/current","timestamp":"2026-03-20T11:56:20.455Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:20.456Z"}
+{"level":"info","message":"Token verified","requestId":"ba62d480-bd86-4116-bbde-192e778cc6c7","role":"STUDENT","timestamp":"2026-03-20T11:56:20.458Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:21.100Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:21.102Z"}
+{"level":"info","message":"Token verified","requestId":"e601a75a-519a-464e-9be0-070be8362363","role":"STUDENT","timestamp":"2026-03-20T11:56:21.107Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:21.167Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:21.168Z"}
+{"level":"info","message":"Token verified","requestId":"2ed368f4-e03c-45eb-867b-c43a52ace84d","role":"STUDENT","timestamp":"2026-03-20T11:56:21.171Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:21.414Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:21.417Z"}
+{"level":"info","message":"Token verified","requestId":"4c08b5f8-8efa-4754-84a8-4db361505317","role":"STUDENT","timestamp":"2026-03-20T11:56:21.420Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:21.497Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:21.498Z"}
+{"level":"info","message":"Token verified","requestId":"042c35f4-fc4a-41f9-a1d7-41366127494d","role":"STUDENT","timestamp":"2026-03-20T11:56:21.502Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:21.840Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:21.842Z"}
+{"level":"info","message":"Token verified","requestId":"e8b167fa-2380-4b10-bcc7-d31d93165fb0","role":"STUDENT","timestamp":"2026-03-20T11:56:21.846Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:21.891Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:21.892Z"}
+{"level":"info","message":"Token verified","requestId":"3018424c-c48e-4c8c-937e-acbfdbbf22f8","role":"STUDENT","timestamp":"2026-03-20T11:56:21.896Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:22.299Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:22.300Z"}
+{"level":"info","message":"Token verified","requestId":"a8fd1da3-c6d3-41e8-9125-c225ffc9ed2f","role":"STUDENT","timestamp":"2026-03-20T11:56:22.305Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:22.356Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:22.357Z"}
+{"level":"info","message":"Token verified","requestId":"3fba823f-34c8-4bf5-abf4-49a2b89bbca7","role":"STUDENT","timestamp":"2026-03-20T11:56:22.362Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:22.672Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:22.673Z"}
+{"level":"info","message":"Token verified","requestId":"79537c71-4b6f-4e57-bd73-43b0098f124a","role":"STUDENT","timestamp":"2026-03-20T11:56:22.678Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:22.735Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:22.736Z"}
+{"level":"info","message":"Token verified","requestId":"5d2260d1-56b0-46f6-a2c7-e88b8f54f6ea","role":"STUDENT","timestamp":"2026-03-20T11:56:22.740Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:23.124Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:23.126Z"}
+{"level":"info","message":"Token verified","requestId":"4f33b5fd-1dbb-4bb5-8e03-88e29f93f474","role":"STUDENT","timestamp":"2026-03-20T11:56:23.130Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:23.170Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:23.171Z"}
+{"level":"info","message":"Token verified","requestId":"26c1e357-8030-4c1a-a292-1c5de14b3226","role":"STUDENT","timestamp":"2026-03-20T11:56:23.177Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:23.752Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:23.754Z"}
+{"level":"info","message":"Token verified","requestId":"facac476-5c69-445c-a265-8e4079c8644c","role":"STUDENT","timestamp":"2026-03-20T11:56:23.759Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:23.821Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:23.823Z"}
+{"level":"info","message":"Token verified","requestId":"1eb7ab4e-4627-44a2-85eb-43e9aebe0835","role":"STUDENT","timestamp":"2026-03-20T11:56:23.828Z"}
+{"level":"info","message":"Received GET /v1/api/registrations/current","timestamp":"2026-03-20T11:56:24.205Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:24.208Z"}
+{"level":"info","message":"Token verified","requestId":"be8ab5c2-a4a5-4460-9c9c-b2999ab76d1d","role":"STUDENT","timestamp":"2026-03-20T11:56:24.211Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:24.884Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:24.906Z"}
+{"level":"info","message":"Token verified","requestId":"891c4aa7-8d53-483a-8de9-f2626059f03a","role":"STUDENT","timestamp":"2026-03-20T11:56:24.917Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:25.002Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:25.002Z"}
+{"level":"info","message":"Token verified","requestId":"60a9f40f-f31b-452b-85d5-c3ddbd65bd5e","role":"STUDENT","timestamp":"2026-03-20T11:56:25.005Z"}
+{"level":"info","message":"Received GET /v1/api/registrations/current","timestamp":"2026-03-20T11:56:25.400Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:25.400Z"}
+{"level":"info","message":"Token verified","requestId":"6fdbcbcc-f95a-46ad-b2be-b2d5e8ced0da","role":"STUDENT","timestamp":"2026-03-20T11:56:25.403Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:25.866Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:25.867Z"}
+{"level":"info","message":"Token verified","requestId":"7e0db5fe-f54a-40d8-afb5-69d68b77a11e","role":"STUDENT","timestamp":"2026-03-20T11:56:25.869Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:25.930Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:25.931Z"}
+{"level":"info","message":"Token verified","requestId":"84d9f7d9-5d2f-482b-8e0c-7203ef41b85c","role":"STUDENT","timestamp":"2026-03-20T11:56:25.935Z"}
+{"level":"info","message":"Received GET /v1/api/registrations/current","timestamp":"2026-03-20T11:56:26.374Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:26.378Z"}
+{"level":"info","message":"Token verified","requestId":"df041054-839a-478d-85a9-f76eb10414dc","role":"STUDENT","timestamp":"2026-03-20T11:56:26.386Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:26.556Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:26.559Z"}
+{"level":"info","message":"Token verified","requestId":"2ed3a057-d4d0-4db9-b600-46992830ee57","role":"STUDENT","timestamp":"2026-03-20T11:56:26.564Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:26.702Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:26.703Z"}
+{"level":"info","message":"Token verified","requestId":"1a8a3b9f-9b3f-4b45-9a87-addf63a1dbf3","role":"STUDENT","timestamp":"2026-03-20T11:56:26.707Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:27.120Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:27.123Z"}
+{"level":"info","message":"Token verified","requestId":"bf7eb1f8-e28a-4fad-a5df-dc6eb82a08c3","role":"STUDENT","timestamp":"2026-03-20T11:56:27.126Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:27.214Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:27.217Z"}
+{"level":"info","message":"Token verified","requestId":"f2b3e667-df93-437d-b71b-fa18f0a15705","role":"STUDENT","timestamp":"2026-03-20T11:56:27.222Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:27.455Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:27.458Z"}
+{"level":"info","message":"Token verified","requestId":"0db9fb32-bc82-40c6-9d45-9801ef34471b","role":"STUDENT","timestamp":"2026-03-20T11:56:27.482Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:27.546Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:27.547Z"}
+{"level":"info","message":"Token verified","requestId":"1256ad84-9b08-42ad-9d7c-ba4724cbe8e8","role":"STUDENT","timestamp":"2026-03-20T11:56:27.551Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:27.861Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:27.862Z"}
+{"level":"info","message":"Token verified","requestId":"3758e4f3-c39f-417d-aacf-cd5ccae981c3","role":"STUDENT","timestamp":"2026-03-20T11:56:27.866Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:27.900Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:27.901Z"}
+{"level":"info","message":"Token verified","requestId":"0648fb6d-5163-44f3-b84f-4669cff895f6","role":"STUDENT","timestamp":"2026-03-20T11:56:27.905Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:28.292Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:28.322Z"}
+{"level":"info","message":"Token verified","requestId":"49390ffa-d86f-406a-a3ea-ab27163b8475","role":"STUDENT","timestamp":"2026-03-20T11:56:28.340Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:28.550Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:28.551Z"}
+{"level":"info","message":"Token verified","requestId":"afe0cbea-3752-4ddc-b42f-bb392ea9bc32","role":"STUDENT","timestamp":"2026-03-20T11:56:28.554Z"}
+{"level":"info","message":"Received GET /v1/api/students/user/69a3abbde465dcee318c875a","timestamp":"2026-03-20T11:56:28.743Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:28.747Z"}
+{"level":"info","message":"Token verified","requestId":"98afb948-9c6d-42ef-a46a-e972528f0615","role":"STUDENT","timestamp":"2026-03-20T11:56:28.751Z"}
+{"level":"info","message":"Received GET /v1/api/semesters/active","timestamp":"2026-03-20T11:56:28.786Z"}
+{"level":"info","message":"Request Body: undefined","timestamp":"2026-03-20T11:56:28.789Z"}
+{"level":"info","message":"Token verified","requestId":"be01eb5d-525e-4ebc-bff5-4d850bacbb6b","role":"STUDENT","timestamp":"2026-03-20T11:56:28.792Z"}

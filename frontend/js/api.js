@@ -15,7 +15,7 @@ let accessToken = localStorage.getItem("token") || null;
 async function silentRefresh() {
   try {
     const res = await fetch(`${API_BASE}/auth/refresh`, {
-      method:      "POST",
+      method: "POST",
       credentials: "include",
     });
 
@@ -23,8 +23,8 @@ async function silentRefresh() {
       throw new Error(`Refresh failed: ${res.status}`);
     }
 
-    const data  = await res.json();
-    accessToken = data.accessToken;
+    const data = await res.json();
+    accessToken = data.data.accessToken; // ← correct
     localStorage.setItem("token", accessToken);
     return accessToken;
 

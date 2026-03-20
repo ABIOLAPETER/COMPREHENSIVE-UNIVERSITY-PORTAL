@@ -5,7 +5,7 @@ export enum SemesterNames {
   SECOND = "SECOND"
 }
 
-interface ISemester extends mongoose.Document {
+export interface ISemester extends mongoose.Document {
   name: SemesterNames; // "FIRST", "SECOND"
   session: mongoose.Types.ObjectId;
   isActive: boolean;

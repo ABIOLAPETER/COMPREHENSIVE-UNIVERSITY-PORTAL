@@ -2,9 +2,9 @@
    courseRegistration.js
    ========================================================== */
 
-const token    = localStorage.getItem("token");
-const role     = localStorage.getItem("role");
-const userId   = localStorage.getItem("userId");
+const token  = localStorage.getItem("token");
+const role   = localStorage.getItem("role");
+const userId = localStorage.getItem("userId");
 
 /* ===== GUARD ===== */
 if (!token || role !== "STUDENT") {
@@ -16,11 +16,10 @@ let studentId          = null;
 let activeSemester     = null;
 let registrationId     = null;
 let registrationData   = null;
-let registrationStatus = null;   // "DRAFT" | "SUBMITTED" | "APPROVED"
-let isProcessing       = false;  // prevents concurrent API calls
-let pendingQueue       = [];     // serializes checkbox changes
+let registrationStatus = null;
+let isProcessing       = false;
+let pendingQueue       = [];
 
-// Helper — true when registration should be read-only (no course selection)
 const isLocked = () => registrationStatus === "SUBMITTED" || registrationStatus === "APPROVED";
 
 /* ===== DOM REFS ===== */
@@ -74,7 +73,6 @@ function lockUI(message) {
 }
 
 /* ===== SIDEBAR SELECTED LIST ===== */
-// Called ONLY after a confirmed backend response — never optimistically
 function updateSidebarList(courseId, code, units, isAdded) {
   const list = document.getElementById("selectedList");
   if (!list) return;
@@ -99,8 +97,7 @@ function updateSidebarList(courseId, code, units, isAdded) {
   }
 }
 
-/* ===== SAFETY NET — recalculate credits from registrationData ===== */
-// Used when a request fails to prevent credit counter drift
+/* ===== SAFETY NET ===== */
 function recalculateCreditsFromState() {
   const courses = registrationData?.courses || [];
   const total = courses.reduce((sum, c) => sum + (c.creditUnits ?? 0), 0);
@@ -111,7 +108,7 @@ function recalculateCreditsFromState() {
 async function loadStudentProfile() {
   try {
     const res     = await apiFetch(`/students/user/${userId}`);
-    const student = res.studentProfile;
+    const student = res.data; // ← was res.studentProfile
 
     if (!student?._id) throw new Error("Student profile not found");
 
@@ -138,7 +135,7 @@ async function loadStudentProfile() {
 async function loadActiveSemester() {
   try {
     const res      = await apiFetch("/semesters/active");
-    activeSemester = res.semester;
+    activeSemester = res.data; // ← was res.semester
 
     if (!activeSemester) throw new Error("No active semester in response");
 
@@ -162,10 +159,9 @@ async function loadActiveSemester() {
 async function loadOrCreateDraft() {
   try {
     const res        = await apiFetch("/registrations/current");
-    registrationData = res.registration;
+    registrationData   = res.data; // ← was res.registration
     registrationId     = registrationData?._id;
     registrationStatus = registrationData?.status || null;
-    console.log("Registration status:", registrationStatus);
     return registrationData;
   } catch (err) {
     const msg = err.message.toLowerCase();
@@ -184,7 +180,7 @@ async function loadOrCreateDraft() {
 async function createDraft() {
   try {
     const res        = await apiFetch("/registrations/draft", "POST");
-    registrationData = res.registration;
+    registrationData = res.data; // ← was res.registration
     registrationId   = registrationData._id;
     return registrationData;
   } catch (err) {
@@ -205,7 +201,7 @@ async function loadCourses() {
 
   try {
     const res     = await apiFetch(`/courses/eligible/${studentId}`);
-    const courses = res.courses || [];
+    const courses = res.data || []; // ← was res.courses
 
     if (!courses.length) {
       courseListEl.innerHTML = `
@@ -223,7 +219,6 @@ async function loadCourses() {
 
     renderCourses(courses, addedCourseIds);
 
-    // Populate sidebar selected list from existing draft on load
     const existing = registrationData?.courses || [];
     existing.forEach(c => {
       const course = c.course || c;
@@ -235,7 +230,6 @@ async function loadCourses() {
       );
     });
 
-    // Sync credits with existing draft
     updateCreditsDisplay(registrationData?.totalCredits || 0);
 
   } catch (err) {
@@ -308,17 +302,14 @@ function createCourseItem(course, addedCourseIds = new Set()) {
   return div;
 }
 
-/* ===== 6. HANDLE CHECKBOX — queued to prevent race conditions ===== */
+/* ===== 6. HANDLE CHECKBOX ===== */
 function handleSelection(e) {
   const checkbox  = e.target;
   const courseId  = checkbox.dataset.id;
   const isChecked = checkbox.checked;
 
-  // Disable immediately to prevent double-clicks while queued
   setCheckboxLoading(checkbox, true);
-
   pendingQueue.push({ checkbox, courseId, isChecked });
-
   if (!isProcessing) processQueue();
 }
 
@@ -333,30 +324,28 @@ async function processQueue() {
   try {
     if (isChecked) {
       const res = await apiFetch(`/registrations/${registrationId}/courses`, "POST", { courseId });
-      registrationData = res.registration;
-      // Update sidebar only after backend confirms — prevents ghost entries
+      registrationData = res.data; // ← was res.registration
       updateSidebarList(courseId, checkbox.dataset.code, checkbox.dataset.units, true);
     } else {
       const res = await apiFetch(`/registrations/${registrationId}/courses/${courseId}`, "DELETE");
-      registrationData = res.registration;
+      registrationData = res.data; // ← was res.registration
       updateSidebarList(courseId, null, null, false);
     }
 
-    // Always read credits from backend — never calculate locally
     updateCreditsDisplay(registrationData.totalCredits);
 
   } catch (err) {
     showError(err.message);
-    checkbox.checked = !isChecked; // revert checkbox visually
-    recalculateCreditsFromState(); // reset counter to actual server state
+    checkbox.checked = !isChecked;
+    recalculateCreditsFromState();
   } finally {
     setCheckboxLoading(checkbox, false);
     isProcessing = false;
-    processQueue(); // process next item
+    processQueue();
   }
 }
 
-/* ===== 7. RENDER SUBMITTED/APPROVED REGISTRATION VIEW ===== */
+/* ===== 7. RENDER SUBMITTED/APPROVED VIEW ===== */
 function renderSubmittedView(registration) {
   const view = document.getElementById("regSubmittedView");
   if (!view) return;
@@ -364,12 +353,11 @@ function renderSubmittedView(registration) {
   const status     = registration.status || "";
   const isApproved = status === "APPROVED";
 
-  // Hero banner — different look for APPROVED vs SUBMITTED
   const hero = document.getElementById("submittedHero");
   if (hero) {
     hero.style.background = isApproved
-      ? "linear-gradient(135deg, #1a7a4a 0%, #14532d 100%)"  // green for approved
-      : "linear-gradient(135deg, #1a1714 0%, #233577 100%)"; // dark blue for submitted
+      ? "linear-gradient(135deg, #1a7a4a 0%, #14532d 100%)"
+      : "linear-gradient(135deg, #1a1714 0%, #233577 100%)";
   }
 
   const heroTitle = hero?.querySelector("h3");
@@ -486,7 +474,7 @@ async function submitRegistration(e) {
 
   try {
     const res        = await apiFetch(`/registrations/${registrationId}/submit`, "PATCH");
-    registrationData   = res.registration;
+    registrationData   = res.data; // ← was res.registration
     registrationStatus = "SUBMITTED";
 
     alert("Registration submitted successfully!");

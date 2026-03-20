@@ -43,9 +43,16 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /* ===== AUTH ===== */
-function logout() {
-  localStorage.clear();
-  window.location.href = "index.html";
+async function logout() {
+  try {
+    // Call logout endpoint to revoke refresh token and clear httpOnly cookie
+    await apiFetch("/auth/logout", "POST");
+  } catch (err) {
+    console.warn("Logout API call failed:", err.message);
+  } finally {
+    localStorage.clear();
+    window.location.href = "index.html";
+  }
 }
 
 /* ===== HELPERS ===== */
@@ -70,7 +77,7 @@ function setActionMsg(text, isError = true) {
   el.className = "action-msg " + (isError ? "error" : "success");
 }
 
-/* ===== ADMIN DASHBOARD — called ONCE on load ===== */
+/* ===== ADMIN DASHBOARD ===== */
 async function loadAdminDashboard() {
   try {
     const [facultiesRes, departmentsRes, usersRes] = await Promise.all([
@@ -79,25 +86,23 @@ async function loadAdminDashboard() {
       apiFetch("/auth/users"),
     ]);
 
-    renderFaculties(facultiesRes.faculties);
-    renderDepartments(departmentsRes.departments);
-    renderUsers(usersRes.users);
+    // All responses now use res.data
+    renderFaculties(facultiesRes.data);
+    renderDepartments(departmentsRes.data);
+    renderUsers(usersRes.data);
     updateStats(
-      facultiesRes.faculties.length,
-      departmentsRes.departments.length,
-      usersRes.users.length
+      facultiesRes.data.length,
+      departmentsRes.data.length,
+      usersRes.data.length
     );
   } catch (err) {
     console.error("Admin dashboard load error:", err);
   }
 
-  // Load registrations separately — default to SUBMITTED (pending)
   loadRegistrations("SUBMITTED");
 }
 
 /* ===== REGISTRATIONS ===== */
-
-// Called by filter tabs in HTML and on initial load
 async function loadRegistrations(status = "SUBMITTED") {
   const tbody = document.getElementById("registrationsTable");
   tbody.innerHTML = `<tr class="loading-row"><td colspan="6"><span class="spinner"></span>Loading...</td></tr>`;
@@ -105,9 +110,8 @@ async function loadRegistrations(status = "SUBMITTED") {
   try {
     const query = status === "ALL" ? "" : `?status=${status}`;
     const res   = await apiFetch(`/registrations${query}`);
-    const regs  = res.registrations || [];
+    const regs  = res.data || [];
 
-    // Update pending count stat
     if (status === "SUBMITTED" || status === "ALL") {
       const pending = status === "ALL"
         ? regs.filter(r => r.status === "SUBMITTED").length
@@ -131,10 +135,10 @@ function renderRegistrations(registrations) {
   }
 
   tbody.innerHTML = registrations.map(r => {
-    const student    = r.student || {};
-    const name       = `${student.firstName || ""} ${student.lastName || ""}`.trim() || "—";
-    const matric     = student.matricNumber || student.matricNo || "—";
-    const dept       = r.department?.name || student.department?.name || "—";
+    const student     = r.student || {};
+    const name        = `${student.firstName || ""} ${student.lastName || ""}`.trim() || "—";
+    const matric      = student.matricNumber || student.matricNo || "—";
+    const dept        = r.department?.name || student.department?.name || "—";
     const statusClass = (r.status || "").toLowerCase();
 
     return `
@@ -151,50 +155,39 @@ function renderRegistrations(registrations) {
 }
 
 /* ===== REGISTRATION DRAWER ===== */
-
-// Holds the registration currently open in the drawer
 let activeRegistration = null;
 
 function openRegistrationDrawer(registration) {
   activeRegistration = registration;
 
-  const student  = registration.student || {};
-  const name     = `${student.firstName || ""} ${student.lastName || ""}`.trim() || "—";
-  const matric   = student.matricNumber || student.matricNo || "—";
-  const dept     = registration.department?.name || student.department?.name || "—";
-  const status   = registration.status || "";
+  const student = registration.student || {};
+  const name    = `${student.firstName || ""} ${student.lastName || ""}`.trim() || "—";
+  const matric  = student.matricNumber || student.matricNo || "—";
+  const dept    = registration.department?.name || student.department?.name || "—";
+  const status  = registration.status || "";
 
-  // Populate header
   document.getElementById("rd-studentName").textContent = name;
   document.getElementById("rd-matric").textContent      = matric;
   document.getElementById("rd-level").textContent       = registration.level || "—";
   document.getElementById("rd-dept").textContent        = dept;
   document.getElementById("rd-semester").textContent    = `${registration.semester} — ${registration.session}`;
 
-  // Status pill
   const pill = document.getElementById("rd-statusPill");
-  pill.textContent  = status;
-  pill.className    = `status-pill ${status.toLowerCase()}`;
+  pill.textContent = status;
+  pill.className   = `status-pill ${status.toLowerCase()}`;
 
-  // Drawer stripe colour — amber for pending, green for approved
   const stripe = document.getElementById("regDrawerStripe");
   stripe.className = "drawer-stripe" +
     (status === "SUBMITTED" ? " warning" : status === "APPROVED" ? " success" : "");
 
-  // Action bar — only show for SUBMITTED
   const actionBar = document.getElementById("regActionBar");
   actionBar.style.display = status === "SUBMITTED" ? "flex" : "none";
 
-  // Reset action message
   setActionMsg("", true);
-
-  // Enable buttons
   document.getElementById("approveBtn").disabled = false;
   document.getElementById("rejectBtn").disabled  = false;
 
-  // Render course table
   renderRegistrationCourses(registration.courses || []);
-
   openDrawer("registrationDrawer");
 }
 
@@ -248,40 +241,33 @@ async function handleApprove() {
   const approveBtn = document.getElementById("approveBtn");
   const rejectBtn  = document.getElementById("rejectBtn");
 
-  approveBtn.disabled = true;
-  rejectBtn.disabled  = true;
+  approveBtn.disabled    = true;
+  rejectBtn.disabled     = true;
   approveBtn.textContent = "Approving...";
   setActionMsg("", true);
 
   try {
-    const res = await apiFetch(`/registrations/${activeRegistration._id}/approve`, "PATCH");
+    await apiFetch(`/registrations/${activeRegistration._id}/approve`, "PATCH");
 
-    // Update local state
     activeRegistration.status = "APPROVED";
 
-    // Update pill and stripe in drawer
     const pill = document.getElementById("rd-statusPill");
     pill.textContent = "APPROVED";
     pill.className   = "status-pill approved";
 
     document.getElementById("regDrawerStripe").className = "drawer-stripe success";
-
-    // Hide action bar — registration is now approved
     document.getElementById("regActionBar").style.display = "none";
 
     setActionMsg("Registration approved successfully.", false);
 
-    // Refresh the registrations table in background
     const activeFilter = document.querySelector(".reg-filter-btn.active")?.dataset.status || "SUBMITTED";
     loadRegistrations(activeFilter);
-
-    // Refresh pending count
     refreshPendingCount();
 
   } catch (err) {
     setActionMsg(err.message || "Approval failed.", true);
-    approveBtn.disabled    = false;
-    rejectBtn.disabled     = false;
+    approveBtn.disabled = false;
+    rejectBtn.disabled  = false;
   } finally {
     approveBtn.textContent = "✓ Approve Registration";
   }
@@ -291,7 +277,6 @@ async function handleApprove() {
 async function handleReject() {
   if (!activeRegistration) return;
 
-  // Simple confirmation — swap for a modal if you want a rejection reason field later
   if (!confirm(`Reject registration for this student? This cannot be undone.`)) return;
 
   const approveBtn = document.getElementById("approveBtn");
@@ -322,8 +307,8 @@ async function handleReject() {
 
   } catch (err) {
     setActionMsg(err.message || "Rejection failed.", true);
-    approveBtn.disabled   = false;
-    rejectBtn.disabled    = false;
+    approveBtn.disabled = false;
+    rejectBtn.disabled  = false;
   } finally {
     rejectBtn.textContent = "✕ Reject";
   }
@@ -332,8 +317,7 @@ async function handleReject() {
 async function refreshPendingCount() {
   try {
     const res = await apiFetch("/registrations?status=SUBMITTED");
-    document.getElementById("totalPending").textContent =
-      (res.registrations || []).length;
+    document.getElementById("totalPending").textContent = (res.data || []).length;
   } catch {
     // non-fatal
   }
@@ -343,7 +327,7 @@ async function refreshPendingCount() {
 async function refreshFacultiesTable() {
   try {
     const res = await apiFetch("/faculties");
-    renderFaculties(res.faculties);
+    renderFaculties(res.data);
   } catch (err) {
     console.error("Failed to refresh faculties:", err.message);
   }
@@ -352,7 +336,7 @@ async function refreshFacultiesTable() {
 async function refreshDepartmentsTable() {
   try {
     const res = await apiFetch("/departments");
-    renderDepartments(res.departments);
+    renderDepartments(res.data);
   } catch (err) {
     console.error("Failed to refresh departments:", err.message);
   }
@@ -365,7 +349,7 @@ async function refreshStats() {
       apiFetch("/departments"),
       apiFetch("/auth/users"),
     ]);
-    updateStats(fRes.faculties.length, dRes.departments.length, uRes.users.length);
+    updateStats(fRes.data.length, dRes.data.length, uRes.data.length);
   } catch (err) {
     console.error("Failed to refresh stats:", err.message);
   }
@@ -473,9 +457,9 @@ function renderUsers(users) {
 
 /* ===== FACULTY DRAWER ===== */
 async function openFacultyDrawer(faculty) {
-  document.getElementById("fd-name").textContent    = faculty.name;
-  document.getElementById("fd-code").textContent    = faculty.code;
-  document.getElementById("fd-created").textContent = new Date(faculty.createdAt).toLocaleDateString();
+  document.getElementById("fd-name").textContent       = faculty.name;
+  document.getElementById("fd-code").textContent       = faculty.code;
+  document.getElementById("fd-created").textContent    = new Date(faculty.createdAt).toLocaleDateString();
   document.getElementById("dept-facultyId").value      = faculty._id;
   document.getElementById("dept-facultyDisplay").value = `${faculty.name} (${faculty.code})`;
   setMsg("departmentMsg", "");
@@ -489,7 +473,7 @@ async function loadFacultyDepartments(facultyId) {
   list.innerHTML = `<div class="drawer-empty"><span class="spinner"></span> Loading...</div>`;
   try {
     const res         = await apiFetch(`/departments?faculty=${facultyId}`);
-    const departments = res.departments || [];
+    const departments = res.data || [];
     if (!departments.length) {
       list.innerHTML = `<div class="drawer-empty">No departments yet. Add one below.</div>`;
       return;
@@ -507,11 +491,11 @@ async function loadFacultyDepartments(facultyId) {
 
 /* ===== DEPARTMENT DRAWER ===== */
 async function openDepartmentDrawer(department) {
-  document.getElementById("dd-name").textContent    = department.name;
-  document.getElementById("dd-code").textContent    = department.code;
-  document.getElementById("dd-faculty").textContent = department.faculty?.name || "—";
-  document.getElementById("course-deptId").value      = department._id;
-  document.getElementById("course-deptDisplay").value = `${department.name} (${department.code})`;
+  document.getElementById("dd-name").textContent       = department.name;
+  document.getElementById("dd-code").textContent       = department.code;
+  document.getElementById("dd-faculty").textContent    = department.faculty?.name || "—";
+  document.getElementById("course-deptId").value       = department._id;
+  document.getElementById("course-deptDisplay").value  = `${department.name} (${department.code})`;
   setMsg("courseMsg", "");
   clearField("course-name", "course-code", "course-units", "course-type");
   openDrawer("departmentDrawer");
@@ -523,7 +507,7 @@ async function loadDepartmentCourses(departmentId) {
   list.innerHTML = `<div class="drawer-empty"><span class="spinner"></span> Loading...</div>`;
   try {
     const res     = await apiFetch(`/courses?department=${departmentId}`);
-    const courses = res.courses || [];
+    const courses = res.data || [];
     if (!courses.length) {
       list.innerHTML = `<div class="drawer-empty">No courses yet. Add one below.</div>`;
       return;
@@ -553,7 +537,7 @@ async function loadStudentDashboardDetails() {
     const userId = localStorage.getItem("userId");
     if (!userId) throw new Error("User not authenticated");
     const studentResponse = await apiFetch(`/students/user/${userId}`);
-    const student         = studentResponse.studentProfile;
+    const student = studentResponse.data;
     if (!student?._id) throw new Error("Student profile not found");
     bindStudentProfile(student);
   } catch (err) {

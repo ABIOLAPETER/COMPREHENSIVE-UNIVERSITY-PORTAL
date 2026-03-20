@@ -1,14 +1,15 @@
-import { SemesterModel, SemesterNames } from "../model/semester.model";
+import { ISemester, SemesterModel, SemesterNames } from "../model/semester.model";
 import { SessionModel } from "../../session/model/session.model";
-import { ConflictError, NotFoundError, ValidationError } from "../../../shared/errors/AppError";
+import { BadRequestError, ConflictError, NotFoundError, ValidationError } from "../../../shared/errors/AppError";
 import { validateSemesterCreation } from "../../../shared/utils/validate";
+import { redisClient } from "../../../shared/utils/redis";
+import { CreateSemesterDto } from "../dtos/semester.dtos";
+
+const ACTIVE_SEMESTER_KEY = "semester:active";
 
 export class SemesterService {
 
-  static async createSemester(data: {
-    name: SemesterNames;
-    sessionId: string;
-  }) {
+  static async createSemester(data: CreateSemesterDto): Promise<ISemester> {
     validateSemesterCreation(data);
 
     const { name, sessionId } = data;
@@ -24,17 +25,21 @@ export class SemesterService {
     }
 
     const semester = await SemesterModel.create({ name, session: sessionId });
+
+    // Invalidate active semester cache — new semester may affect active state
+    await redisClient.del(ACTIVE_SEMESTER_KEY);
+
     return semester;
   }
 
-  static async activateSemester(semesterId: string) {
+  static async activateSemester(semesterId: string): Promise<ISemester> {
     const semester = await SemesterModel.findById(semesterId);
     if (!semester) {
       throw new NotFoundError("Semester not found");
     }
 
     if (semester.isActive) {
-      return semester; // already active — no-op
+      return semester;
     }
 
     const session = await SessionModel.findById(semester.session);
@@ -46,17 +51,24 @@ export class SemesterService {
       throw new ValidationError("Cannot activate semester because its session is not active");
     }
 
-    // Deactivate any currently active semester in the same session
     await SemesterModel.updateMany(
       { session: semester.session, isActive: true },
       { isActive: false }
     );
 
     semester.isActive = true;
-    return await semester.save();
+    const updated = await semester.save();
+
+    // Invalidate cache — active semester changed
+    await redisClient.del(ACTIVE_SEMESTER_KEY);
+
+    return updated;
   }
 
-  static async getActiveSemester() {
+  static async getActiveSemester(): Promise<ISemester> {
+    const cached = await redisClient.get(ACTIVE_SEMESTER_KEY);
+    if (cached) return JSON.parse(cached);
+
     const semester = await SemesterModel
       .findOne({ isActive: true })
       .populate("session");
@@ -66,25 +78,35 @@ export class SemesterService {
     }
 
     const session = semester.session as any;
-
-    // Guard: active semester must belong to an active session
     if (!session?.isActive) {
       throw new ValidationError("Active semester belongs to an inactive session");
     }
 
+    await redisClient.setex(ACTIVE_SEMESTER_KEY, 3600, JSON.stringify(semester));
+
     return semester;
   }
 
-  static async lockRegistration() {
-    // FIX: removed the redundant `if (!semester)` check —
-    // getActiveSemester() already throws NotFoundError if none exists
+  static async lockRegistration(): Promise<ISemester> {
     const semester = await this.getActiveSemester();
 
     if (semester.isLocked) {
-      return semester; // already locked — no-op, same pattern as activateSemester
+      return semester;
     }
 
-    semester.isLocked = true;
-    return await semester.save();
+    const updated = await SemesterModel.findByIdAndUpdate(
+      semester._id,
+      { isLocked: true },
+      { new: true }
+    );
+
+    if(!updated){
+      throw new BadRequestError("cannot update")
+    }
+
+    // Invalidate cache — semester state changed
+    await redisClient.del(ACTIVE_SEMESTER_KEY);
+
+    return updated;
   }
 }

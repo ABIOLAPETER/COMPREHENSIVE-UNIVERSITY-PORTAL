@@ -11,11 +11,11 @@ document.getElementById("loginForm").addEventListener("submit", async function (
 
     try {
         const response = await fetch(`${API_BASE}/auth/login`, {
-      method:      "POST",
-      credentials: "include",  // REQUIRED — tells browser to store the httpOnly refresh token cookie
-      headers:     { "Content-Type": "application/json" },
-      body:        JSON.stringify({ email, password }),
-    });
+            method: "POST",
+            credentials: "include",  // REQUIRED — tells browser to store the httpOnly refresh token cookie
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password }),
+        });
 
 
         console.log("Response Status:", response.status);
@@ -27,23 +27,17 @@ document.getElementById("loginForm").addEventListener("submit", async function (
         if (!response.ok) {
             throw new Error(data.message || "Login failed");
         }
-console.log("Login Response Data:", data);
+        console.log("Login Response Data:", data);
         // Save token
-        localStorage.setItem("token", data.user.accessToken);
-
-        // Save role
-        localStorage.setItem("role", data.user.role);
-
-        localStorage.setItem("userId", data.user.id);
-
-
-
+        localStorage.setItem("token", data.data.accessToken);
+        localStorage.setItem("role", data.data.role);
+        localStorage.setItem("userId", data.data.id);
         // Redirect
         window.location.href = "dashboard.html";
 
     } catch (err) {
         errorEl.textContent = err.message;
-        errorEl.style.display = "block" 
+        errorEl.style.display = "block"
     }
 });
 
