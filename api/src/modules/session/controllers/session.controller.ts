@@ -1,82 +1,79 @@
 import { SessionService } from "../services/session.services";
-import { Request, Response } from "express";
-import { logger } from "../../../shared/utils/logger";
-import { AppError } from "../../../shared/errors/AppError";
-
-
+import { Request, Response, NextFunction } from "express";
+import { ActivateSessionDto, CreateSessionDto } from "../dtos/session.dtos";
 
 export class SessionController {
-    static async createSession(req: Request, res: Response) {
+    static async createSession(
+        req: Request<{}, {}, CreateSessionDto>, 
+        res: Response,
+        next: NextFunction
+    ) {
         try {
-            const { startYear, endYear } = req.body;
-            const session = await SessionService.createSession({
-                startYear,
-                endYear,
-            });
+            const session = await SessionService.createSession(req.body);
             res.status(201).json({
+                success: true,
                 message: "Session created successfully",
-                session,
+                data: session,
             });
         } catch (err) {
-            logger.error("Create session error", err);
-
-            if (err instanceof AppError) {
-                return res.status(err.statusCode).json({ error: err.message });
+            next(err)
             }
-
-            return res.status(500).json({ error: "Internal server error" });
-        }
 
     }
 
 
 
 
-    static async activateSession(req: Request, res: Response) {
+    static async activateSession(
+        req: Request<ActivateSessionDto>, 
+        res: Response,
+        next: NextFunction
+    ) {
     try {
-        const { sessionId } = req.params;
         
-        const session = await SessionService.activateSession(sessionId.toString());
+        const session = await SessionService.activateSession(req.params);
         res.status(200).json({
+            success: true,
             message: "Session activated successfully",
-            session,
+            data: session,
         });
     } catch (err) {
-        logger.error("Activate session error", err);
-        res.status(400).json(
-            { error: err instanceof AppError ? err.message : "Activate session failed" }
-        );
+        next(err)
     }
 }
 
 
-    static async getActiveSession(req: Request, res: Response) {
+    static async getActiveSession(
+        req: Request, 
+        res: Response,
+        next: NextFunction
+    ) {
     try {
         const session = await SessionService.getActiveSession();
         res.status(200).json({
+            success: true,
             message: "Active session retrieved successfully",
-            session,
+            data: session,
         });
     } catch (err) {
-        logger.error("Get active session error", err);
-        res.status(400).json(
-            { error: err instanceof AppError ? err.message : "Get active session failed" }
-        );
+       next(err)
     }
 }
 
-    static async getAllSessions(req: Request, res: Response) {
+    static async getAllSessions(
+        req: Request, 
+        res: Response,
+        next: NextFunction
+    ) {
     try {
         const sessions = await SessionService.getAllSessions();
         res.status(200).json({
-            message: "Sessions retrieved successfully",
+            success: true,
+            message: "All Sessions retrieved successfully",
             sessions,
         });
     } catch (err) {
-        logger.error("Get all sessions error", err);
-        res.status(400).json(
-            { error: err instanceof AppError ? err.message : "Get all sessions failed" }
-        );
+        next(err)
     }
 }
 }

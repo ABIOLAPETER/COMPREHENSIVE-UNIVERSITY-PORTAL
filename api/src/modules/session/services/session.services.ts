@@ -1,16 +1,13 @@
 
-import { SessionModel} from "../model/session.model";
+import { ISession, SessionModel } from "../model/session.model";
 import { ConflictError, NotFoundError, ValidationError } from "../../../shared/errors/AppError";
-import { logger } from "../../../shared/utils/logger";
-import {validateSessionCreation} from "../../../shared/utils/validate";
-
+import { validateSessionCreation } from "../../../shared/utils/validate";
+import { CreateSessionDto, ActivateSessionDto } from "../dtos/session.dtos";
+import { redisClient } from "../../../shared/utils/redis";
 
 export class SessionService {
 
-    static async createSession(data: {
-        startYear: number;
-        endYear: number;
-    }) {
+    static async createSession(data: CreateSessionDto): Promise<ISession> {
         const { startYear, endYear } = data;
         if (!startYear || !endYear) {
             throw new ValidationError("Missing required fields");
@@ -35,17 +32,18 @@ export class SessionService {
             startYear,
             endYear,
         });
+        await redisClient.del(`sessions:all`)
 
         return session;
     }
 
     // Activate session
     // ↓
-    static async activateSession(sessionId: string) {
-        const session = await SessionModel.findById(sessionId);
+    static async activateSession(data: ActivateSessionDto): Promise<ISession> {
+        const session = await SessionModel.findById(data.sessionId);
         if (!session) {
             throw new NotFoundError("Session not found");
-        }      
+        }
         if (session.isActive) {
             return session; // Already active  
         } else {
@@ -53,21 +51,32 @@ export class SessionService {
             // Activate new session
             session.isActive = true;
             await session.save();
+            await redisClient.del(`sessions:active`)
             return session;
         }
     }
 
 
-    static async getActiveSession() {
+    static async getActiveSession(): Promise<ISession> {
+        const cacheKey = `sessions:active`
+        const cached = await redisClient.get(cacheKey)
+        if (cached) return JSON.parse(cached);
+
         const session = await SessionModel.findOne({ isActive: true });
         if (!session) {
             throw new NotFoundError("No active session found");
         }
+        await redisClient.setex(cacheKey, 2160000, JSON.stringify(session))
         return session;
     }
 
-    static async getAllSessions() {
+    static async getAllSessions(): Promise<ISession[]> {
+        const cacheKey = `sessions:all`
+        const cached = await redisClient.get(cacheKey)
+        if (cached) return JSON.parse(cached);
         const sessions = await SessionModel.find().sort({ createdAt: -1 });
+        await redisClient.setex(cacheKey, 2160000, JSON.stringify(sessions))
+
         return sessions;
     }
 

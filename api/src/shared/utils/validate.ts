@@ -1,9 +1,6 @@
 import Joi from "joi";
 
-interface CreateSessionDTO {
-  startYear: number;
-  endYear: number;
-}
+import { CreateSessionDto } from "../../modules/session/dtos/session.dtos";
 
 export const validate = (schema: Joi.Schema, data: any) => {
   const { error, value } = schema.validate(data, { abortEarly: false });    
@@ -41,7 +38,7 @@ export const validateCourseCreation = (data: any) => {
 }
 
 
-export const validateSessionCreation = (data: any) => {
+export const validateSessionCreation = (data: CreateSessionDto) => {
     const schema = Joi.object({
         startYear: Joi.number().required().min(1900).max(2100), 
         endYear: Joi.number().required().min(1900).max(2100).greater(Joi.ref("startYear")),
