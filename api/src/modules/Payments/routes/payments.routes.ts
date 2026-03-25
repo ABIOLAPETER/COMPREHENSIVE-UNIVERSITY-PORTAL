@@ -1,18 +1,16 @@
 import { Router } from "express";
 import { PaymentController } from "../controller/payment.controller"; 
 import { validateToken } from "../../../shared/middleware/auth.middleware";
-const router = Router();
+const paymentRouter = Router();
 
 // ── WEBHOOK — must be BEFORE auth middleware ──────────────────────────────
-// Paystack calls this directly — no JWT
-router.post("/webhook", PaymentController.handleWebhook);
+paymentRouter.post("/webhook", PaymentController.handleWebhook);
 
-// ── PROTECTED ROUTES ──────────────────────────────────────────────────────
-router.use(validateToken);
+paymentRouter.use(validateToken);
 
 // Student routes
-router.post("/initiate", PaymentController.initiatePayment);
-router.get("/verify/:reference", PaymentController.verifyPayment);
-router.get("/my-payments", PaymentController.getStudentPayments);
+paymentRouter.post("/initiate", PaymentController.initiatePayment);
+paymentRouter.get("/verify/:reference", PaymentController.verifyPayment);
+paymentRouter.get("/my-payments", PaymentController.getStudentPayments);
 
-export default router;
+export default paymentRouter;

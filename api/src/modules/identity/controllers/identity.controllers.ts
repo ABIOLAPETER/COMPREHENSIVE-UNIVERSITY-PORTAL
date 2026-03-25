@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { AuthService } from "../services/identity.service";
-import { LoginDto, SignupDto } from "../dtos/identity.dto";
+import { accountActivationDto, LoginDto, SignupDto } from "../dtos/identity.dto";
 
 const COOKIE_NAME = "refreshToken";
 const COOKIE_OPTIONS = {
@@ -28,22 +28,21 @@ export class IdentityController {
   }
 
 
-  // POST /auth/signup
-  static async signup(
-    req: Request<{}, {}, SignupDto>,
+  static async accountActivation(
+    req: Request<{}, {}, accountActivationDto>,
     res: Response,
     next: NextFunction
   ) {
     try {
 
-      const result = await AuthService.signup(req.body);
+      const result = await AuthService.studentAccountActivation(req.body);
 
       // FIX: refresh token goes in httpOnly cookie — never in the response body
       res.cookie(COOKIE_NAME, result.tokens.refreshToken, COOKIE_OPTIONS);
 
       return res.status(201).json({
         success: true,
-        message: "Signup successful",
+        message: "activation successful",
         data: {
           id: result.id,
           email: result.email,

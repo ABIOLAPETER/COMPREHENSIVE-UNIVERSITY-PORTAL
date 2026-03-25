@@ -44,25 +44,28 @@ export class PaymentController {
   }
 
   static async handleWebhook(
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) {
-    try {
-      const signature = req.headers["x-paystack-signature"] as string;
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const signature = req.headers["x-paystack-signature"] as string;
 
-      if (!signature) {
-        return res.status(400).json({ success: false, message: "Missing signature" });
-      }
-
-      await PaymentService.handleWebhook(req.body, signature);
-
-      return res.status(200).json({ success: true });
-    } catch (error) {
-      next(error);
+    if (!signature) {
+      return res.status(400).json({ success: false, message: "Missing signature" });
     }
-  }
 
+    // req.body is now a Buffer — convert to string for signature verification
+    const rawBody = req.body.toString();
+    const payload = JSON.parse(rawBody);
+
+    await PaymentService.handleWebhook(payload, signature, rawBody);
+
+    return res.status(200).json({ success: true });
+  } catch (error) {
+    next(error);
+  }
+}
   static async getStudentPayments(
     req: Request,
     res: Response,

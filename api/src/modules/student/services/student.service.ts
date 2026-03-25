@@ -11,74 +11,74 @@ import mongoose from "mongoose";
 
 export class StudentService {
 
-  static async updateStudent(data: UpdateStudentDto & { studentId: string }): Promise<IStudent> {
-    const session = await mongoose.startSession();
-    session.startTransaction();
+  // static async updateStudent(data: UpdateStudentDto & { studentId: string }): Promise<IStudent> {
+    // const session = await mongoose.startSession();
+    // session.startTransaction();
 
-    try {
-      const student = await Student.findById(data.studentId).session(session);
-      if (!student) throw new NotFoundError("Student not found");
+    // try {
+    //   const student = await Student.findById(data.studentId).session(session);
+    //   if (!student) throw new NotFoundError("Student not found");
 
-      const department = await DepartmentModel
-        .findById(data.departmentId)
-        .select("code faculty")
-        .session(session);
-      if (!department) throw new NotFoundError("Department not found");
+    //   const department = await DepartmentModel
+    //     .findById(data.departmentId)
+    //     .select("code faculty")
+    //     .session(session);
+    //   if (!department) throw new NotFoundError("Department not found");
 
-      const faculty = await FacultyModel
-        .findById(department.faculty)
-        .select("code")
-        .session(session);
-      if (!faculty) throw new NotFoundError("Faculty not found");
+    //   const faculty = await FacultyModel
+    //     .findById(department.faculty)
+    //     .select("code")
+    //     .session(session);
+    //   if (!faculty) throw new NotFoundError("Faculty not found");
 
-      const sequence = await CounterService.generateSequence(
-        new Date().getFullYear(),
-        session
-      );
+    //   const sequence = await CounterService.generateSequence(
+    //     new Date().getFullYear(),
+    //     session
+    //   );
 
-      const matricNumber = generateMatricNumber(
-        faculty.code,
-        department.code,
-        new Date().getFullYear(),
-        sequence
-      );
+    //   const matricNumber = generateMatricNumber(
+    //     faculty.code,
+    //     department.code,
+    //     new Date().getFullYear(),
+    //     sequence
+    //   );
 
-      let level = data.level;
-      if (data.admissionType === AdmissionType.DIRECT_ENTRY) {
-        level = 200;
-      } else if (data.admissionType === AdmissionType.TRANSFER) {
-        level = level ?? 100;
-      }
+    //   let level = data.level;
+    //   if (data.admissionType === AdmissionType.DIRECT_ENTRY) {
+    //     level = 200;
+    //   } else if (data.admissionType === AdmissionType.TRANSFER) {
+    //     level = level ?? 100;
+    //   }
 
-      const updated = await Student.findByIdAndUpdate(
-        data.studentId,
-        {
-          department: department._id,
-          faculty: faculty._id,
-          matricNumber,
-          level,
-          admissionType: data.admissionType,
-        },
-        { new: true, session }
-      ).populate("department").populate("user");
-      if (!updated){
-        throw new BadRequestError("cannot update")
-      }
+    //   const updated = await Student.findByIdAndUpdate(
+    //     data.studentId,
+    //     {
+    //       department: department._id,
+    //       faculty: faculty._id,
+    //       matricNumber,
+    //       level,
+    //       admissionType: data.admissionType,
+    //     },
+    //     { new: true, session }
+    //   ).populate("department").populate("user");
+    //   if (!updated){
+    //     throw new BadRequestError("cannot update")
+    //   }
 
-      await session.commitTransaction();
+    //   await session.commitTransaction();
 
-      // Invalidate student profile cache
-      await redisClient.del(`student:user:${updated.user}`);
+    //   // Invalidate student profile cache
+    //   await redisClient.del(`student:user:${updated.user}`);
 
-      return updated;
+    //   return updated;
 
-    } catch (error) {
-      await session.abortTransaction();
-      throw error;
-    } finally {
-      session.endSession();
-    }
-  }
+    // } catch (error) {
+    //   await session.abortTransaction();
+    //   throw error;
+    // } finally {
+    //   session.endSession();
+    // }
+  // }
 
   static async getStudentProfile(userId: string): Promise<IStudent> {
     const cacheKey = `student:user:${userId}`;

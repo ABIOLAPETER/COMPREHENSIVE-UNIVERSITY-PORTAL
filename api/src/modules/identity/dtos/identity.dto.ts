@@ -13,3 +13,9 @@ export type AuthResponse = {
         refreshToken: string;
     }
 }
+
+export type accountActivationDto = {
+    jambRegNo: string;
+    email: string;
+    password: string
+}

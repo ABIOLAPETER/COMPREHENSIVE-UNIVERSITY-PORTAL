@@ -105,6 +105,8 @@ export class PaymentService {
       await payment.save();
       throw new BadRequestError("Payment was not successful");
     }
+      console.log("Updating registration:", payment.registrationId); // ← add this
+
     const session = await mongoose.startSession();
     session.startTransaction();
 
@@ -119,7 +121,8 @@ export class PaymentService {
         { feesPaid: true },
         { session }
       );
-
+const check = await RegistrationModel.findById(payment.registrationId).session(session);
+  console.log("Registration after update:", check?.feesPaid);
       await session.commitTransaction();
       return payment;
 
@@ -131,28 +134,24 @@ export class PaymentService {
     }
   }
 
-  static async handleWebhook(payload: any, signature: string): Promise<void> {
-    // Verify webhook signature
-    const hash = crypto
-      .createHmac("sha512", env.PAYSTACK_WEBHOOK_SECRET)
-      .update(JSON.stringify(payload))
-      .digest("hex");
+  static async handleWebhook(payload: any, signature: string, rawBody: string): Promise<void> {
+  const hash = crypto
+    .createHmac("sha512", env.PAYSTACK_SECRET_KEY)
+    .update(rawBody) // ← use rawBody not JSON.stringify(payload)
+    .digest("hex");
 
-    if (hash !== signature) {
-      throw new AuthError("Invalid webhook signature");
-    }
+  if (hash !== signature) {
+    throw new AuthError("Invalid webhook signature");
+  }
 
-    // Only handle successful charges
-    if (payload.event === "charge.success") {
-      const reference = payload.data.reference;
-      const existing  = await PaymentModel.findOne({ reference, status: PaymentStatus.SUCCESS });
-
-      // Idempotency check — don't process twice
-      if (!existing) {
-        await this.verifyPayment(reference);
-      }
+  if (payload.event === "charge.success") {
+    const reference = payload.data.reference;
+    const existing  = await PaymentModel.findOne({ reference, status: PaymentStatus.SUCCESS });
+    if (!existing) {
+      await this.verifyPayment(reference);
     }
   }
+}
 
   static async getStudentPayments(studentId: string): Promise<IPayment[]> {
     const payments = await PaymentModel

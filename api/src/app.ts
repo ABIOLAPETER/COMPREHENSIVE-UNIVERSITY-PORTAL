@@ -16,6 +16,7 @@ import departmentRouter from "./modules/department/routes/department.routes";
 import studentRouter from "./modules/student/routes/student.routes";
 import gpaRouter from "./modules/result/routes/gpa.routes";
 import cgpaRouter from "./modules/result/routes/cgpa.routes";
+import paymentRouter from "./modules/Payments/routes/payments.routes";
 import { connectDB } from "./config/Database";
 import healthCheck from "./modules/identity/routes/health.routes";
 import { errorHandler } from "./shared/middleware/error.middleware";
@@ -25,6 +26,9 @@ app.use(cors({
   origin: ['http://127.0.0.1:5500', 'http://localhost:5500'],
   credentials: true
 }));
+
+// Add this BEFORE app.use(express.json())
+app.use('/v1/api/payments/webhook', express.raw({ type: 'application/json' }));
 
 app.use(express.json());
 app.use(helmet());
@@ -49,6 +53,7 @@ app.use('/v1/api/results', resultRouter);
 app.use('/v1/api/students', studentRouter);
 app.use('/v1/api/cgpa', cgpaRouter)
 app.use('/v1/api/gpa', gpaRouter)
+app.use('/v1/api/payments', paymentRouter)
 app.use('/health', healthCheck)
 
 app.use(errorHandler)

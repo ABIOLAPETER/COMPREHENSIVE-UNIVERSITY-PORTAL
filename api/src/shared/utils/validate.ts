@@ -11,6 +11,14 @@ export const validate = (schema: Joi.Schema, data: any) => {
     return value;
 }
 
+export const validateAccountActivation = (data: any) => {
+    const schema = Joi.object({
+        email: Joi.string().email().required().max(50),
+        password: Joi.string().required().max(50).min(8),
+        jambRegNo: Joi.string().required()
+    });
+    return validate(schema, data);
+}
 export const validateStudentCreation = (data: any) => {
     const schema = Joi.object({
         firstName: Joi.string().required(),

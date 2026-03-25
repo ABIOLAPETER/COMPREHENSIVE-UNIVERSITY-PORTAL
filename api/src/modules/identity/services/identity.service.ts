@@ -1,9 +1,11 @@
 import bcrypt from "bcryptjs";
 import { Types } from "mongoose";
-import { AuthError, BadRequestError, ConflictError } from "../../../shared/errors/AppError";
+import { AuthError, BadRequestError, ConflictError, NotFoundError, ValidationError } from "../../../shared/errors/AppError";
 import { env } from "../../../config/env";
 import mongoose from "mongoose";
 import { UserModel, Role } from "../models/identity.models";
+import { CounterService } from "../../student/services/counter.service";
+import { generateMatricNumber } from "../../../shared/utils/generateMatricNumber";
 import {
   generateAccessToken,
   generateRefreshToken,
@@ -12,7 +14,12 @@ import {
 import { User } from "../models/identity.models";
 import { RefreshToken } from "../models/refresh-token.model";
 import Student from "../../student/models/student.model";
-import { AuthResponse, LoginDto, RefreshTokenDto, SignupDto } from "../dtos/identity.dto";
+import { accountActivationDto, AuthResponse, LoginDto, RefreshTokenDto, SignupDto } from "../dtos/identity.dto";
+import { validateAccountActivation } from "../../../shared/utils/validate";
+import { DatabaseSync } from "node:sqlite";
+import { AdmissionModel, EntryType } from "../../Admission/models/admission.models";
+import { FacultyModel } from "../../faculty/models/faculty.model";
+import { DepartmentModel } from "../../department/models/department.model";
 
 export class AuthService {
   private static readonly SALT_ROUNDS = 12;
@@ -62,46 +69,107 @@ export class AuthService {
     return "The comprehensive university portal is working"
   }
 
-  static async signup(data: SignupDto): Promise<AuthResponse> {
-    const { email, password, lastName, firstName } = data;
+  static async studentAccountActivation(data: accountActivationDto): Promise<AuthResponse> {
+    const { jambRegNo, email, password } = data;
 
-    const existingUser = await UserModel.findOne({ email });
-    if (existingUser) {
-      throw new ConflictError("Email is already registered");
+    if (!jambRegNo || !email || !password) {
+      throw new ValidationError("Missing required fields");
     }
 
-    const passwordHash = await bcrypt.hash(password, this.SALT_ROUNDS);
-    const session = await mongoose.startSession()
-    session.startTransaction()
+    validateAccountActivation(data);
+
+    const session = await mongoose.startSession();
+    session.startTransaction();
+
     try {
+
+      const admittedStudent = await AdmissionModel.findOne({
+        jambRegNo,
+      }).session(session);
+
+      if (!admittedStudent) {
+        throw new NotFoundError("No admission record found");
+      }
+
+      if (admittedStudent.isActivated) {
+        throw new ConflictError("Account already activated");
+      }
+
+      const existingUser = await UserModel.findOne({ email }).session(session);
+      if (existingUser) {
+        throw new ConflictError("Email is already registered");
+      }
+
+
+      const department = await DepartmentModel
+        .findOne({ name: admittedStudent.department })
+        .select("code")
+        .session(session);
+
+      if (!department) throw new NotFoundError("Department not found");
+
+      const faculty = await FacultyModel
+        .findOne({ name: admittedStudent.faculty })
+        .select("code")
+        .session(session);
+
+      if (!faculty) throw new NotFoundError("Faculty not found");
+
+      const sequence = await CounterService.generateSequence(
+        new Date().getFullYear(),
+        session
+      );
+
+      const matricNumber = generateMatricNumber(
+        faculty.code,
+        department.code,
+        new Date().getFullYear(),
+        sequence
+      );
+
+      const level = admittedStudent.entryType === EntryType.DE ? 200 : 100;
+      const passwordHash = await bcrypt.hash(password, this.SALT_ROUNDS);
+
       const [user] = await UserModel.create([{
         email,
-        lastName,
-        firstName,
+        lastName: admittedStudent.lastName,
+        firstName: admittedStudent.firstName,
         passwordHash,
         isEmailVerified: false,
         role: Role.STUDENT,
       }], { session });
 
-      const [newStudent] = await Student.create([{
-        lastName,
-        firstName,
+      await Student.create([{
+        lastName: admittedStudent.lastName,
+        firstName: admittedStudent.firstName,
+        department: department._id,
+        faculty: faculty._id,
         user: user._id,
+        matricNumber,
+        level,
+        admissionType: admittedStudent.entryType
       }], { session });
 
-      if (!newStudent) {
-        throw new BadRequestError("Could not create student");
-      }
-      await session.commitTransaction()
-      const tokens = await this.issueTokens({ userId: user._id, role: user.role });
+      admittedStudent.isActivated = true;
+      // admittedStudent.activatedAt = new Date();
+      await admittedStudent.save({ session });
+
+      await session.commitTransaction();
+      const tokens = await this.issueTokens({
+        userId: user._id,
+        role: user.role,
+      });
+
+
       return {
         id: user._id,
         email: user.email,
         role: user.role,
         tokens,
       };
+
     } catch (error) {
-      await session.abortTransaction()
+      await session.abortTransaction();
       throw error;
     } finally {
       session.endSession();
@@ -211,4 +279,5 @@ export class AuthService {
     const users = await UserModel.find().select("email role firstName lastName");
     return users;
   }
+
 }

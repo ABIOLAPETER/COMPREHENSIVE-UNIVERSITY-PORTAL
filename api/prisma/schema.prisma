@@ -1,0 +1,51 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Admission {
+  id              String   @id @default(uuid())
+  jambRegNo       String   @unique
+  applicationNo   String?
+
+  firstName       String
+  lastName        String
+  middleName      String?
+
+  dateOfBirth     DateTime
+  gender          String?
+
+  department      String
+  faculty         String
+
+  entryType       EntryType
+  level           Int
+
+  admissionYear   Int
+  status          AdmissionStatus @default(PENDING)
+
+  isActivated     Boolean @default(false)
+  activatedAt     DateTime?
+
+  admissionBatch  String?
+  source          String?
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+enum AdmissionStatus {
+  PENDING
+  OFFERED
+  REJECTED
+  ACCEPTED
+}
+
+enum EntryType {
+  JAMB
+  DE
+}
