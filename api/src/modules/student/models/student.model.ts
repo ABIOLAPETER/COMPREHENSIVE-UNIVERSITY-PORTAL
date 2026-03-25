@@ -17,8 +17,8 @@ export interface IStudent {
 }
 
 export enum AdmissionType {
-    UTME = "UTME",
-    DIRECT_ENTRY = "DIRECT_ENTRY",
+    UTME = "JAMB",
+    DIRECT_ENTRY = "DE",
     TRANSFER = "TRANSFER",
 }
 

@@ -63,6 +63,6 @@ const paymentSchema = new Schema<IPayment>(
 paymentSchema.index({ studentId: 1 });
 paymentSchema.index({ registrationId: 1 });
 paymentSchema.index({ studentId: 1, session: 1 });
-paymentSchema.index({ reference: 1 }, { unique: true, sparse: true });
+// paymentSchema.index({ reference: 1 }, { unique: true, sparse: true });
 
 export const PaymentModel = mongoose.model<IPayment>("Payment", paymentSchema);
