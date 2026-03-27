@@ -5,3 +5,8 @@ export type createLecturerDto = {
     lastName: string,
     departmentId: string
 }
+
+export type updateLecturerDto = {
+    firstName: string,
+    lastName: string
+}

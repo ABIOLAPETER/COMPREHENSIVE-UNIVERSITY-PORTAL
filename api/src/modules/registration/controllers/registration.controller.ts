@@ -4,14 +4,14 @@ import { NotFoundError } from "../../../shared/errors/AppError";
 import { AddCourseDto } from "../dtos/registration.dtos";
 import Student from "../../student/models/student.model";
 import { RegistrationStatus } from "../models/registration.model";
-import { getStudentIdFromRequest } from "../../../shared/utils/getStudentId";
+import { getStudentIdFromRequest } from "../../../shared/utils/getIds";
 
 export class RegistrationController {
-  
+
   // ── Helper: get the student profile using the userId stored in the JWT ──────
   private static async getStudentIdFromToken(req: Request): Promise<string> {
     const studentId = await getStudentIdFromRequest(req);
-    
+
     return studentId.toString();
   }
 
@@ -162,7 +162,7 @@ export class RegistrationController {
     next: NextFunction
   ) {
     try {
-          const status = req.query.status as RegistrationStatus | "ALL" | undefined;
+      const status = req.query.status as RegistrationStatus | "ALL" | undefined;
 
       const registrations = await RegistrationService.getAllRegistrations(status);
 

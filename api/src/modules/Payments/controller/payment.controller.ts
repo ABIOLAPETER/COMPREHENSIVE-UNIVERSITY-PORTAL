@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { getStudentIdFromRequest } from "../../../shared/utils/getStudentId";
+import { getStudentIdFromRequest } from "../../../shared/utils/getIds";
 import { PaymentService } from "../services/payment.services";
 
 export class PaymentController {
@@ -10,7 +10,7 @@ export class PaymentController {
     next: NextFunction
   ) {
     try {
-      const studentId      = await getStudentIdFromRequest(req);
+      const studentId = await getStudentIdFromRequest(req);
       const registrationId = req.body.registrationId;
 
       const payment = await PaymentService.initiatePayment({ studentId, registrationId });
@@ -44,28 +44,28 @@ export class PaymentController {
   }
 
   static async handleWebhook(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
-  try {
-    const signature = req.headers["x-paystack-signature"] as string;
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const signature = req.headers["x-paystack-signature"] as string;
 
-    if (!signature) {
-      return res.status(400).json({ success: false, message: "Missing signature" });
+      if (!signature) {
+        return res.status(400).json({ success: false, message: "Missing signature" });
+      }
+
+      // req.body is now a Buffer — convert to string for signature verification
+      const rawBody = req.body.toString();
+      const payload = JSON.parse(rawBody);
+
+      await PaymentService.handleWebhook(payload, signature, rawBody);
+
+      return res.status(200).json({ success: true });
+    } catch (error) {
+      next(error);
     }
-
-    // req.body is now a Buffer — convert to string for signature verification
-    const rawBody = req.body.toString();
-    const payload = JSON.parse(rawBody);
-
-    await PaymentService.handleWebhook(payload, signature, rawBody);
-
-    return res.status(200).json({ success: true });
-  } catch (error) {
-    next(error);
   }
-}
   static async getStudentPayments(
     req: Request,
     res: Response,
@@ -73,7 +73,7 @@ export class PaymentController {
   ) {
     try {
       const studentId = await getStudentIdFromRequest(req);
-      const payments  = await PaymentService.getStudentPayments(studentId);
+      const payments = await PaymentService.getStudentPayments(studentId);
 
       return res.status(200).json({
         success: true,

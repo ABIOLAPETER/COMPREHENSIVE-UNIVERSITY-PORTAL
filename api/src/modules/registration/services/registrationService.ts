@@ -226,7 +226,7 @@ export class RegistrationService {
         registrationCourseIds: mongoose.Types.ObjectId[]
     ): Promise<boolean> {
 
-        // FIX: same issue — resolve semester name to ObjectId before querying Results
+       
         const semesterDoc = await SemesterModel.findOne({ name: semesterName, isActive: true });
         if (!semesterDoc) return false;
 
