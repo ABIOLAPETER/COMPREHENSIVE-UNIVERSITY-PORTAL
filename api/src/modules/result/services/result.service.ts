@@ -1,20 +1,14 @@
 import { IResult, ResultModel, ResultStatus } from "../models/result.model";
 import { ValidationError, NotFoundError, ConflictError, BadRequestError } from "../../../shared/errors/AppError";
 import { Types } from "mongoose";
-
 import { SemesterService } from "../../semester/services/semester.services";
 import { SessionService } from "../../session/services/session.services";
-import {
-  generateGradeFromScore,
-  generateGradePointFromGrade,
-} from "../../../shared/utils/generateGradeFromScore";
-
+import { generateGradeFromScore, generateGradePointFromGrade } from "../../../shared/utils/generateGradeFromScore";
 import Student from "../../student/models/student.model";
 import { CourseModel } from "../../course/models/course.model";
 import { Grade } from "../models/result.model";
-
 import { GPAService } from "./gpaService.service";
-import { CGPAService } from "./CGPAService.service";
+
 export class ResultService {
   static async createDraftResult(data: {
     studentId: Types.ObjectId;
@@ -97,9 +91,38 @@ export class ResultService {
     }
   }
 
-
-
   static async publishResultService(resultId: string) {
+
+    const result = await ResultModel.findById(resultId);
+
+    if (!result) {
+      throw new NotFoundError("Result does not exist");
+    }
+
+    if (result.status === ResultStatus.PUBLISHED) {
+      throw new BadRequestError("Result already published");
+    }
+    const activeSession = await SessionService.getActiveSession();
+
+    if (result.session !== activeSession._id) {
+      throw new BadRequestError("Cannot publish result for an inactive session");
+    }
+
+    // Ensure result belongs to active semester
+    const activeSemester = await SemesterService.getActiveSemester();
+    if (result.semester !== activeSemester._id) {
+      throw new BadRequestError("Cannot publish result for an inactive semester");
+    }
+
+    result.status = ResultStatus.PUBLISHED;
+    await result.save();
+
+    await GPAService.calculateAndUpsertGPA(result.student);
+
+    return result;
+  }
+
+  static async bulkPublishResultForCourseService(resultId: string) {
 
     const result = await ResultModel.findById(resultId);
 
