@@ -3,27 +3,27 @@ import { StudentService } from "../services/student.service";
 import { UpdateStudentDto } from "../dtos/student.dtos";
 
 export class StudentController {
+// No more updating of student for now as signup method has been changed to an activation approach 
+  // static async updateStudent(
+  //   req: Request<{ studentId: string }, {}, UpdateStudentDto>,
+  //   res: Response,
+  //   next: NextFunction
+  // ) {
+  //   try {
+  //     const student = await StudentService.updateStudent({
+  //       ...req.body,
+  //       studentId: req.params.studentId,
+  //     });
 
-  static async updateStudent(
-    req: Request<{ studentId: string }, {}, UpdateStudentDto>,
-    res: Response,
-    next: NextFunction
-  ) {
-    try {
-      const student = await StudentService.updateStudent({
-        ...req.body,
-        studentId: req.params.studentId,
-      });
-
-      return res.status(200).json({
-        success: true,
-        message: "Student updated successfully",
-        data: student,
-      });
-    } catch (err) {
-      next(err);
-    }
-  }
+  //     return res.status(200).json({
+  //       success: true,
+  //       message: "Student updated successfully",
+  //       data: student,
+  //     });
+  //   } catch (err) {
+  //     next(err);
+  //   }
+  // }
 
   static async getStudentProfile(
     req: Request<{ userId: string }>,

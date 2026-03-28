@@ -8,7 +8,7 @@ import { CGPAService } from "./CGPAService.service";
 import { logger } from "../../../shared/utils/logger";
 import { BadRequestError } from "../../../shared/errors/AppError";
 export class GPAService {
-  static async calculateAndUpsertGPA(studentId: Types.ObjectId) {
+  static async calculateAndUpsertGPA(studentId: string) {
 
     const semester = await SemesterService.getActiveSemester();
     if (!semester) {

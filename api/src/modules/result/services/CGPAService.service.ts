@@ -8,7 +8,7 @@ import Student from "../../student/models/student.model";
 
 export class CGPAService {
 
-    static async calculateAndUpsertCGPA(studentId: Types.ObjectId) {
+    static async calculateAndUpsertCGPA(studentId: string) {
 
         const student = await Student.findById(studentId);
         if (!student) {

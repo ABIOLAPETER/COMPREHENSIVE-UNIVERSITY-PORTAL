@@ -1,7 +1,7 @@
 import { AdmissionType } from "../models/student.model";
 
 export type UpdateStudentDto = {
-  departmentId: string;
+  dateOfBirth: string
   admissionType: AdmissionType;
   level?: number;
 }

@@ -1,55 +1,89 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { ResultService } from "../services/result.service";
+import { createDraftResultDto } from "../dtos/result.dtos";
+import { getStudentIdFromRequest } from "../../../shared/utils/getIds";
 
-export class ResultController{
+export class ResultController {
 
-static async createResult(req: Request, res: Response){
-    try {
-        const {studentId, courseId, score} = req.body
+    static async createResult(
+        req: Request<{}, {}, createDraftResultDto>,
+        res: Response,
+        next: NextFunction
+    ) {
+        try {
+            const studentId = await getStudentIdFromRequest(req)
+            const createDraftResult = await ResultService.createDraftResult(req.body, studentId)
 
-        const createDraftResult = await ResultService.createDraftResult({studentId, courseId, score})
+            res.status(201).json({
+                success: true,
+                message: "Draft result created successfully",
+                data: createDraftResult
+            })
+        } catch (error) {
+            next(error)
+        }
 
-        res.status(201).json({
-            message: "Draft result created successfully", createDraftResult
-        })
-    } catch (error) {
-        res.status(400).json({ error: error instanceof Error ? error.message : "Create draft result failed" });
-    }
-    
 
-    
-
-}
-
-static async publishResult(req: Request, res: Response){
-    try {
-        const {resultId} = req.params
-
-        const publishResult = await ResultService.publishResultService(resultId.toString())
-
-        res.status(201).json({
-            message: "Published result  successfully", publishResult
-        })
-    } catch (error) {
-        res.status(400).json({ error: error instanceof Error ? error.message : "could not PUBLISH RESULT" });
     }
 
-}
+    static async publishResult(
+        req: Request<{ resultId: string }>,
+        res: Response,
+        next: NextFunction
+    ) {
+        try {
+            const publishResult = await ResultService.publishResultService(req.params.resultId)
 
-
-static async publishResultByCourse(req: Request, res: Response){
-    try {
-        const {courseId} = req.params
-
-        const publishedResult = await ResultService.publishResultService(courseId.toString())
-
-        res.status(201).json({
-            message: "Published result successfully", publishedResult
-        })
-    } catch (error) {
-        res.status(400).json({ error: error instanceof Error ? error.message : "could not PUBLISH RESULT" });
+            res.status(201).json({
+                success: true,
+                message: "Published result  successfully",
+                data: publishResult
+            })
+        } catch (error) {
+            next(error)
+        }
     }
 
-}
+
+    static async publishResultByCourse(
+        req: Request<{ courseId: string }>,
+        res: Response,
+        next: NextFunction
+    ) {
+        try {
+
+
+            const publishedResult = await ResultService.publishResultService(req.params.courseId)
+            res.status(201).json({
+                success: true,
+                message: "Published result successfully",
+                data: publishedResult
+            })
+        } catch (error) {
+            next(error)
+        }
+
+    }
+    static async publishResultBySemester(
+        req: Request<{ semesterId: string }>,
+        res: Response,
+        next: NextFunction
+    ) {
+        try {
+
+
+            const publishedResult = await ResultService.bulkPublishResultForSemesterService(req.params.semesterId)
+            res.status(201).json({
+                success: true,
+                message: "Published result successfully",
+                data: publishedResult
+            })
+        } catch (error) {
+            next(error)
+        }
+
+    }
+
+
 }
 
