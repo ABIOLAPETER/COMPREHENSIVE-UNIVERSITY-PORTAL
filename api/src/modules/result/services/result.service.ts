@@ -159,4 +159,140 @@ export class ResultService {
 
     return { publishedCount: results.length };
   }
+// GET /results/my-results — all published results for student
+static async viewMyResults(studentId: string): Promise<IResult[]> {
+  const student = await Student.findById(studentId);
+  if (!student) throw new NotFoundError("Student not found");
+
+  const results = await ResultModel.find({
+    student:    student._id,
+    status:     ResultStatus.PUBLISHED,
+  })
+    .populate("course", "code title creditUnits type")
+    .populate("semester", "name")
+    .populate("session", "name")
+    .sort({ createdAt: -1 });
+
+  return results;
+}
+
+// GET /results/my-results?session=sessionId — filter by session
+static async viewMyResultsBySession(
+  studentId: string,
+  sessionId: string
+): Promise<IResult[]> {
+  const student = await Student.findById(studentId);
+  if (!student) throw new NotFoundError("Student not found");
+
+  const results = await ResultModel.find({
+    student: student._id,
+    session: sessionId,
+    status:  ResultStatus.PUBLISHED,
+  })
+    .populate("course", "code title creditUnits type")
+    .populate("semester", "name")
+    .sort({ createdAt: -1 });
+
+  return results;
+}
+
+// GET /results/my-results/:courseId — single course result
+static async viewResultForCourse(
+  studentId: string,
+  courseId: string
+): Promise<IResult> {
+  const student = await Student.findById(studentId);
+  if (!student) throw new NotFoundError("Student not found");
+
+  const activeSemester = await SemesterService.getActiveSemester();
+  const activeSession  = await SessionService.getActiveSession();
+
+  const result = await ResultModel.findOne({
+    student:  student._id,
+    course:   courseId,
+    semester: activeSemester._id,
+    session:  activeSession._id,
+    status:   ResultStatus.PUBLISHED,
+  }).populate("course", "code title creditUnits type");
+
+  if (!result) throw new NotFoundError("Result not found");
+
+  return result;
+}
+
+// GET /results/transcript — full academic record grouped by session
+static async getTranscript(studentId: string) {
+  const student = await Student.findById(studentId)
+    .populate("department", "name")
+    .populate("faculty", "name");
+
+  if (!student) throw new NotFoundError("Student not found");
+
+  const results = await ResultModel.find({
+    student: student._id,
+    status:  ResultStatus.PUBLISHED,
+  })
+    .populate("course", "code title creditUnits type")
+    .populate("session", "name")
+    .populate("semester", "name")
+    .sort({ createdAt: 1 });
+
+  // Group by session → semester
+  const transcript: Record<string, any> = {};
+
+  for (const result of results) {
+    const sessionName  = (result.session as any)?.name || "Unknown";
+    const semesterName = (result.semester as any)?.name || "Unknown";
+
+    if (!transcript[sessionName]) {
+      transcript[sessionName] = {};
+    }
+
+    if (!transcript[sessionName][semesterName]) {
+      transcript[sessionName][semesterName] = {
+        results:      [],
+        totalCredits: 0,
+        totalPoints:  0,
+        gpa:          0,
+      };
+    }
+
+    transcript[sessionName][semesterName].results.push(result);
+    transcript[sessionName][semesterName].totalCredits += result.creditUnits;
+    transcript[sessionName][semesterName].totalPoints  += result.gradePoint * result.creditUnits;
+  }
+
+  // Calculate GPA per semester
+  for (const session of Object.values(transcript)) {
+    for (const semester of Object.values(session as any)) {
+      const s = semester as any;
+      s.gpa = s.totalCredits > 0
+        ? parseFloat((s.totalPoints / s.totalCredits).toFixed(2))
+        : 0;
+    }
+  }
+
+  return {
+    student: {
+      name:         `${student.firstName} ${student.lastName}`,
+      matricNumber: student.matricNumber,
+      department:   (student.department as any)?.name,
+      level:        student.level,
+    },
+    transcript,
+  };
+}
+// ```
+
+// ---
+
+// **Routes to add:**
+// ```
+// GET /results/my-results              → viewMyResults
+// GET /results/my-results?session=id   → viewMyResultsBySession
+// GET /results/my-results/:courseId    → viewResultForCourse
+// GET /results/transcript              → getTranscript
+// // GET /results/my-results?session=2024/2025 — filter by session
+
+
 }

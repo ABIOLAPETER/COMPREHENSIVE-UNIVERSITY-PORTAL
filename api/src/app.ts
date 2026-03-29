@@ -20,6 +20,7 @@ import paymentRouter from "./modules/Payments/routes/payments.routes";
 import { connectDB } from "./config/Database";
 import healthCheck from "./modules/identity/routes/health.routes";
 import { errorHandler } from "./shared/middleware/error.middleware";
+import lecturerRouter from "./modules/Lecturer/routes/lecturer.routes";
 const app = express();
 // Middlewares
 app.use(cors({
@@ -54,6 +55,7 @@ app.use('/v1/api/students', studentRouter);
 app.use('/v1/api/cgpa', cgpaRouter)
 app.use('/v1/api/gpa', gpaRouter)
 app.use('/v1/api/payments', paymentRouter)
+app.use('/v1/api/lecturers', lecturerRouter)
 app.use('/health', healthCheck)
 
 app.use(errorHandler)

@@ -1,13 +1,21 @@
 import { Router } from "express";
 import { ResultController } from "../controllers/result.controller";
-import { validateToken, adminMiddleware } from "../../../shared/middleware/auth.middleware";
+import { validateToken } from "../../../shared/middleware/auth.middleware";
+import { adminMiddleware } from "../../../shared/middleware/auth.middleware";
 
 const resultRouter = Router();
 
-resultRouter.post('/create-result', validateToken, adminMiddleware, ResultController.createResult)
+resultRouter.use(validateToken);
 
-resultRouter.post('/publish/:courseId', validateToken, adminMiddleware, ResultController.publishResultByCourse)
+// Admin routes
+resultRouter.post("/create", adminMiddleware, ResultController.createResult);
+resultRouter.patch("/publish/result/:resultId", adminMiddleware, ResultController.publishResult);
+resultRouter.patch("/publish/course/:courseId", adminMiddleware, ResultController.publishResultByCourse);
+resultRouter.patch("/publish/semester/:semesterId", adminMiddleware, ResultController.publishResultBySemester);
 
-resultRouter.post('/publish/:resultId', validateToken, adminMiddleware, ResultController.publishResult)
+// Student routes
+resultRouter.get("/my-results", ResultController.viewMyResults);
+resultRouter.get("/my-results/:courseId", ResultController.viewResultForCourse);
+resultRouter.get("/transcript", ResultController.getTranscript);
 
-export default resultRouter
+export default resultRouter;

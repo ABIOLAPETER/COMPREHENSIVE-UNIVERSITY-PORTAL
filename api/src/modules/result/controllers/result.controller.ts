@@ -34,7 +34,7 @@ export class ResultController {
         try {
             const publishResult = await ResultService.publishResultService(req.params.resultId)
 
-            res.status(201).json({
+            res.status(200).json({
                 success: true,
                 message: "Published result  successfully",
                 data: publishResult
@@ -53,8 +53,8 @@ export class ResultController {
         try {
 
 
-            const publishedResult = await ResultService.publishResultService(req.params.courseId)
-            res.status(201).json({
+            const publishedResult = await ResultService.publishResultByCourseService(req.params.courseId)
+            res.status(200).json({
                 success: true,
                 message: "Published result successfully",
                 data: publishedResult
@@ -73,10 +73,68 @@ export class ResultController {
 
 
             const publishedResult = await ResultService.bulkPublishResultForSemesterService(req.params.semesterId)
-            res.status(201).json({
+            res.status(200).json({
                 success: true,
                 message: "Published result successfully",
                 data: publishedResult
+            })
+        } catch (error) {
+            next(error)
+        }
+
+    }
+
+    static async viewMyResults(req: Request<{}, {}, {}, { session?: string }>, res: Response, next: NextFunction) {
+  try {
+    const studentId = await getStudentIdFromRequest(req);
+
+    const results = req.query.session
+      ? await ResultService.viewMyResultsBySession(studentId, req.query.session)
+      : await ResultService.viewMyResults(studentId);
+
+    return res.status(200).json({
+      success: true,
+      message: "Results fetched successfully",
+      data: results,
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
+  
+    static async viewResultForCourse(
+        req: Request<{ courseId: string }>,
+        res: Response,
+        next: NextFunction
+    ) {
+        try {
+            const studentId = await getStudentIdFromRequest(req)
+
+            const result = await ResultService.viewResultForCourse(studentId, req.params.courseId)
+            res.status(200).json({
+                success: true,
+                message: "results fetched successfully",
+                data: result
+            })
+        } catch (error) {
+            next(error)
+        }
+
+    }
+    static async getTranscript(
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ) {
+        try {
+            const studentId = await getStudentIdFromRequest(req)
+
+            const transcript = await ResultService.getTranscript(studentId)
+            res.status(200).json({
+                success: true,
+                message: "transcript fetched successfully",
+                data: transcript
             })
         } catch (error) {
             next(error)
