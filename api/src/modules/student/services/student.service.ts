@@ -2,6 +2,8 @@ import { AdmissionType, IStudent } from "../models/student.model";
 import Student from "../models/student.model";
 import { DepartmentModel } from "../../department/models/department.model";
 import { generateMatricNumber } from "../../../shared/utils/generateMatricNumber";
+import { RegistrationStatus } from "../../registration/models/registration.model";
+import { RegistrationModel } from "../../registration/models/registration.model";
 import { FacultyModel } from "../../faculty/models/faculty.model";
 import { BadRequestError, NotFoundError } from "../../../shared/errors/AppError";
 import { CounterService } from "./counter.service";
@@ -80,12 +82,12 @@ export class StudentService {
     // }
   // }
 
-  static async getStudentProfile(userId: string): Promise<IStudent> {
-    const cacheKey = `student:user:${userId}`;
+  static async getStudentProfile(studentId: string): Promise<IStudent> {
+    const cacheKey = `student:student:${studentId}`;
     const cached = await redisClient.get(cacheKey);
     if (cached) return JSON.parse(cached);
 
-    const student = await Student.findOne({ user: userId })
+    const student = await Student.findById(studentId)
       .populate("department")
       .populate("user");
 
@@ -94,4 +96,20 @@ export class StudentService {
     await redisClient.setex(cacheKey, 21600, JSON.stringify(student));
     return student;
   }
+
+    static async getAllApprovedRegistrations(studentId: string) {
+  const student = await Student.findById(studentId);
+  if (!student) throw new NotFoundError("Student not found");
+
+  const registrations = await RegistrationModel.find({
+    student: student._id,
+    status:  RegistrationStatus.APPROVED,
+  })
+    .populate("department", "name code")
+    .populate("courses.course", "code title creditUnits type")
+    .sort({ createdAt: -1 });
+
+  return registrations;
+}
+
 }

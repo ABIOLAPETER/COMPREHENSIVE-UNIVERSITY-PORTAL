@@ -6,8 +6,7 @@ import { StudentController } from "../controllers/student.controller";
 
 const studentRouter = Router()
 
-
-studentRouter.post('/update-student/:studentId', validateToken, adminMiddleware, StudentController.updateStudent)
+studentRouter.get('/registrations/my-registrations', validateToken, StudentController.getAllApprovedRegistrations)
 studentRouter.get('/user/:userId', validateToken, StudentController.getStudentProfile)
 
 export default studentRouter;

@@ -302,6 +302,14 @@ export class AuthService {
 
     return { message: "Logged out successfully" };
   }
+  static async logoutAll(userId: string): Promise<{ message: string }> {
+  await RefreshToken.updateMany(
+    { userId, revoked: false },
+    { $set: { revoked: true } }
+  );
+
+  return { message: "Logged out from all devices successfully" };
+}
 
   static async getUsers(): Promise<User[]> {
     const users = await UserModel.find().select("email role firstName lastName");
