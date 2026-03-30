@@ -279,7 +279,7 @@ static async getTranscript(studentId: string) {
       department:   (student.department as any)?.name,
       level:        student.level,
     },
-    transcript,
+    transcript
   };
 }
 // ```

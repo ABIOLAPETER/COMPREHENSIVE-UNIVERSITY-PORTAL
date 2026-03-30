@@ -14,7 +14,6 @@ const StudentCGPASchema = new Schema<IStudentCGPA>(
     totalCredits: { type: Number, required: true },
     totalGradePoints: { type: Number, required: true },
     cgpa: { type: Number, required: true },
-
     level: { type: Number, required: true }
   },
   { timestamps: true }

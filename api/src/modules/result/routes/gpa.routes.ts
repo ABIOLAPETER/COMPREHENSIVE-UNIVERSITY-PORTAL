@@ -4,6 +4,6 @@ import { validateToken } from "../../../shared/middleware/auth.middleware";
 
 const gpaRouter = Router();
 
-gpaRouter.get('/:studentId', validateToken, GPAController.getGpa)
+gpaRouter.get('/my-gpa', validateToken, GPAController.getGpa)
 
 export default gpaRouter

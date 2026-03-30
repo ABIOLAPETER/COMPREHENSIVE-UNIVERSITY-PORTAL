@@ -176,6 +176,30 @@ export class AuthService {
     }
   }
 
+  static async changePassword(
+  oldPassword: string,
+  newPassword: string,
+  userId: string
+): Promise<string> {
+  const user = await UserModel.findById(userId);
+  if (!user) throw new NotFoundError("User not found");
+
+  const isPasswordValid = await bcrypt.compare(oldPassword, user.passwordHash);
+  if (!isPasswordValid) throw new AuthError("Current password is incorrect");
+
+  const passwordHash = await bcrypt.hash(newPassword, this.SALT_ROUNDS);
+
+  await UserModel.findByIdAndUpdate(userId, { passwordHash });
+
+  // Revoke all refresh tokens — force re-login on all devices
+  await RefreshToken.updateMany(
+    { userId, revoked: false },
+    { $set: { revoked: true } }
+  );
+
+  return "Password changed successfully";
+}
+
   static async login(data: LoginDto): Promise<AuthResponse> {
     const { email, password } = data;
 

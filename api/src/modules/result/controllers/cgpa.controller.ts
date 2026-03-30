@@ -1,20 +1,25 @@
 import { CGPAService } from "../services/CGPAService.service";
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { AppError } from "../../../shared/errors/AppError";
+import { getStudentIdFromRequest } from "../../../shared/utils/getIds";
 export class CGPAController {
-    static async getCgpa(req: Request, res: Response) {
+    static async getCgpa(
+        req: Request, 
+        res: Response,
+        next: NextFunction
+    ) {
         try {
-            const { studentId } = req.params
+            const studentId  = await getStudentIdFromRequest(req)
 
-            const cgpa = await CGPAService.getstudentCgpa(studentId.toString())
+            const cgpa = await CGPAService.getStudentCgpa(studentId)
 
             return res.status(200).json({
-                message: "cgpa retrieved successfully", cgpa
+                success: true,
+                message: "cgpa retrieved successfully", 
+                data: cgpa
             })
         } catch (error) {
-            res.status(400).json(
-                { error: error instanceof AppError ? error.message : "get cgpa failed" }
-            );
+            next(error)
         }
 
     }

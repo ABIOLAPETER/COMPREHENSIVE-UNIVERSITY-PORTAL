@@ -3,7 +3,7 @@ import { StudentGPAModel } from "../models/GPA.model";
 
 
 import { BadRequestError, NotFoundError } from "../../../shared/errors/AppError";
-import { StudentCGPAModel } from "../models/CGPA.model";
+import { IStudentCGPA, StudentCGPAModel } from "../models/CGPA.model";
 import Student from "../../student/models/student.model";
 
 export class CGPAService {
@@ -24,7 +24,7 @@ export class CGPAService {
         const totalCredits = gpas.reduce(
             (sum, gpa) => sum + gpa.totalCredits,
             0
-        ); 
+        );
 
         const totalGradePoints = gpas.reduce(
             (sum, gpa) => sum + gpa.totalGradePoints,
@@ -35,40 +35,37 @@ export class CGPAService {
             throw new BadRequestError("Total credit units cannot be zero");
         }
 
-        const cgpa = totalGradePoints / totalCredits;
-
+        const cgpa = parseFloat((totalGradePoints / totalCredits).toFixed(2));
+        
         return StudentCGPAModel.findOneAndUpdate(
             { student: studentId },
             {
-                student: studentId,
-                totalCredits,
-                totalGradePoints,
-                cgpa,
-                level: student.level,
+                $set: {
+                    totalCredits,
+                    totalGradePoints,
+                    cgpa,
+                },
+                $setOnInsert: {
+                    student: studentId,  // only set on first creation
+                    level: student.level,
+                }
             },
-            {
-                upsert: true,
-                new: true,
-            }
+            { upsert: true, new: true }
         );
     }
 
-    static async getstudentCgpa(studentId: string){
-        if (!studentId){
-            throw new BadRequestError("provide student details")
+    static async getStudentCgpa(studentId: string): Promise<IStudentCGPA> {
+        const CGPADetails = await StudentCGPAModel.findOne({ student: studentId })
+            .select("totalCredits totalGradePoints level cgpa")
+            .populate("student", "firstName lastName matricNumber");
+
+        if (!CGPADetails) {
+            throw new NotFoundError("CGPA details not found");
         }
 
-        const CGPADetails = await StudentCGPAModel.findOne({
-            student: studentId
-        })
-
-        if (!CGPADetails){
-            throw new NotFoundError("CGPA details not found")
-        }
-
-        return CGPADetails.cgpa
+        return CGPADetails;
     }
-    
+
 
 
 

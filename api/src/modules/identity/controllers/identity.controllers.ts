@@ -169,4 +169,23 @@ export class IdentityController {
       next(err)
     }
   }
+
+  // Controller
+static async changePassword(
+  req: Request, 
+  res: Response, 
+  next: NextFunction
+) {
+  try {
+    const { oldPassword, newPassword } = req.body;
+    const userId = req.user?.userId;
+    const result = await AuthService.changePassword(oldPassword, newPassword, userId);
+    return res.status(200).json({ success: true, message: result });
+  } catch (error) {
+    next(error);
+  }
+}
+
+
+
 }

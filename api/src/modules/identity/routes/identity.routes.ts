@@ -12,5 +12,6 @@ identityRouter.post("/refresh", IdentityController.refreshToken);
 
 identityRouter.post("/logout",        IdentityController.logout);
 identityRouter.get("/users", validateToken, adminMiddleware, IdentityController.getUsers);
+identityRouter.patch("/change-password", validateToken, IdentityController.changePassword);
 
 export default identityRouter;

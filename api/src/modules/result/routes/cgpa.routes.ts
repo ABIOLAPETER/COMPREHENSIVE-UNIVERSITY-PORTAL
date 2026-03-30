@@ -4,6 +4,6 @@ import { validateToken } from "../../../shared/middleware/auth.middleware";
 
 const cgpaRouter = Router();
 
-cgpaRouter.get('/:studentId', validateToken, CGPAController.getCgpa)
+cgpaRouter.get('/my-cgpa', validateToken, CGPAController.getCgpa)
 
 export default cgpaRouter

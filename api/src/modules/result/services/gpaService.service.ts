@@ -1,6 +1,6 @@
 import { Types } from "mongoose";
 import { ResultModel, ResultStatus } from "../models/result.model";
-import { StudentGPAModel } from "../models/GPA.model";
+import { IStudentGPA, StudentGPAModel } from "../models/GPA.model";
 import { SemesterService } from "../../semester/services/semester.services";
 import { SessionService } from "../../session/services/session.services";
 import { NotFoundError } from "../../../shared/errors/AppError";
@@ -77,20 +77,28 @@ export class GPAService {
   }
 
 
-  
-      static async getstudentGpa(studentId: string){
-          if (!studentId){
-              throw new BadRequestError("provide student details")
-          }
-  
-          const GPADetails = await StudentGPAModel.findOne({
-              student: studentId
-          })
-  
-          if (!GPADetails){
-              throw new NotFoundError("CGPA details not found")
-          }
-  
-          return GPADetails.gpa
-      }
+  static async getStudentGpa(
+    studentId: string,
+    semesterId?: string,
+    sessionId?: string
+  ): Promise<IStudentGPA> {
+
+    // If no semesterId/sessionId provided, default to active semester and session
+    const semester = semesterId || (await SemesterService.getActiveSemester())._id;
+    const session = sessionId || (await SessionService.getActiveSession())._id;
+
+    const GPADetails = await StudentGPAModel.findOne({
+      student: studentId,
+      semester: semester,
+      session: session,
+    })
+      .populate("semester", "name")
+      .populate("session", "name");
+
+    if (!GPADetails) {
+      throw new NotFoundError("GPA details not found");
+    }
+
+    return GPADetails;
+  }
 }
