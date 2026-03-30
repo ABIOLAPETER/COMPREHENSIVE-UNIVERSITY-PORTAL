@@ -26,7 +26,7 @@ export class AuthService {
   private static readonly REFRESH_TOKEN_TTL = env.REFRESH_TOKEN_TTL;
 
   private static async issueTokens(params: {
-    userId: Types.ObjectId;
+    userId: string;
     role: Role;
     deviceInfo?: { ip?: string; userAgent?: string };
 
@@ -48,7 +48,7 @@ export class AuthService {
   }
 
   // ── PRIVATE: keep only the most recent revoked token per user for audit ────
-  private static async cleanupRevokedTokens(userId: Types.ObjectId) {
+  private static async cleanupRevokedTokens(userId: string) {
     const lastRevoked = await RefreshToken.findOne({ userId, revoked: true })
       .sort({ updatedAt: -1 })
       .select("_id");
@@ -156,7 +156,7 @@ export class AuthService {
 
       await session.commitTransaction();
       const tokens = await this.issueTokens({
-        userId: user._id,
+        userId: user._id.toString(),
         role: user.role,
       });
 
@@ -181,6 +181,10 @@ export class AuthService {
   newPassword: string,
   userId: string
 ): Promise<string> {
+
+  if(!userId || !oldPassword || !newPassword){
+    throw new BadRequestError("Missing required fields")
+  }
   const user = await UserModel.findById(userId);
   if (!user) throw new NotFoundError("User not found");
 
@@ -222,9 +226,9 @@ export class AuthService {
       { $set: { revoked: true } }
     );
 
-    await this.cleanupRevokedTokens(user._id);
+    await this.cleanupRevokedTokens(user._id.toString());
 
-    const tokens = await this.issueTokens({ userId: user._id, role: user.role });
+    const tokens = await this.issueTokens({ userId: user._id.toString(), role: user.role });
 
     return {
       id: user._id,
@@ -261,7 +265,7 @@ export class AuthService {
       throw new AuthError("User has no assigned role");
     }
 
-    const newtokens = await this.issueTokens({ userId: user._id, role: user.role });
+    const newtokens = await this.issueTokens({ userId: user._id.toString(), role: user.role });
     const newHashedToken = await hashToken(newtokens.refreshToken)
     await RefreshToken.updateOne(
       { _id: storedToken._id },
@@ -272,7 +276,7 @@ export class AuthService {
         }
       }
     );
-    await this.cleanupRevokedTokens(user._id);
+    await this.cleanupRevokedTokens(user._id.toString());
 
     return newtokens
   }

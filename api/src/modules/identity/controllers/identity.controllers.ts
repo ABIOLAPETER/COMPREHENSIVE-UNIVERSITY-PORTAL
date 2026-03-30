@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { AuthService } from "../services/identity.service";
 import { accountActivationDto, LoginDto, SignupDto } from "../dtos/identity.dto";
+import { BadRequestError } from "../../../shared/errors/AppError";
 
 const COOKIE_NAME = "refreshToken";
 const COOKIE_OPTIONS = {
@@ -171,21 +172,25 @@ export class IdentityController {
   }
 
   // Controller
+  
 static async changePassword(
-  req: Request, 
-  res: Response, 
+  req: Request<{}, {}, { oldPassword: string; newPassword: string }>,
+  res: Response,
   next: NextFunction
 ) {
   try {
     const { oldPassword, newPassword } = req.body;
     const userId = req.user?.userId;
+
+    if (!userId) {
+      return res.status(401).json({ success: false, message: "Not authenticated" });
+    }
+
     const result = await AuthService.changePassword(oldPassword, newPassword, userId);
     return res.status(200).json({ success: true, message: result });
   } catch (error) {
     next(error);
   }
 }
-
-
 
 }
