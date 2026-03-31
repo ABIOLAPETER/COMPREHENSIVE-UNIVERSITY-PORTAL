@@ -3,15 +3,10 @@
 
 const API_BASE = "http://localhost:2003/v1/api";
 
-// Access token lives in memory only — NOT localStorage
-// This survives page navigation within the same tab but not a full refresh.
-// On refresh, the silent refresh below re-acquires it from the cookie automatically.
-let accessToken = localStorage.getItem("token") || null;
-// Note: for maximum security, don't use localStorage at all. Store only in memory
-// and rely on the cookie-based silent refresh on every page load.
 
-/* ===== SILENT REFRESH ===== */
-// Called automatically when a 401 is received OR on page load if no token in memory
+let accessToken = localStorage.getItem("token") || null;
+
+
 async function silentRefresh() {
   try {
     const res = await fetch(`${API_BASE}/auth/refresh`, {
@@ -40,7 +35,7 @@ async function silentRefresh() {
 
 /* ===== MAIN apiFetch WITH AUTO-RETRY ===== */
 async function apiFetch(url, method = "GET", body = null, retry = true) {
-  // If no token in memory, try to get one silently first (e.g. after page reload)
+
   if (!accessToken) {
     await silentRefresh();
   }

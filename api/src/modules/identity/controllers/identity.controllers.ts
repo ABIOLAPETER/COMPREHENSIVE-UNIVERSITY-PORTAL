@@ -172,25 +172,45 @@ export class IdentityController {
   }
 
   // Controller
-  
-static async changePassword(
-  req: Request<{}, {}, { oldPassword: string; newPassword: string }>,
-  res: Response,
-  next: NextFunction
-) {
-  try {
-    const { oldPassword, newPassword } = req.body;
-    const userId = req.user?.userId;
 
-    if (!userId) {
-      return res.status(401).json({ success: false, message: "Not authenticated" });
+  static async changePassword(
+    req: Request<{}, {}, { oldPassword: string; newPassword: string }>,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const { oldPassword, newPassword } = req.body;
+      const userId = req.user?.userId;
+
+      if (!userId) {
+        return res.status(401).json({ success: false, message: "Not authenticated" });
+      }
+
+      const result = await AuthService.changePassword(oldPassword, newPassword, userId);
+      return res.status(200).json({ success: true, message: result });
+    } catch (error) {
+      next(error);
     }
-
-    const result = await AuthService.changePassword(oldPassword, newPassword, userId);
-    return res.status(200).json({ success: true, message: result });
-  } catch (error) {
-    next(error);
   }
-}
+
+  static async logOutAll(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const userId = req.user?.userId as string
+
+      await AuthService.logoutAll(userId)
+
+      return res.status(200).json({
+        success: true,
+        message: "Users logged out successfully"
+      })
+
+    } catch (error) {
+      next(error)
+    }
+  }
 
 }
