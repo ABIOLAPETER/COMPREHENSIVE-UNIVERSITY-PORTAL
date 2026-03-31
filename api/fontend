@@ -1,0 +1,957 @@
+**Backend Developer: Abiola Peter Boluwatife**
+**Live API Base URL:** `https://comprehensive-university-portal-production-6f10.up.railway.app/v1/api`
+**GitHub:** https://github.com/ABIOLAPETER/COMPREHENSIVE-UNIVERSITY-PORTAL
+
+---
+
+## Table of Contents
+1. [Project Overview](#1-project-overview)
+2. [Tech Stack Recommendation](#2-tech-stack-recommendation)
+3. [Authentication — How It Works](#3-authentication--how-it-works)
+4. [Making API Requests](#4-making-api-requests)
+5. [Response Format](#5-response-format)
+6. [Error Handling](#6-error-handling)
+7. [User Roles](#7-user-roles)
+8. [All Endpoints Reference](#8-all-endpoints-reference)
+9. [Page-by-Page Guide](#9-page-by-page-guide)
+10. [Important Notes](#10-important-notes)
+
+---
+
+## 1. Project Overview
+
+This is a university academic portal with three types of users:
+
+| User | What they do |
+|---|---|
+| **Student** | Register for courses, pay fees, view results, view transcript |
+| **Admin** | Manage faculties, departments, courses, approve registrations, publish results |
+| **Lecturer** | View assigned courses, view their students, upload results |
+
+The backend is fully built and deployed. Your job is to build the React frontend that connects to it.
+
+---
+
+## 2. Tech Stack Recommendation
+
+```
+React + Vite
+React Router DOM (for page navigation)
+Axios (for API calls)
+React Query or SWR (for data fetching and caching — optional but recommended)
+TailwindCSS or plain CSS (for styling)
+```
+
+Install:
+```bash
+npm create vite@latest portal-frontend -- --template react
+cd portal-frontend
+npm install axios react-router-dom
+```
+
+---
+
+## 3. Authentication — How It Works
+
+This is the most important thing to understand before you start.
+
+### How login works:
+1. User submits email and password
+2. Backend returns an **access token** in the response body
+3. Backend also sets a **refresh token** in an **httpOnly cookie** automatically — you cannot read or touch this cookie from JavaScript, the browser handles it
+4. You save the access token in memory or localStorage
+5. Every API request must include the access token in the `Authorization` header
+
+### How token refresh works:
+- The access token expires after a short time (e.g. 15 minutes)
+- When it expires, the API returns a `401` status
+- When you get a `401`, call `POST /auth/refresh` — the browser automatically sends the cookie
+- The server returns a new access token
+- Retry the original request with the new token
+- If refresh also fails → redirect user to login page
+
+### What to store in localStorage after login:
+```javascript
+localStorage.setItem("token", data.data.accessToken);
+localStorage.setItem("role", data.data.role);       // "STUDENT", "ADMIN", or "LECTURER"
+localStorage.setItem("userId", data.data.id);
+```
+
+---
+
+## 4. Making API Requests
+
+Create a single `api.js` file that all your components use. Never write `fetch` calls directly in components.
+
+```javascript
+// src/api/api.js
+import axios from "axios";
+
+const API_BASE = "https://comprehensive-university-portal-production-6f10.up.railway.app/v1/api";
+
+let accessToken = localStorage.getItem("token") || null;
+
+const api = axios.create({
+  baseURL: API_BASE,
+  withCredentials: true, // REQUIRED — this sends the httpOnly cookie on every request
+});
+
+// Attach token to every request
+api.interceptors.request.use((config) => {
+  if (accessToken) {
+    config.headers.Authorization = `Bearer ${accessToken}`;
+  }
+  return config;
+});
+
+// Handle 401 — auto refresh token
+api.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
+
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+
+      try {
+        const res = await axios.post(`${API_BASE}/auth/refresh`, {}, { withCredentials: true });
+        accessToken = res.data.data.accessToken;
+        localStorage.setItem("token", accessToken);
+        originalRequest.headers.Authorization = `Bearer ${accessToken}`;
+        return api(originalRequest);
+      } catch (refreshError) {
+        localStorage.clear();
+        window.location.href = "/login";
+        return Promise.reject(refreshError);
+      }
+    }
+
+    return Promise.reject(error);
+  }
+);
+
+export default api;
+```
+
+### Using it in a component:
+```javascript
+import api from "../api/api";
+
+// GET request
+const response = await api.get("/faculties");
+const faculties = response.data.data; // always .data.data
+
+// POST request
+const response = await api.post("/auth/login", { email, password });
+
+// PATCH request
+const response = await api.patch(`/registrations/${id}/approve`);
+
+// DELETE request
+const response = await api.delete(`/registrations/${regId}/courses/${courseId}`);
+```
+
+---
+
+## 5. Response Format
+
+**Every single endpoint** returns the same shape:
+
+```json
+{
+  "success": true,
+  "message": "Human readable message",
+  "data": { ... }
+}
+```
+
+So always access your data like this:
+```javascript
+const response = await api.get("/students");
+const students = response.data.data; // ← always .data.data
+```
+
+For errors:
+```json
+{
+  "success": false,
+  "message": "Error description"
+}
+```
+
+---
+
+## 6. Error Handling
+
+Always wrap API calls in try/catch:
+
+```javascript
+try {
+  const response = await api.post("/auth/login", { email, password });
+  // success
+  const user = response.data.data;
+} catch (error) {
+  // error
+  const message = error.response?.data?.message || "Something went wrong";
+  console.error(message);
+  // show message to user
+}
+```
+
+Common HTTP status codes you'll see:
+| Code | Meaning |
+|---|---|
+| `200` | Success |
+| `201` | Created successfully |
+| `400` | Bad request — wrong data sent |
+| `401` | Not authenticated — token expired or missing |
+| `403` | Forbidden — you don't have permission |
+| `404` | Not found |
+| `409` | Conflict — e.g. email already registered |
+| `500` | Server error |
+
+---
+
+## 7. User Roles
+
+After login, check `localStorage.getItem("role")` to determine what the user can see.
+
+```javascript
+const role = localStorage.getItem("role");
+
+if (role === "ADMIN") { /* show admin dashboard */ }
+if (role === "STUDENT") { /* show student dashboard */ }
+if (role === "LECTURER") { /* show lecturer portal */ }
+```
+
+Use React Router to protect routes:
+
+```javascript
+// ProtectedRoute.jsx
+function ProtectedRoute({ allowedRoles, children }) {
+  const role = localStorage.getItem("role");
+  const token = localStorage.getItem("token");
+
+  if (!token) return <Navigate to="/login" />;
+  if (!allowedRoles.includes(role)) return <Navigate to="/unauthorized" />;
+
+  return children;
+}
+
+// Usage in Router
+<Route path="/admin" element={
+  <ProtectedRoute allowedRoles={["ADMIN"]}>
+    <AdminDashboard />
+  </ProtectedRoute>
+} />
+```
+
+---
+
+## 8. All Endpoints Reference
+
+### 🔐 AUTH
+
+#### Login
+```
+POST /auth/login
+Body: { "email": "string", "password": "string" }
+Response data: { "id": "userId", "email": "string", "role": "ADMIN|STUDENT|LECTURER", "accessToken": "string" }
+```
+Note: refresh token is set automatically as an httpOnly cookie.
+
+#### Account Activation (new students)
+```
+POST /auth/activate
+Body: { "jambRegNo": "string", "email": "string", "password": "string" }
+Response data: { "id", "email", "role", "accessToken" }
+```
+Students don't sign up — they receive a link with their JAMB reg number and activate their account.
+
+#### Refresh Token
+```
+POST /auth/refresh
+No body needed — browser sends cookie automatically
+Response data: { "accessToken": "string" }
+```
+
+#### Logout
+```
+POST /auth/logout
+No body — requires auth header
+Response: { "success": true, "message": "Logged out successfully" }
+```
+
+#### Logout All Devices
+```
+POST /auth/logout-all
+Requires auth header
+```
+
+#### Change Password
+```
+PATCH /auth/change-password
+Requires auth header
+Body: { "oldPassword": "string", "newPassword": "string" }
+```
+
+#### Get All Users (Admin only)
+```
+GET /auth/users
+Requires auth header + admin role
+Response data: [ { "id", "email", "role", "firstName", "lastName" } ]
+```
+
+#### Reset User Password (Admin only)
+```
+PATCH /admin/reset-password/:userId
+Requires admin role
+Resets password to "ChangeMe123!" — user must change on next login
+```
+
+---
+
+### 👤 STUDENTS
+
+#### Get Student Profile by UserId
+```
+GET /students/user/:userId
+Requires auth header
+```
+Use this right after login to get the student's full profile. Pass the `userId` from localStorage.
+
+```javascript
+const userId = localStorage.getItem("userId");
+const res = await api.get(`/students/user/${userId}`);
+const student = res.data.data;
+// student._id is the studentId you'll use for other requests
+```
+
+Response data:
+```json
+{
+  "_id": "studentId",
+  "firstName": "Abiola",
+  "lastName": "Peter",
+  "matricNumber": "SCI/CSC/2024/001",
+  "level": 300,
+  "department": { "_id": "...", "name": "Computer Science", "code": "CSC" },
+  "faculty": { "_id": "...", "name": "Science", "code": "SCI" },
+  "admissionType": "UTME",
+  "status": "ACTIVE"
+}
+```
+
+#### Get All Students (Admin only)
+```
+GET /admin/students
+Requires admin role
+```
+
+---
+
+### 🏛️ FACULTIES
+
+#### Get All Faculties
+```
+GET /faculties
+Requires auth header
+Response data: [ { "_id", "name", "code", "createdAt" } ]
+```
+
+#### Create Faculty (Admin only)
+```
+POST /faculties
+Body: { "name": "string", "code": "string" }
+```
+
+---
+
+### 🏢 DEPARTMENTS
+
+#### Get All Departments
+```
+GET /departments
+Requires auth header
+Response data: [ { "_id", "name", "code", "faculty": { "name", "code" } } ]
+```
+
+#### Get Departments by Faculty
+```
+GET /departments?faculty=facultyId
+Requires auth header
+```
+
+#### Get Single Department
+```
+GET /departments/:departmentId
+Requires auth header
+```
+
+#### Create Department (Admin only)
+```
+POST /departments
+Body: { "name": "string", "code": "string", "facultyId": "string" }
+```
+
+#### Update Department (Admin only)
+```
+PATCH /departments/:departmentId
+Body: { "name": "string", "code": "string" }
+```
+
+---
+
+### 📚 COURSES
+
+#### Get Courses by Department
+```
+GET /courses?department=departmentId
+Requires auth header
+Response data: [ { "_id", "title", "code", "creditUnits", "level", "semester", "type": "CORE|ELECTIVE" } ]
+```
+
+#### Get Eligible Courses for Student
+```
+GET /courses/eligible/:studentId
+Requires auth header
+Returns only courses the student can register for in the current semester
+```
+
+#### Create Course (Admin only)
+```
+POST /courses
+Body: {
+  "title": "string",
+  "code": "string",        // e.g. "CSC301" — level and semester are derived from this
+  "creditUnits": 3,
+  "department": "departmentId",
+  "type": "CORE" | "ELECTIVE"
+}
+```
+
+#### Update Course (Admin only)
+```
+PATCH /courses/:courseId
+Body: { "title": "string", "creditUnits": 3, "type": "CORE|ELECTIVE", "isActive": true }
+```
+
+---
+
+### 📅 SESSIONS
+
+#### Get Active Session
+```
+GET /session/active
+Requires auth header
+Response data: { "_id", "name": "2024/2025", "isActive": true }
+```
+
+#### Get All Sessions (Admin only)
+```
+GET /session
+Requires admin role
+```
+
+#### Create Session (Admin only)
+```
+POST /session
+Body: { "name": "2024/2025" }
+```
+
+#### Activate Session (Admin only)
+```
+PATCH /session/:sessionId/activate
+```
+
+---
+
+### 📆 SEMESTERS
+
+#### Get Active Semester
+```
+GET /semesters/active
+Requires auth header
+Response data: { "_id", "name": "FIRST"|"SECOND", "isActive": true, "isLocked": false, "session": { "name" } }
+```
+
+#### Create Semester (Admin only)
+```
+POST /semesters
+Body: { "name": "FIRST" | "SECOND", "sessionId": "string" }
+```
+
+#### Activate Semester (Admin only)
+```
+PATCH /semesters/:semesterId/activate
+```
+
+#### Lock Registration (Admin only)
+```
+PATCH /semesters/lock
+Prevents students from creating/modifying registrations
+```
+
+---
+
+### 📝 COURSE REGISTRATION
+
+**Important:** The registration flow is:
+```
+Create Draft → Add Courses → Pay Fees → Submit → Admin Approves
+```
+
+#### Create Draft Registration
+```
+POST /registrations/draft
+Requires student auth — studentId comes from JWT automatically
+No body needed
+Response data: registration object with status "DRAFT"
+```
+
+#### Get Current Registration
+```
+GET /registrations/current
+Requires student auth
+Returns the student's registration for the current semester
+```
+
+#### Add Course to Registration
+```
+POST /registrations/:registrationId/courses
+Requires student auth
+Body: { "courseId": "string" }
+```
+
+#### Remove Course from Registration
+```
+DELETE /registrations/:registrationId/courses/:courseId
+Requires student auth
+```
+
+#### Submit Registration
+```
+PATCH /registrations/:registrationId/submit
+Requires student auth
+Note: fees must be paid before submitting (feesPaid must be true)
+```
+
+#### Get My Registration History
+```
+GET /registrations/my-registrations
+Requires student auth
+Returns all approved registrations for the student
+```
+
+#### Get All Registrations (Admin only)
+```
+GET /registrations
+GET /registrations?status=SUBMITTED
+GET /registrations?status=APPROVED
+GET /registrations?status=ALL
+Requires admin role
+```
+
+#### Approve Registration (Admin only)
+```
+PATCH /registrations/:registrationId/approve
+```
+
+#### Reject Registration (Admin only)
+```
+PATCH /registrations/:registrationId/reject
+```
+
+Registration status values: `DRAFT` → `SUBMITTED` → `APPROVED` or `REJECTED`
+
+Registration object shape:
+```json
+{
+  "_id": "...",
+  "student": { "firstName", "lastName", "matricNumber", "level" },
+  "department": { "name", "code" },
+  "session": "2024/2025",
+  "semester": "FIRST",
+  "level": 300,
+  "status": "DRAFT",
+  "totalCredits": 18,
+  "feesPaid": false,
+  "courses": [
+    {
+      "course": { "_id", "code", "title", "creditUnits", "type" },
+      "creditUnits": 3,
+      "isCarryOver": false
+    }
+  ]
+}
+```
+
+---
+
+### 💳 PAYMENTS
+
+#### Initiate Payment
+```
+POST /payments/initiate
+Requires student auth
+Body: { "registrationId": "string" }
+Response data: {
+  "authorizationUrl": "https://paystack.com/...",  ← redirect student here
+  "reference": "PAY-xxx-xxx"
+}
+```
+
+After getting `authorizationUrl`, redirect the student to that URL:
+```javascript
+window.location.href = response.data.data.authorizationUrl;
+```
+
+After payment, Paystack redirects back. The webhook automatically updates `feesPaid: true` on the registration.
+
+#### Verify Payment
+```
+GET /payments/verify/:reference
+Requires student auth
+```
+
+#### Get My Payments
+```
+GET /payments/my-payments
+Requires student auth
+Response data: [ { "amount", "status", "reference", "paidAt", "session" } ]
+```
+
+---
+
+### 📊 RESULTS
+
+#### View My Results
+```
+GET /results/my-results
+Requires student auth
+Returns all published results
+```
+
+#### View My Results by Session
+```
+GET /results/my-results?session=sessionId
+Requires student auth
+```
+
+#### View Result for Specific Course
+```
+GET /results/my-results/:courseId
+Requires student auth
+```
+
+#### Get My Transcript
+```
+GET /results/transcript
+Requires student auth
+Response data: {
+  "student": { "name", "matricNumber", "department", "level" },
+  "transcript": [
+    {
+      "session": "2024/2025",
+      "semesters": [
+        {
+          "semester": "FIRST",
+          "gpa": 4.50,
+          "results": [ { "course", "score", "grade", "gradePoint", "creditUnits" } ]
+        }
+      ]
+    }
+  ]
+}
+```
+
+#### Create Draft Result (Admin only)
+```
+POST /results/create
+Body: { "studentId": "string", "courseId": "string", "score": 75 }
+```
+
+#### Publish Single Result (Admin only)
+```
+PATCH /results/publish/result/:resultId
+```
+
+#### Publish All Results for a Course (Admin only)
+```
+PATCH /results/publish/course/:courseId
+```
+
+#### Publish All Results for a Semester (Admin only)
+```
+PATCH /results/publish/semester/:semesterId
+```
+
+---
+
+### 📈 GPA & CGPA
+
+#### Get My GPA
+```
+GET /gpa/my-gpa
+GET /gpa/my-gpa?semesterId=xxx&sessionId=yyy
+Requires student auth
+Response data: { "gpa": 4.50, "totalCredits": 18, "semester": {...}, "session": {...} }
+```
+
+#### Get My CGPA
+```
+GET /cgpa/my-cgpa
+Requires student auth
+Response data: { "cgpa": 4.20, "totalCredits": 72, "totalGradePoints": 302.4 }
+```
+
+---
+
+### 👨‍🏫 LECTURERS
+
+#### Create Lecturer (Admin only)
+```
+POST /lecturers
+Body: { "email": "string", "firstName": "string", "lastName": "string", "departmentId": "string" }
+Note: default password is "ChangeMe123!" — lecturer must change it
+```
+
+#### Assign Course to Lecturer (Admin only)
+```
+POST /lecturers/:lecturerId/courses/:courseId
+```
+
+#### Remove Course from Lecturer (Admin only)
+```
+DELETE /lecturers/:lecturerId/courses/:courseId
+```
+
+#### Get All Lecturers (Admin only)
+```
+GET /admin/lecturers
+```
+
+#### Get My Courses (Lecturer only)
+```
+GET /lecturers/my-courses
+Requires lecturer auth
+```
+
+#### Get My Students (Lecturer only)
+```
+GET /lecturers/my-students
+Requires lecturer auth
+Returns students with approved registrations that include the lecturer's courses
+```
+
+#### Upload Results for a Course (Lecturer only)
+```
+POST /lecturers/courses/:courseId/results
+Requires lecturer auth
+Body: {
+  "results": [
+    { "studentId": "string", "score": 75 },
+    { "studentId": "string", "score": 60 }
+  ]
+}
+Response data: { "matched": 30, "modified": 30, "message": "30 result(s) uploaded successfully" }
+```
+
+#### View Results for a Course (Lecturer only)
+```
+GET /lecturers/courses/:courseId/results
+Requires lecturer auth
+```
+
+#### Get Lecturer Profile
+```
+GET /lecturers/profile
+Requires lecturer auth
+```
+
+#### Update Lecturer Profile
+```
+PATCH /lecturers/profile
+Requires lecturer auth
+Body: { "firstName": "string", "lastName": "string" }
+```
+
+---
+
+### 🛠️ ADMIN DASHBOARD
+
+#### Get Dashboard Stats
+```
+GET /admin/stats
+Requires admin role
+Response data: {
+  "activeStudentsCount": 450,
+  "lecturerCount": 32,
+  "courseCount": 180,
+  "totalUsers": 490,
+  "registrations": {
+    "pending": 12,
+    "approved": 438
+  },
+  "results": {
+    "published": 2800,
+    "draft": 45
+  }
+}
+```
+
+#### Get All Students
+```
+GET /admin/students
+Requires admin role
+```
+
+#### Get All Lecturers
+```
+GET /admin/lecturers
+Requires admin role
+```
+
+#### Get All Courses
+```
+GET /admin/courses
+Requires admin role
+```
+
+---
+
+## 9. Page-by-Page Guide
+
+Here are all the pages you need to build and which endpoints they use:
+
+### Pages for ALL users
+| Page | Endpoints needed |
+|---|---|
+| Login | `POST /auth/login` |
+| Account Activation | `POST /auth/activate` |
+| Change Password | `PATCH /auth/change-password` |
+
+---
+
+### Student Pages
+| Page | Endpoints needed |
+|---|---|
+| Dashboard | `GET /students/user/:userId`, `GET /semesters/active`, `GET /cgpa/my-cgpa` |
+| Course Registration | `GET /courses/eligible/:studentId`, `POST /registrations/draft`, `GET /registrations/current`, `POST /registrations/:id/courses`, `DELETE /registrations/:id/courses/:courseId`, `PATCH /registrations/:id/submit` |
+| Pay Fees | `POST /payments/initiate`, `GET /payments/my-payments` |
+| My Results | `GET /results/my-results`, `GET /gpa/my-gpa` |
+| Transcript | `GET /results/transcript` |
+| Registration History | `GET /registrations/my-registrations` |
+
+---
+
+### Admin Pages
+| Page | Endpoints needed |
+|---|---|
+| Dashboard | `GET /admin/stats` |
+| Manage Faculties | `GET /faculties`, `POST /faculties` |
+| Manage Departments | `GET /departments`, `POST /departments`, `PATCH /departments/:id` |
+| Manage Courses | `GET /admin/courses`, `POST /courses`, `PATCH /courses/:id` |
+| Session Management | `GET /session`, `POST /session`, `PATCH /session/:id/activate` |
+| Semester Management | `GET /semesters/active`, `POST /semesters`, `PATCH /semesters/:id/activate`, `PATCH /semesters/lock` |
+| Registrations | `GET /registrations?status=SUBMITTED`, `PATCH /registrations/:id/approve`, `PATCH /registrations/:id/reject` |
+| Manage Students | `GET /admin/students`, `PATCH /admin/reset-password/:userId` |
+| Manage Lecturers | `GET /admin/lecturers`, `POST /lecturers`, `POST /lecturers/:id/courses/:courseId` |
+| Results | `POST /results/create`, `PATCH /results/publish/course/:courseId`, `PATCH /results/publish/semester/:semesterId` |
+
+---
+
+### Lecturer Pages
+| Page | Endpoints needed |
+|---|---|
+| Dashboard/Profile | `GET /lecturers/profile` |
+| My Courses | `GET /lecturers/my-courses` |
+| My Students | `GET /lecturers/my-students` |
+| Upload Results | `POST /lecturers/courses/:courseId/results` |
+| View Results | `GET /lecturers/courses/:courseId/results` |
+
+---
+
+## 10. Important Notes
+
+### CORS
+The backend currently allows requests from:
+- `http://127.0.0.1:5500`
+- `http://localhost:5500`
+
+When you start building, ask the backend developer to add your dev URL (e.g. `http://localhost:5173` for Vite) to the allowed origins.
+
+---
+
+### Cookies
+Always include `withCredentials: true` in every request. Without this the browser won't send the refresh token cookie and login will break after the access token expires.
+
+```javascript
+// In axios
+const api = axios.create({
+  withCredentials: true, // ← never remove this
+});
+```
+
+---
+
+### Grade Reference
+Results use these grades:
+
+| Grade | Score Range | Grade Points |
+|---|---|---|
+| A | 70 – 100 | 5 |
+| B | 60 – 69 | 4 |
+| C | 50 – 59 | 3 |
+| D | 45 – 49 | 2 |
+| E | 40 – 44 | 1 |
+| F | 0 – 39 | 0 |
+
+---
+
+### Credit Units
+- Minimum for registration: **18 credit units**
+- Maximum for registration: **24 credit units**
+- Students cannot submit registration outside this range
+
+---
+
+### Registration Rules (important for UI)
+1. Student must create a draft first
+2. Student can only add courses from their department and current level
+3. Carry-over courses (previously failed) must be added before new courses
+4. Fees must be paid before submitting
+5. Once submitted, no modifications allowed
+6. Admin approves or rejects submitted registrations
+
+---
+
+### Payment Flow for UI
+```
+1. Student clicks "Pay Fees"
+2. Call POST /payments/initiate with registrationId
+3. Redirect student to authorizationUrl
+4. Student pays on Paystack's page
+5. Paystack redirects back to your app (set a callback URL)
+6. On callback page, call GET /payments/verify/:reference
+7. If successful, feesPaid is now true on the registration
+8. Student can now submit their registration
+```
+
+---
+
+### Admission Flow (Students don't sign up)
+Students are admitted through an admin-managed admission database. They receive an activation link with their JAMB registration number. They visit the activation page, enter their JAMB reg number, choose an email and password, and their full account (user + student profile + matric number) is created automatically.
+
+---
+
+### If you have questions
+Contact the backend developer:
+- **Email:** peterboluwatife69@gmail.com
+- **GitHub:** github.com/ABIOLAPETER
+
+Always test endpoints in **Postman** before building the UI for them. This saves a lot of debugging time.
+
+---
+
+*Last updated: March 2026*
