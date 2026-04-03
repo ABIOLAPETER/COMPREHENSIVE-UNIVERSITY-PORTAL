@@ -1,72 +1,82 @@
-import mongoose from "mongoose";
+import mongoose, { Document } from "mongoose";
 
-export interface ILecturer {
-  email: string;
-  firstName: string;
-  lastName: string;
-  dateOfBirth?: Date;
+export interface ILecturer extends Document {
+  email:      string;
+  firstName:  string;
+  lastName:   string;
   department: mongoose.Types.ObjectId;
-  staffId: string;
-  user: mongoose.Types.ObjectId;
-  isActive: boolean;
-  courses: mongoose.Types.ObjectId[];
+  faculty:    mongoose.Types.ObjectId;
+  staffId:    string;
+  user:       mongoose.Types.ObjectId;
+  isActive:   boolean;
+  courses:    mongoose.Types.ObjectId[];
+  createdAt:  Date;
+  updatedAt:  Date;
 }
 
 const LecturerSchema = new mongoose.Schema<ILecturer>(
   {
     firstName: { type: String, required: true, trim: true },
-    lastName: { type: String, required: true, trim: true },
+    lastName:  { type: String, required: true, trim: true },
 
     email: {
-      type: String,
-      required: true,
-      unique: true,
+      type:      String,
+      required:  true,
+      unique:    true,
       lowercase: true,
-      trim: true,
+      trim:      true,
     },
 
     department: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Department",
+      type:     mongoose.Schema.Types.ObjectId,
+      ref:      "Department",
+      required: true,
+    },
+
+    faculty: {
+      type:     mongoose.Schema.Types.ObjectId,
+      ref:      "Faculty",
       required: true,
     },
 
     staffId: {
-      type: String,
+      type:     String,
       required: true,
-      unique: true,
+      unique:   true,
     },
 
     user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      type:     mongoose.Schema.Types.ObjectId,
+      ref:      "User",
       required: true,
-      unique: true,
+      unique:   true,
     },
 
     courses: {
-  type: [mongoose.Schema.Types.ObjectId],
-  ref: "Course",
-  default: [],
-},
+      type:    [{ type: mongoose.Schema.Types.ObjectId, ref: "Course" }],
+      default: [],
+    },
 
     isActive: {
-      type: Boolean,
+      type:    Boolean,
       default: true,
     },
   },
   {
     timestamps: true,
+    toJSON:     { virtuals: true },
+    toObject:   { virtuals: true },
   }
 );
 
-LecturerSchema.index({ user: 1 });
-LecturerSchema.index({ staffId: 1 }, { unique: true });
+// Indexes — only for non-unique fields
+// LecturerSchema.index({ user: 1 });
 LecturerSchema.index({ department: 1 });
-LecturerSchema.index({ email: 1 });
+LecturerSchema.index({ faculty: 1 });
 
-LecturerSchema.virtual("fullName").get(function () {return `${this.firstName} ${this.lastName}`});
+LecturerSchema.virtual("fullName").get(function () {
+  return `${this.firstName} ${this.lastName}`;
+});
 
 const Lecturer = mongoose.model<ILecturer>("Lecturer", LecturerSchema);
-
 export default Lecturer;

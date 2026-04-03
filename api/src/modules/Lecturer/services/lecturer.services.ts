@@ -90,6 +90,7 @@ export class LecturerService {
       const [lecturer] = await Lecturer.create([{
         email:      normalizedEmail,
         department: departmentId,
+        faculty:    faculty._id,        
         firstName:  cleanFirstName,
         lastName:   cleanLastName,
         staffId,
