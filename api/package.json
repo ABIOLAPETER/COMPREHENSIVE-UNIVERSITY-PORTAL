@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "@prisma/client": "^7.5.0",
     "@types/cors": "^2.8.19",
     "@types/joi": "^17.2.2",
     "bcryptjs": "^3.0.3",
